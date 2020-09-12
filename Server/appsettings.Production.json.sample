@@ -1,0 +1,6 @@
+﻿{
+  "MongoDb": {
+    "ConnectionString": "mongodb://{아이디}:{비밀번호}@{호스트}:{포트}/?maxPoolSize={풀 사이즈}",
+    "DatabaseName": "web-crawler"
+  }
+}

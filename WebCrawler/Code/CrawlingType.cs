@@ -9,5 +9,9 @@ namespace WebCrawler.Code
     {
         Clien,
         Ruliweb,
+        FmKorea,
+        SlrClub,
+        Ppomppu,
+        TodayHumor
     }
 }

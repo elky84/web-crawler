@@ -1,10 +1,8 @@
 ﻿using WebUtil.Util;
-using System.Linq;
 using System.Threading.Tasks;
 using WebUtil.Services;
-using WebCrawler;
 using MongoDB.Driver;
-using WebCrawler.Code;
+using WebCrawler.Models;
 using Server.Models;
 using System.Collections.Generic;
 using Server.Exception;
@@ -27,24 +25,59 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Source> Create(Protocols.Request.Source source)
         {
+            var created = await Create(new Protocols.Common.Source
+            {
+                Type = source.Type,
+                BoardId = source.BoardId
+            });
+
+            return new Protocols.Response.Source
+            {
+                ResultCode = Code.ResultCode.Success,
+                SourceData = created?.ToProtocol()
+            };
+
+        }
+
+        private async Task<Source> Create(Protocols.Common.Source source)
+        {
             try
             {
-                var created = await _mongoDbSource.CreateAsync(new Source
+                var origin = await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) & Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId));
+                if (origin != null)
                 {
-                    Type = source.Type,
-                    BoardId = source.BoardId
-                });
-
-                return new Protocols.Response.Source
+                    origin.Name = source.Name;
+                    await _mongoDbSource.UpdateAsync(origin.Id, origin);
+                    return origin;
+                }
+                else
                 {
-                    ResultCode = Code.ResultCode.Success,
-                    SourceData = created?.ToProtocol()
-                };
+                    return await _mongoDbSource.CreateAsync(new Source
+                    {
+                        Type = source.Type,
+                        BoardId = source.BoardId,
+                        Name = source.Name
+                    });
+                }
             }
             catch (MongoWriteException)
             {
                 throw new DeveloperException(Code.ResultCode.UsingSourceId);
             }
+        }
+
+        public async Task<Protocols.Response.SourceMulti> CreateMulti(Protocols.Request.SourceMulti sourceMulti)
+        {
+            var sources = new List<Source>();
+            foreach (var source in sourceMulti.SourceDatas)
+            {
+                sources.Add(await Create(source));
+            }
+
+            return new Protocols.Response.SourceMulti
+            {
+                SourceDatas = sources.ConvertAll(x => x.ToProtocol())
+            };
         }
 
         public async Task<Protocols.Response.Source> Get(string id)

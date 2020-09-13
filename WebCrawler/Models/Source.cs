@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Code;
 
-namespace Server.Models
+namespace WebCrawler.Models
 {
     public class Source
     {
@@ -16,16 +16,10 @@ namespace Server.Models
 
         public string BoardId { get; set; }
 
+        [BsonRepresentation(BsonType.String)]
         public CrawlingType Type { get; set; }
 
-        public Protocols.Common.Source ToProtocol()
-        {
-            return new Protocols.Common.Source
-            {
-                Id = Id,
-                BoardId = BoardId,
-                Type = Type
-            };
-        }
+        public string Name { get; set; }
+
     }
 }

@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class ClienCrawler : CrawlerBase
     {
-        public ClienCrawler(IMongoDatabase mongoDb, string boardId = "sold" /* 회원 중고 장터 */, int page = 1) :
-            base(mongoDb, $"https://www.clien.net/service/board/{boardId}", boardId, page)
+        public ClienCrawler(IMongoDatabase mongoDb, Source source) :
+            base(mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)
         {
         }
 
@@ -45,12 +45,13 @@ namespace WebCrawler
                 var count = stringTuples.FindValue("hit").ToInt();
                 var date = DateTime.Parse(stringTuples.FindValue("timestamp"));
 
-                var href = hrefs[0];
+                var href = UrlCompositeHref(hrefs[0]);
 
                 _ = OnCrawlData(new CrawlingData
                 {
-                    Type = CrawlingType.Clien,
-                    BoardId = BoardId,
+                    Type = Source.Type,
+                    BoardId = Source.BoardId,
+                    BoardName = Source.Name,
                     Category = category,
                     Title = title,
                     Author = author,

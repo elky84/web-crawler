@@ -20,15 +20,15 @@ namespace WebCrawler
     {
         protected string UrlBase { get; set; }
 
-        protected int Page { get; set; }
+        public int Page { get; set; }
 
         protected PoliteWebCrawler CrawlerInstance { get; set; }
 
-        protected string BoardId { get; set; }
+        protected Source Source { get; set; }
 
         protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
 
-        public CrawlerBase(IMongoDatabase mongoDb, string urlBase, string boardId, int page = 1)
+        public CrawlerBase(IMongoDatabase mongoDb, string urlBase, Source source)
         {
             if (mongoDb != null)
             {
@@ -36,8 +36,7 @@ namespace WebCrawler
             }
 
             UrlBase = urlBase;
-            Page = page;
-            BoardId = boardId;
+            Source = source;
         }
 
         public PoliteWebCrawler Create()
@@ -60,12 +59,14 @@ namespace WebCrawler
             return CrawlerInstance;
         }
 
-        public async Task RunAsync()
+        public async Task RunAsync(int page = 1)
         {
             if (CrawlerInstance == null)
             {
                 Create();
             }
+
+            Page = page;
 
             await ExecuteAsync(Page);
         }
@@ -103,6 +104,12 @@ namespace WebCrawler
 
         protected abstract void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document);
 
+        protected virtual string UrlCompositeHref(string href)
+        {
+            var position = UrlBase.IndexOf('/', "https://".Length);
+            return UrlBase.Substring(0, position) + href;
+        }
+
         void PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisallowedArgs e)
         {
             CrawledPage crawledPage = e.CrawledPage;
@@ -125,8 +132,8 @@ namespace WebCrawler
             var origin = await MongoDbCrawlingData.FindOneAsync(Builders<CrawlingData>.Filter.Eq(x => x.Type, data.Type) & Builders<CrawlingData>.Filter.Eq(x => x.Title, data.Title));
             if (origin != null)
             {
-                origin.Count = data.Count;
-                await MongoDbCrawlingData.UpdateAsync(origin.Id, data);
+                data.Id = origin.Id;
+                await MongoDbCrawlingData.UpdateAsync(data.Id, data);
             }
             else
             {

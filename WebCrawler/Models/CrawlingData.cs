@@ -19,6 +19,8 @@ namespace WebCrawler.Models
 
         public string BoardId { get; set; }
 
+        public string BoardName { get; set; }
+
         public string Author { get; set; }
 
         public string Href { get; set; }

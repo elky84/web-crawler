@@ -5,6 +5,8 @@ using WebUtil.Services;
 using WebCrawler;
 using MongoDB.Driver;
 using WebCrawler.Code;
+using Server.Exception;
+using Server.Models;
 
 namespace Server.Services
 {
@@ -30,11 +32,25 @@ namespace Server.Services
                     switch (source.Type)
                     {
                         case CrawlingType.Ruliweb:
-                            await Task.WhenAll(Enumerable.Range(1, crawling.Page).ToList().ConvertAll(y => new RuliwebCrawler(_mongoDbService.Database, source.BoardId.ToInt(), y).RunAsync()).ToArray());
+                            await WhenAll(crawling.Page, new RuliwebCrawler(_mongoDbService.Database, source.ToModel()));
                             break;
                         case CrawlingType.Clien:
-                            await Task.WhenAll(Enumerable.Range(1, crawling.Page).ToList().ConvertAll(y => new ClienCrawler(_mongoDbService.Database, source.BoardId, y).RunAsync()).ToArray());
+                            await WhenAll(crawling.Page, new ClienCrawler(_mongoDbService.Database, source.ToModel()));
                             break;
+                        case CrawlingType.SlrClub:
+                            await WhenAll(crawling.Page, new SlrclubCrawler(_mongoDbService.Database, source.ToModel()));
+                            break;
+                        case CrawlingType.Ppomppu:
+                            await WhenAll(crawling.Page, new PpomppuCrawler(_mongoDbService.Database, source.ToModel()));
+                            break;
+                        case CrawlingType.TodayHumor:
+                            await WhenAll(crawling.Page, new TodayhumorCrawler(_mongoDbService.Database, source.ToModel()));
+                            break;
+                        case CrawlingType.FmKorea:
+                            await WhenAll(crawling.Page, new FmkoreaCrawler(_mongoDbService.Database, source.ToModel()));
+                            break;
+                        default:
+                            throw new DeveloperException(Code.ResultCode.NotImplementedYet);
                     }
                 }
             );
@@ -43,6 +59,11 @@ namespace Server.Services
             {
                 ResultCode = Code.ResultCode.Success
             };
+        }
+
+        private async Task WhenAll(int page, CrawlerBase crawler)
+        {
+            await Task.WhenAll(Enumerable.Range(1, page).ToList().ConvertAll(y => crawler.RunAsync(y)).ToArray());
         }
     }
 }

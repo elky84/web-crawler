@@ -25,6 +25,13 @@ namespace Server.Controllers
             return await _sourceService.Create(source);
         }
 
+        [HttpPost("Multi")]
+        public async Task<Protocols.Response.SourceMulti> CreateMulti([FromBody] Protocols.Request.SourceMulti sourceMulti)
+        {
+            return await _sourceService.CreateMulti(sourceMulti);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<Protocols.Response.Source> Get(string id)
         {

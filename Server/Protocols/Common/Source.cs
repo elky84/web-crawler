@@ -13,5 +13,7 @@ namespace Server.Protocols.Common
         public CrawlingType Type { get; set; }
 
         public string BoardId { get; set; }
+
+        public string Name { get; set; }
     }
 }

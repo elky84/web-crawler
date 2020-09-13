@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 using Serilog;
 using WebCrawler;
 using WebCrawler.Code;
@@ -20,10 +21,13 @@ namespace cli
 
             Log.Logger.Information("starting up!");
 
-            var clienCrawler = new ClienCrawler(null, "sold", 1);
+            var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
+            var database = client.GetDatabase("Cli-Web-Crawler");
+
+            var clienCrawler = new ClienCrawler(database, "sold", 1);
             await clienCrawler.RunAsync();
 
-            var ruliwebCrawler = new RuliwebCrawler(null, 1020, 1);
+            var ruliwebCrawler = new RuliwebCrawler(database, 1020, 1);
             await ruliwebCrawler.RunAsync();
         }
     }

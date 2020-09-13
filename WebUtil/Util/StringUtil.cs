@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace WebUtil.Util
@@ -12,7 +13,7 @@ namespace WebUtil.Util
                 return null;
             }
 
-            return int.Parse(str.OnlyDigit());
+            return int.Parse(str, NumberStyles.AllowThousands);
         }
 
         public static int ToInt(this string str, int defaultValue = 0)
@@ -21,8 +22,7 @@ namespace WebUtil.Util
             {
                 return defaultValue;
             }
-
-            return int.Parse(str.OnlyDigit());
+            return int.Parse(str, NumberStyles.AllowThousands);
         }
 
         public static int ToInt(this double value)
@@ -38,11 +38,6 @@ namespace WebUtil.Util
         public static float ToFloat(this string str)
         {
             return float.Parse(Regex.Match(str, @"[0-9\-.]+").Value);
-        }
-
-        public static string OnlyDigit(this string str)
-        {
-            return Regex.Match(str, @"[0-9\-]+").Value;
         }
 
         public static string ExtractKorean(this string str)

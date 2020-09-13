@@ -1,0 +1,89 @@
+### Source Create Multi
+
+POST https://localhost:5001/Source/Multi
+Content-Type: application/json
+
+{
+	"SourceDatas": [
+        {
+			"Type": "Ruliweb",
+			"BoardId": "board/1020",
+			"Name": "핫딜게시판"
+		},
+        {
+			"Type": "Ruliweb",
+			"BoardId": "board/1001",
+			"Name": "콘솔뉴스"
+		},
+        {
+			"Type": "Ruliweb",
+			"BoardId": "board/1003",
+			"Name": "PC뉴스"
+		},
+        {
+			"Type": "Ruliweb",
+			"BoardId": "best/selection",
+			"Name": "많이 본 글"
+		},
+		{
+			"Type": "Ppomppu",
+			"BoardId": "freeboard",
+			"Name": "자유게시판"
+		},
+		{
+			"Type": "TodayHumor",
+			"BoardId": "bestofbest",
+			"Name": "베오베"
+		},
+		{
+			"Type": "SlrClub",
+			"BoardId": "free",
+			"Name": "자유게시판"
+		},
+		{
+			"Type": "FmKorea",
+			"BoardId": "football_news",
+			"Name": "축구 뉴스"
+		},
+		{
+			"Type": "Clien",
+			"BoardId": "sold",
+			"Name": "회원중고장터"
+		},
+		{
+			"Type": "Clien",
+			"BoardId": "park",
+			"Name": "모두의공원"
+		}
+	]
+}
+### Source Create
+
+POST https://localhost:5001/Source
+Content-Type: application/json
+
+{
+    "Type":"Ruliweb",
+    "BoardId": "1020",
+	"Name": "핫딜게시판"
+}
+
+### Source Get
+
+GET https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+
+### Source Update
+
+PUT https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+Content-Type: application/json
+
+{
+    "Type":"Ruliweb",
+    "BoardId": "1020",
+	"Name": "핫딜게시판"
+}
+
+### Source Delete
+
+DELETE https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+

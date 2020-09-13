@@ -14,6 +14,7 @@ namespace WebCrawler.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [BsonRepresentation(BsonType.String)]
         public CrawlingType Type { get; set; }
 
         public string BoardId { get; set; }

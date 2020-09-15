@@ -70,8 +70,11 @@ namespace WebUtil.Util
             Collection.DeleteMany(x => true);
         }
 
-        public void Update(FilterDefinition<T> filter, T tIn) =>
-            Collection.ReplaceOne(filter, tIn);
+        public void Update(string id, T t) =>
+            Collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)), t);
+
+        public void Update(FilterDefinition<T> filter, T t) =>
+            Collection.ReplaceOne(filter, t);
 
 
         public async Task<T> UpdateAsync(FilterDefinition<T> filter, T t)

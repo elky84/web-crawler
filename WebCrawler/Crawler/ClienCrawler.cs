@@ -28,8 +28,22 @@ namespace WebCrawler
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_item") && x.ClassName.Contains("symph_row"))
                 .Select(x =>
                 {
-                    var stringTuples = x.QuerySelectorAll("span").Select(y => new Tuple<string, string>(y.ClassName, y.TextContent.Trim())).ToList();
-                    var hrefs = x.QuerySelectorAll("a").Select(x => x.GetAttribute("href")).ToList();
+                    var stringTuples = x.QuerySelectorAll("span")
+                        .Select(y =>
+                        {
+                            var text = y.TextContent.Trim();
+                            if (string.IsNullOrEmpty(text))
+                            {
+                                text = y.QuerySelector("img")?.GetAttribute("alt");
+                            }
+
+                            return new Tuple<string, string>(y.ClassName, text);
+                        }).ToList();
+
+                    var hrefs = x.QuerySelectorAll("a")
+                        .Select(x => x.GetAttribute("href"))
+                        .ToList();
+
                     return new Tuple<List<Tuple<string, string>>, List<string>>(stringTuples, hrefs);
                 })
                 .ToArray();
@@ -42,7 +56,7 @@ namespace WebCrawler
                 var category = stringTuples.FindValue("category_fixed");
                 var title = stringTuples.FindValue("subject_fixed");
                 var author = stringTuples.FindValue("nickname");
-                var count = stringTuples.FindValue("hit").ToInt();
+                var count = stringTuples.FindValue("hit").ToIntShorthand();
                 var date = DateTime.Parse(stringTuples.FindValue("timestamp"));
 
                 var href = UrlCompositeHref(hrefs[0]);

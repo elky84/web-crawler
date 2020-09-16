@@ -14,7 +14,10 @@ namespace Server.Models
                 Id = source.Id,
                 BoardId = source.BoardId,
                 Type = source.Type,
-                Name = source.Name
+                Name = source.Name,
+                PageMin = source.PageMin,
+                PageMax = source.PageMax,
+                Interval = source.Interval
             };
         }
 
@@ -25,7 +28,10 @@ namespace Server.Models
                 Id = source.Id,
                 BoardId = source.BoardId,
                 Type = source.Type,
-                Name = source.Name
+                Name = source.Name,
+                PageMin = source.PageMin,
+                PageMax = source.PageMax,
+                Interval = source.Interval
             };
         }
     }

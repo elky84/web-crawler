@@ -32,22 +32,22 @@ namespace Server.Services
                     switch (source.Type)
                     {
                         case CrawlingType.Ruliweb:
-                            await WhenAll(crawling.Page, new RuliwebCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new RuliwebCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.Clien:
-                            await WhenAll(crawling.Page, new ClienCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new ClienCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.SlrClub:
-                            await WhenAll(crawling.Page, new SlrclubCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new SlrclubCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.Ppomppu:
-                            await WhenAll(crawling.Page, new PpomppuCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new PpomppuCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.TodayHumor:
-                            await WhenAll(crawling.Page, new TodayhumorCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new TodayhumorCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.FmKorea:
-                            await WhenAll(crawling.Page, new FmkoreaCrawler(_mongoDbService.Database, source.ToModel()));
+                            await new FmkoreaCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         default:
                             throw new DeveloperException(Code.ResultCode.NotImplementedYet);
@@ -59,11 +59,6 @@ namespace Server.Services
             {
                 ResultCode = Code.ResultCode.Success
             };
-        }
-
-        private async Task WhenAll(int page, CrawlerBase crawler)
-        {
-            await Task.WhenAll(Enumerable.Range(1, page).ToList().ConvertAll(y => crawler.RunAsync(y)).ToArray());
         }
     }
 }

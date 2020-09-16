@@ -21,6 +21,11 @@ namespace WebCrawler
             return $"{UrlBase}?id={Source.BoardId}&page={page}";
         }
 
+        protected override string UrlCompositeHref(string href)
+        {
+            return UrlBase.CutAndComposite("/", 0, 4, href);
+        }
+
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
             var thContent = document.QuerySelectorAll("tbody tr")
@@ -32,8 +37,16 @@ namespace WebCrawler
             var tdContent = document.QuerySelectorAll("tbody tr")
                 .Where(x => x.ClassName == "list0" || x.ClassName == "list1")
                 .Select(x => x.QuerySelectorAll("td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_vspace")))
-                .SelectMany(x => x.Select(y => y.TextContent.Trim()))
-                .ToArray();
+                .SelectMany(x => x.Select(y =>
+                {
+                    var text = y.TextContent.Trim();
+                    if (string.IsNullOrEmpty(text))
+                    {
+                        text = y.QuerySelector("img")?.GetAttribute("alt");
+                    }
+                    return text;
+                })
+                ).ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
                 .Where(x => x.ClassName == "list0" || x.ClassName == "list1")
@@ -41,6 +54,11 @@ namespace WebCrawler
                 .SelectMany(x => x.Select(y => y.GetAttribute("href")))
                 .Where(x => x != "#")
                 .ToArray();
+
+            if (!thContent.Any() || !tdContent.Any())
+            {
+                return;
+            }
 
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {

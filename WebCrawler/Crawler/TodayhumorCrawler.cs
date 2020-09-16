@@ -38,6 +38,10 @@ namespace WebCrawler
                 .Select(x => x.QuerySelector("a").GetAttribute("href"))
                 .ToArray();
 
+            if (!thContent.Any() || !tdContent.Any())
+            {
+                return;
+            }
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {
                 var cursor = n * thContent.Length;

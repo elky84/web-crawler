@@ -15,5 +15,11 @@ namespace Server.Protocols.Common
         public string BoardId { get; set; }
 
         public string Name { get; set; }
+
+        public int PageMin { get; set; } = 1;
+
+        public int PageMax { get; set; } = 10;
+
+        public int Interval { get; set; } = 1000;
     }
 }

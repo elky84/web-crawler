@@ -20,13 +20,15 @@ namespace WebCrawler
     {
         protected string UrlBase { get; set; }
 
-        public int Page { get; set; }
-
         protected PoliteWebCrawler CrawlerInstance { get; set; }
 
         protected Source Source { get; set; }
 
         protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
+
+        protected int PagePerInterval { get; set; }
+
+        protected IMongoDatabase MongoDb { get; set; }
 
         public CrawlerBase(IMongoDatabase mongoDb, string urlBase, Source source)
         {
@@ -59,19 +61,21 @@ namespace WebCrawler
             return CrawlerInstance;
         }
 
-        public async Task RunAsync(int page = 1)
+        public virtual async Task RunAsync()
         {
             if (CrawlerInstance == null)
             {
                 Create();
             }
 
-            Page = page;
-
-            await ExecuteAsync(Page);
+            for (var page = Source.PageMin; page <= Source.PageMax; ++page)
+            {
+                await ExecuteAsync(page);
+                Thread.Sleep(Source.Interval);
+            }
         }
 
-        private async Task<bool> ExecuteAsync(int page)
+        protected async Task<bool> ExecuteAsync(int page)
         {
             var builder = new UriBuilder(UrlComposite(page));
 
@@ -106,8 +110,7 @@ namespace WebCrawler
 
         protected virtual string UrlCompositeHref(string href)
         {
-            var position = UrlBase.IndexOf('/', "https://".Length);
-            return UrlBase.Substring(0, position) + href;
+            return UrlBase.CutAndComposite("/", 0, 3, href);
         }
 
         void PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisallowedArgs e)

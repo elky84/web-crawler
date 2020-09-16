@@ -1,0 +1,8 @@
+### Crawling all
+
+POST https://localhost:5001/Crawling
+Content-Type: application/json
+
+{
+    "All":true
+}

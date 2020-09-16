@@ -26,6 +26,10 @@ namespace WebCrawler
             var thContent = document.QuerySelectorAll("thead tr th").Select(x => x.TextContent.Trim()).ToArray();
             var tdContent = document.QuerySelectorAll("tbody tr td").Select(x => x.TextContent.Trim()).ToArray();
             var tdHref = document.QuerySelectorAll("tbody tr td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("title")).Select(x => x.QuerySelector("a").GetAttribute("href")).ToArray();
+            if (!thContent.Any() || !tdContent.Any())
+            {
+                return;
+            }
 
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {

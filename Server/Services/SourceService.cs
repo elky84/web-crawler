@@ -52,12 +52,7 @@ namespace Server.Services
                 }
                 else
                 {
-                    return await _mongoDbSource.CreateAsync(new Source
-                    {
-                        Type = source.Type,
-                        BoardId = source.BoardId,
-                        Name = source.Name
-                    });
+                    return await _mongoDbSource.CreateAsync(source.ToModel());
                 }
             }
             catch (MongoWriteException)

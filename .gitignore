@@ -351,4 +351,3 @@ MigrationBackup/
 
 # Production, Development Configuration
 appsettings.Production.json
-appsettings.Development.json

@@ -9,8 +9,6 @@ namespace Server.Protocols.Request
 {
     public class Crawling
     {
-        public int Page { get; set; }
-
         public List<Common.Source> Sources { get; set; }
 
         public bool All { get; set; }

@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Code;
 using WebCrawler.Models;
@@ -11,6 +13,8 @@ namespace WebCrawler
 {
     public class SlrclubCrawler : CrawlerBase
     {
+        protected int? LatestPage { get; set; }
+
         public SlrclubCrawler(IMongoDatabase mongoDb, Source source) :
             base(mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
         {
@@ -18,7 +22,32 @@ namespace WebCrawler
 
         protected override string UrlComposite(int page)
         {
-            return $"{UrlBase}?id={Source.BoardId}&page={page}";
+            return $"{UrlBase}?id={Source.BoardId}&page={ LatestPage - page - 1}";
+        }
+
+        public override async Task RunAsync()
+        {
+            if (CrawlerInstance == null)
+            {
+                Create();
+            }
+
+            var pageInfoCrawler = new SlrclubPageInfoCrawler(null, Source);
+            await pageInfoCrawler.RunAsync();
+            LatestPage = pageInfoCrawler.LatestPage;
+
+            if (!LatestPage.HasValue)
+            {
+                Log.Logger.Error($"Not Found PageInfo Data {UrlBase}");
+                return;
+            }
+
+
+            for (var page = Source.PageMin; page <= Source.PageMax; ++page)
+            {
+                await ExecuteAsync(page);
+                Thread.Sleep(Source.Interval);
+            }
         }
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
@@ -26,6 +55,10 @@ namespace WebCrawler
             var thContent = document.QuerySelectorAll("thead tr th").Select(x => x.TextContent.Trim()).ToArray();
             var tdContent = document.QuerySelectorAll("tbody tr td").Select(x => x.TextContent.Trim()).ToArray();
             var tdHref = document.QuerySelectorAll("tbody tr td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("sbj")).Select(x => x.QuerySelector("a").GetAttribute("href")).ToArray();
+            if (!thContent.Any() || !tdContent.Any())
+            {
+                return;
+            }
 
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {

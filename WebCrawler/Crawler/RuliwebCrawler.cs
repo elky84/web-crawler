@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class RuliwebCrawler : CrawlerBase
     {
-        public RuliwebCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"https://bbs.ruliweb.com/market/{source.BoardId}", source)
+        public RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/market/{source.BoardId}", source)
         {
         }
 
@@ -48,7 +48,7 @@ namespace WebCrawler
                 var cursor = n * thContent.Count;
                 var id = tdContent.GetValue(thContent, "ID", cursor).ToIntNullable();
                 var category = tdContent.GetValue(thContent, "구분", cursor);
-                var title = tdContent.GetValue(thContent, "제목", cursor);
+                var title = tdContent.GetValue(thContent, "제목", cursor).Substring("\n");
                 var author = tdContent.GetValue(thContent, "글쓴이", cursor);
                 var recommend = tdContent.GetValue(thContent, "추천", cursor).ToIntNullable();
                 var count = tdContent.GetValue(thContent, "조회", cursor).ToInt();
@@ -68,7 +68,8 @@ namespace WebCrawler
                     Count = count,
                     DateTime = date,
                     RowId = id,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

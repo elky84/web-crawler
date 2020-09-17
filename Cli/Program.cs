@@ -24,42 +24,42 @@ namespace cli
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("Cli-Web-Crawler");
 
-            await new PpomppuCrawler(database, new WebCrawler.Models.Source
+            await new PpomppuCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ppomppu,
                 BoardId = "freeboard",
                 Name = "자유게시판"
             }).RunAsync();
 
-            await new TodayhumorCrawler(database, new WebCrawler.Models.Source
+            await new TodayhumorCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.TodayHumor,
                 BoardId = "bestofbest",
                 Name = "베오베"
             }).RunAsync();
 
-            await new SlrclubCrawler(database, new WebCrawler.Models.Source
+            await new SlrclubCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.SlrClub,
                 BoardId = "free",
                 Name = "자유게시판"
             }).RunAsync();
 
-            await new FmkoreaCrawler(database, new WebCrawler.Models.Source
+            await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.FmKorea,
                 BoardId = "football_news",
                 Name = "축구 뉴스"
             }).RunAsync();
 
-            await new ClienCrawler(database, new WebCrawler.Models.Source
+            await new ClienCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Clien,
                 BoardId = "sold",
                 Name = "회원중고장터"
             }).RunAsync();
 
-            await new RuliwebCrawler(database, new WebCrawler.Models.Source
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,
                 BoardId = "board/1020",

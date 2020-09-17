@@ -14,8 +14,8 @@ namespace WebCrawler
     {
         public int? LatestPage { get; set; }
 
-        public SlrclubPageInfoCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
+        public SlrclubPageInfoCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
         {
         }
 

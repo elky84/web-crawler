@@ -15,8 +15,8 @@ namespace WebCrawler
     {
         protected int? LatestPage { get; set; }
 
-        public SlrclubCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
+        public SlrclubCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
         {
         }
 
@@ -32,7 +32,7 @@ namespace WebCrawler
                 Create();
             }
 
-            var pageInfoCrawler = new SlrclubPageInfoCrawler(null, Source);
+            var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
             await pageInfoCrawler.RunAsync();
             LatestPage = pageInfoCrawler.LatestPage;
 
@@ -83,7 +83,8 @@ namespace WebCrawler
                     Recommend = recommend,
                     Count = count,
                     DateTime = date,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

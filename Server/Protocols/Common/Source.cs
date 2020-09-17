@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace Server.Protocols.Common
     {
         public string Id { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public CrawlingType Type { get; set; }
 
         public string BoardId { get; set; }
@@ -18,8 +21,8 @@ namespace Server.Protocols.Common
 
         public int PageMin { get; set; } = 1;
 
-        public int PageMax { get; set; } = 10;
+        public int PageMax { get; set; } = 5;
 
-        public int Interval { get; set; } = 1000;
+        public int Interval { get; set; } = 200;
     }
 }

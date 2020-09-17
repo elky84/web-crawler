@@ -34,5 +34,53 @@ namespace Server.Models
                 Interval = source.Interval
             };
         }
+
+
+        public static Protocols.Common.Notification ToProtocol(this Notification notification)
+        {
+            return new Protocols.Common.Notification
+            {
+                Id = notification.Id,
+                Type = notification.Type,
+                Name = notification.Name,
+                HookUrl = notification.HookUrl,
+                Channel = notification.Channel,
+                IconUrl = notification.IconUrl,
+                SourceId = notification.SourceId,
+                CountBaseLine = notification.CountBaseLine,
+                RecommendBaseLine = notification.RecommendBaseLine
+            };
+        }
+
+        public static Notification ToModel(this Protocols.Common.Notification notification)
+        {
+            return new Notification
+            {
+                Id = notification.Id,
+                Type = notification.Type,
+                Name = notification.Name,
+                HookUrl = notification.HookUrl,
+                Channel = notification.Channel,
+                IconUrl = notification.IconUrl,
+                SourceId = notification.SourceId,
+                CountBaseLine = notification.CountBaseLine,
+                RecommendBaseLine = notification.RecommendBaseLine
+            };
+        }
+
+        public static Notification ToModel(this Protocols.Common.NotificationCreate notification, string sourceId)
+        {
+            return new Notification
+            {
+                Type = notification.Type,
+                Name = notification.Name,
+                HookUrl = notification.HookUrl,
+                Channel = notification.Channel,
+                IconUrl = notification.IconUrl,
+                SourceId = sourceId,
+                CountBaseLine = notification.CountBaseLine,
+                RecommendBaseLine = notification.RecommendBaseLine
+            };
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class FmkoreaCrawler : CrawlerBase
     {
-        public FmkoreaCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"https://www.fmkorea.com/index.php", source)
+        public FmkoreaCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"https://www.fmkorea.com/index.php", source)
         {
         }
 
@@ -54,7 +54,8 @@ namespace WebCrawler
                     Recommend = recommend,
                     Count = count,
                     DateTime = date,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

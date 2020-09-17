@@ -30,13 +30,18 @@ namespace WebCrawler
 
         protected IMongoDatabase MongoDb { get; set; }
 
-        public CrawlerBase(IMongoDatabase mongoDb, string urlBase, Source source)
+        public delegate Task CrawlDataDelegate(CrawlingData data);
+
+        public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
+
+        public CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
         {
             if (mongoDb != null)
             {
                 MongoDbCrawlingData = new MongoDbUtil<CrawlingData>(mongoDb);
             }
 
+            OnCrawlDataDelegate = onCrawlDataDelegate;
             UrlBase = urlBase;
             Source = source;
         }
@@ -141,6 +146,7 @@ namespace WebCrawler
             else
             {
                 await MongoDbCrawlingData.CreateAsync(data);
+                await OnCrawlDataDelegate?.Invoke(data);
             }
         }
     }

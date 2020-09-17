@@ -9,7 +9,9 @@ namespace Server.Code
     {
         Success,
         UsingSourceId,
+        UsingNotificationId,
         NotImplementedYet,
+        NotFoundSource,
         UnknownException
     }
 }

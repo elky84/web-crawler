@@ -1,0 +1,93 @@
+### Notification Get
+
+GET https://localhost:5001/Notification
+
+
+### Notification Create Multi
+
+POST https://localhost:5001/Notification/Multi
+Content-Type: application/json
+
+{
+	"NotificationDatas": [
+        {
+			"Type": "Slack",
+			"Name": "[클리앙] 장터",
+            "Channel": "C01AW5D68Q3",
+            "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[클리앙] 회원중고장터"
+		},
+        {
+			"Type": "Slack",
+			"Name": "[루리웹] 핫딜",
+            "Channel": "CMEGGHK3J",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[루리웹] 핫딜게시판"
+		},
+        {
+			"Type": "Slack",
+			"Name": "[루리웹] 콘솔뉴스",
+            "Channel": "CMGCFNG6B",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[루리웹] 콘솔뉴스"
+		},
+        {
+			"Type": "Slack",
+			"Name": "[루리웹] PC뉴스",
+            "Channel": "C017G0KHBKM",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[루리웹] PC뉴스"
+		},
+        {
+			"Type": "Slack",
+			"Name": "[루리웹] 많이 본 글",
+            "Channel": "C01AW22MX5Y",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[루리웹] 많이 본 글"
+		},
+        {
+			"Type": "Slack",
+			"Name": "[펨코] 축구 뉴스",
+            "Channel": "CMEGGM5NC",
+            "IconUrl": "https://pbs.twimg.com/profile_images/1119513037902438400/VCzygL7m_400x400.png",
+            "HookUrl": "https://hooks.slack.com/services/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",
+            "BoardName": "[펨코] 축구 뉴스"
+		}
+	]
+}
+
+### Notification Create
+
+POST https://localhost:5001/Notification
+Content-Type: application/json
+
+{
+    "Type":"Ruliweb",
+    "BoardId": "1020",
+	"Name": "핫딜게시판"
+}
+
+### Notification Get
+
+GET https://localhost:5001/Notification/5f5a25cc6e6fbaf1a5e7ccca
+
+### Notification Update
+
+PUT https://localhost:5001/Notification/5f5a25cc6e6fbaf1a5e7ccca
+Content-Type: application/json
+
+{
+    "Type":"Ruliweb",
+    "BoardId": "1020",
+	"Name": "핫딜게시판"
+}
+
+### Notification Delete
+
+DELETE https://localhost:5001/Notification/5f5a25cc6e6fbaf1a5e7ccca
+

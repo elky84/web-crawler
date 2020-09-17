@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class TodayhumorCrawler : CrawlerBase
     {
-        public TodayhumorCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"http://www.todayhumor.co.kr/board/list.php", source)
+        public TodayhumorCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"http://www.todayhumor.co.kr/board/list.php", source)
         {
         }
 
@@ -65,7 +65,8 @@ namespace WebCrawler
                     Recommend = recommend,
                     Count = count,
                     DateTime = date,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

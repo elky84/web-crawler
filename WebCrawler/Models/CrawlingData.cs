@@ -23,6 +23,8 @@ namespace WebCrawler.Models
 
         public string Author { get; set; }
 
+        public string SourceId { get; set; }
+
         public string Href { get; set; }
 
         public string Category { get; set; }

@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class ClienCrawler : CrawlerBase
     {
-        public ClienCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)
+        public ClienCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)
         {
         }
 
@@ -71,7 +71,8 @@ namespace WebCrawler
                     Author = author,
                     Count = count,
                     DateTime = date,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Server.Models;
 using Server.Services;
 using System.Threading.Tasks;
 
@@ -19,6 +20,17 @@ namespace Server.Controllers
             _sourceService = sourceService;
         }
 
+
+
+        [HttpGet]
+        public async Task<Protocols.Response.SourceMulti> All()
+        {
+            return new Protocols.Response.SourceMulti
+            {
+                SourceDatas = (await _sourceService.All()).ConvertAll(x => x.ToProtocol())
+            };
+        }
+
         [HttpPost]
         public async Task<Protocols.Response.Source> Create([FromBody] Protocols.Request.Source source)
         {
@@ -35,7 +47,7 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public async Task<Protocols.Response.Source> Get(string id)
         {
-            return await _sourceService.Get(id);
+            return await _sourceService.GetById(id);
         }
 
         [HttpPut("{id}")]

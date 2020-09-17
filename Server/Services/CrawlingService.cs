@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using WebCrawler.Code;
 using Server.Exception;
 using Server.Models;
+using WebCrawler.Models;
 
 namespace Server.Services
 {
@@ -16,15 +17,20 @@ namespace Server.Services
 
         private readonly SourceService _sourceService;
 
+        private readonly NotificationService _notificationService;
+
         public CrawlingService(MongoDbService mongoDbService,
-            SourceService sourceService)
+            SourceService sourceService,
+            NotificationService notificationService)
         {
             _mongoDbService = mongoDbService;
             _sourceService = sourceService;
+            _notificationService = notificationService;
         }
 
         public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
         {
+            var onCrawlDataDelegate = new CrawlerBase.CrawlDataDelegate(OnNewCrawlData);
             var sources = crawling.All ? (await _sourceService.All()).ConvertAll(x => x.ToProtocol()) : crawling.Sources;
             Parallel.ForEach(sources, new ParallelOptions { MaxDegreeOfParallelism = 16 },
                 async source =>
@@ -32,22 +38,22 @@ namespace Server.Services
                     switch (source.Type)
                     {
                         case CrawlingType.Ruliweb:
-                            await new RuliwebCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.Clien:
-                            await new ClienCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.SlrClub:
-                            await new SlrclubCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.Ppomppu:
-                            await new PpomppuCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new PpomppuCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.TodayHumor:
-                            await new TodayhumorCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new TodayhumorCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         case CrawlingType.FmKorea:
-                            await new FmkoreaCrawler(_mongoDbService.Database, source.ToModel()).RunAsync();
+                            await new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         default:
                             throw new DeveloperException(Code.ResultCode.NotImplementedYet);
@@ -59,6 +65,11 @@ namespace Server.Services
             {
                 ResultCode = Code.ResultCode.Success
             };
+        }
+
+        public async Task OnNewCrawlData(CrawlingData crawlingData)
+        {
+            await _notificationService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId), crawlingData);
         }
     }
 }

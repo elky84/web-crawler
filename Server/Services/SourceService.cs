@@ -6,6 +6,7 @@ using WebCrawler.Models;
 using Server.Models;
 using System.Collections.Generic;
 using Server.Exception;
+using WebCrawler.Code;
 
 namespace Server.Services
 {
@@ -25,11 +26,7 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Source> Create(Protocols.Request.Source source)
         {
-            var created = await Create(new Protocols.Common.Source
-            {
-                Type = source.Type,
-                BoardId = source.BoardId
-            });
+            var created = await Create(source.SourceData);
 
             return new Protocols.Response.Source
             {
@@ -43,12 +40,14 @@ namespace Server.Services
         {
             try
             {
+                var newData = source.ToModel();
+
                 var origin = await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) & Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId));
                 if (origin != null)
                 {
-                    origin.Name = source.Name;
-                    await _mongoDbSource.UpdateAsync(origin.Id, origin);
-                    return origin;
+                    newData.Id = origin.Id;
+                    await _mongoDbSource.UpdateAsync(newData.Id, newData);
+                    return newData;
                 }
                 else
                 {
@@ -75,7 +74,7 @@ namespace Server.Services
             };
         }
 
-        public async Task<Protocols.Response.Source> Get(string id)
+        public async Task<Protocols.Response.Source> GetById(string id)
         {
             return new Protocols.Response.Source
             {
@@ -84,14 +83,20 @@ namespace Server.Services
             };
         }
 
+        public async Task<Source> Get(CrawlingType crawlingType, string boardId)
+        {
+            return await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Type, crawlingType) &
+                Builders<Source>.Filter.Eq(x => x.BoardId, boardId));
+        }
+
+        public async Task<Source> Get(string boardName)
+        {
+            return await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Name, boardName));
+        }
+
         public async Task<Protocols.Response.Source> Update(string id, Protocols.Request.Source source)
         {
-            var update = new Source
-            {
-                Id = id,
-                Type = source.Type,
-                BoardId = source.BoardId
-            };
+            var update = source.SourceData.ToModel();
 
             var updated = await _mongoDbSource.UpdateAsync(id, update);
             return new Protocols.Response.Source

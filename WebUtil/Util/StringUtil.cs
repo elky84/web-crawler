@@ -26,6 +26,16 @@ namespace WebUtil.Util
             return input.IndexOfNth(value, idx + 1, --nth);
         }
 
+        public static string Substring(this string input, string value)
+        {
+            var index = input.IndexOf(value);
+            if (index == -1)
+            {
+                return input;
+            }
+            return input.Substring(0, index);
+        }
+
         public static string GetValue(this string[] values, List<string> thList, string key, int cursor)
         {
             var at = thList.IndexOf(key);

@@ -11,8 +11,8 @@ namespace WebCrawler
 {
     public class PpomppuCrawler : CrawlerBase
     {
-        public PpomppuCrawler(IMongoDatabase mongoDb, Source source) :
-            base(mongoDb, $"http://www.ppomppu.co.kr/zboard/zboard.php", source)
+        public PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
+            base(onCrawlDataDelegate, mongoDb, $"http://www.ppomppu.co.kr/zboard/zboard.php", source)
         {
         }
 
@@ -86,7 +86,8 @@ namespace WebCrawler
                     Recommend = recommend,
                     Count = count,
                     DateTime = date,
-                    Href = href
+                    Href = href,
+                    SourceId = Source.Id
                 });
             });
         }

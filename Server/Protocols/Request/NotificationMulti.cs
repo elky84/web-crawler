@@ -6,8 +6,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Request
 {
-    public class Source
+    public class NotificationMulti
     {
-        public Common.Source SourceData { get; set; }
+        public List<Common.NotificationCreate> NotificationDatas { get; set; }
     }
 }

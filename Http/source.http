@@ -13,53 +13,53 @@ Content-Type: application/json
         {
 			"Type": "Ruliweb",
 			"BoardId": "board/1020",
-			"Name": "[루리웹] 핫딜게시판"
+			"Name": "핫딜게시판"
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "board/1001",
-			"Name": "[루리웹] 콘솔뉴스"
+			"Name": "콘솔뉴스"
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "board/1003",
-			"Name": "[루리웹] PC뉴스"
+			"Name": "PC뉴스"
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "best/selection",
-			"Name": "[루리웹] 많이 본 글"
+			"Name": "많이 본 글"
 		},
 		{
 			"Type": "Ppomppu",
 			"BoardId": "freeboard",
-			"Name": "[뽐뿌] 자유게시판"
+			"Name": "자유게시판"
 		},
 		{
 			"Type": "TodayHumor",
 			"BoardId": "bestofbest",
-			"Name": "[오유] 베오베"
+			"Name": "베오베"
 		},
 		{
 			"Type": "SlrClub",
 			"BoardId": "free",
-			"Name": "[SlrClub] 자유게시판"
+			"Name": "자유게시판"
 		},
 		{
 			"Type": "FmKorea",
 			"BoardId": "football_news",
-			"Name": "[펨코] 축구 뉴스",
+			"Name": "축구 뉴스",
 			"Interval": 1000
 		},
 		{
 			"Type": "Clien",
 			"BoardId": "sold",
-			"Name": "[클리앙] 회원중고장터"
+			"Name": "회원중고장터"
 		},
 		{
 			"Type": "Clien",
 			"BoardId": "park",
-			"Name": "[클리앙] 모두의공원"
+			"Name": "모두의공원"
 		}
 	]
 }

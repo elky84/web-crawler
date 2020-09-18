@@ -19,6 +19,8 @@ namespace Server.Services
 
         private readonly NotificationService _notificationService;
 
+        private readonly MongoDbUtil<CrawlingData> _mongoDbUtil;
+
         public CrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
             NotificationService notificationService)
@@ -26,6 +28,33 @@ namespace Server.Services
             _mongoDbService = mongoDbService;
             _sourceService = sourceService;
             _notificationService = notificationService;
+            _mongoDbUtil = new MongoDbUtil<CrawlingData>(mongoDbService.Database);
+        }
+
+        public async Task<Protocols.Response.CrawlingList> Get(Protocols.Request.CrawlingList crawlingList)
+        {
+            var builder = Builders<CrawlingData>.Filter;
+            var filter = FilterDefinition<CrawlingData>.Empty;
+            if (!string.IsNullOrEmpty(crawlingList.Keyword))
+            {
+                filter &= builder.Regex(x => x.Title, "^" + crawlingList.Keyword + ".*");
+            }
+
+            if (crawlingList.Type.HasValue)
+            {
+                filter &= builder.Eq(x => x.Type, crawlingList.Type.Value);
+            }
+
+            return new Protocols.Response.CrawlingList
+            {
+                ResultCode = Code.ResultCode.Success,
+                Limit = crawlingList.Limit,
+                Offset = crawlingList.Offset,
+                Sort = crawlingList.Sort,
+                Asc = crawlingList.Asc,
+                CrawlingDatas = (await _mongoDbUtil.Page(filter, crawlingList.Limit, crawlingList.Offset, crawlingList.Sort, crawlingList.Asc)).ConvertAll(x => x.ToProtocol()),
+                Total = await _mongoDbUtil.CountAsync(filter)
+            };
         }
 
         public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)

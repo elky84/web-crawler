@@ -36,6 +36,14 @@ namespace Server
 
             services.AddControllers().AddNewtonsoftJson();
 
+            services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                }));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -62,10 +70,14 @@ namespace Server
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseCors("AllowSpecificOrigin");
 
             app.ConfigureExceptionHandler();
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

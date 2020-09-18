@@ -1,5 +1,10 @@
 ### Crawling all
 
+GET https://localhost:5001/Crawling
+Content-Type: application/json
+
+### Crawling all
+
 POST https://localhost:5001/Crawling
 Content-Type: application/json
 

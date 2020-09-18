@@ -18,10 +18,13 @@ namespace Server.Services
 
         protected override void DoWork(object state)
         {
+#if DEBUG
+#else
             _ = _crawlingService.Execute(new Protocols.Request.Crawling
             {
                 All = true
             });
+#endif
         }
     }
 }

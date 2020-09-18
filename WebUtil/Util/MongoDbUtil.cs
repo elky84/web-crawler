@@ -23,6 +23,19 @@ namespace WebUtil.Util
         public async Task<List<T>> All() =>
             (await Collection.FindAsync(t => true)).ToList();
 
+        public async Task<long> CountAsync() => await Collection.CountDocumentsAsync(x => true);
+
+        public async Task<long> CountAsync(FilterDefinition<T> filter) => await Collection.CountDocumentsAsync(filter);
+
+        public async Task<List<T>> Page(FilterDefinition<T> filter, int limit, int offset, string sort = "", bool asc = false)
+        {
+            return await Collection.Find(filter)
+                .Sort(string.IsNullOrEmpty(sort) ? null : new BsonDocument(sort, asc ? 1 : -1))
+                .Skip(offset)
+                .Limit(limit)
+                .ToListAsync();
+        }
+
         public T FindOne(FilterDefinition<T> filter) =>
             Collection.Find(filter).FirstOrDefault();
 

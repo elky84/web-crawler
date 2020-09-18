@@ -19,6 +19,12 @@ namespace Server.Controllers
             _crawlingService = crawlingService;
         }
 
+        [HttpGet]
+        public async Task<Protocols.Response.CrawlingList> Get([FromQuery] Protocols.Request.CrawlingList crawlingList)
+        {
+            return await _crawlingService.Get(crawlingList);
+        }
+
         [HttpPost]
         public async Task<Protocols.Response.Crawling> Crawling([FromBody] Protocols.Request.Crawling crawling)
         {

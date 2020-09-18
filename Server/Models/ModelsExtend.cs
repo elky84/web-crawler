@@ -82,5 +82,47 @@ namespace Server.Models
                 RecommendBaseLine = notification.RecommendBaseLine
             };
         }
+
+
+        public static Protocols.Common.CrawlingData ToProtocol(this WebCrawler.Models.CrawlingData crawling)
+        {
+            return new Protocols.Common.CrawlingData
+            {
+                Id = crawling.Id,
+                Type = crawling.Type,
+                BoardId = crawling.BoardId,
+                BoardName = crawling.BoardName,
+                Author = crawling.Author,
+                SourceId = crawling.SourceId,
+                Href = crawling.Href,
+                Category = crawling.Category,
+                Count = crawling.Count,
+                Recommend = crawling.Recommend,
+                Title = crawling.Title,
+                DateTime = crawling.DateTime,
+                RowId = crawling.RowId
+            };
+        }
+
+        public static WebCrawler.Models.CrawlingData ToModel(this Protocols.Common.CrawlingData crawling)
+        {
+            return new WebCrawler.Models.CrawlingData
+            {
+                Id = crawling.Id,
+                Type = crawling.Type,
+                BoardId = crawling.BoardId,
+                BoardName = crawling.BoardName,
+                Author = crawling.Author,
+                SourceId = crawling.SourceId,
+                Href = crawling.Href,
+                Category = crawling.Category,
+                Count = crawling.Count,
+                Recommend = crawling.Recommend,
+                Title = crawling.Title,
+                DateTime = crawling.DateTime,
+                RowId = crawling.RowId
+            };
+        }
+
     }
 }

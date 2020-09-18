@@ -5,29 +5,29 @@
     <table class="table table-bordered">
       <thead class="thead-dark">
         <tr class="text-center">
-          <th width="120px" v-on:click="sortBy('type')">
+          <th width="120px" v-on:click="sortBy('Type')">
             <span class="header">사이트</span>
-            <span class="arrow" :class="toArrow('type')"/>
+            <span class="arrow" :class="toArrow('Type')"/>
           </th>
-          <th width="120px" v-on:click="sortBy('type')">
-            <span class="header">게시판 종류</span>
-            <span class="arrow" :class="toArrow('type')"/>
+          <th width="120px" v-on:click="sortBy('BoardName')">
+            <span class="header">게시판</span>
+            <span class="arrow" :class="toArrow('BoardName')"/>
           </th>
-          <th width="120px" v-on:click="sortBy('type')">
+          <th width="120px" v-on:click="sortBy('Category')">
             <span class="header">카테고리</span>
-            <span class="arrow" :class="toArrow('type')"/>
+            <span class="arrow" :class="toArrow('Category')"/>
           </th>
-          <th v-on:click="sortBy('title')">
+          <th v-on:click="sortBy('Title')">
             <span class="header">글 제목</span>
-            <span class="arrow" :class="toArrow('title')"/>
+            <span class="arrow" :class="toArrow('Title')"/>
           </th>
-          <th width="150px" v-on:click="sortBy('date')">
+          <th width="150px" v-on:click="sortBy('Datetime')">
             <span class="header">시간</span>
-            <span class="arrow" :class="toArrow('date')"/>
+            <span class="arrow" :class="toArrow('Datetime')"/>
           </th>
-          <th width="70px" v-on:click="sortBy('count')">
+          <th width="70px" v-on:click="sortBy('Count')">
             <span class="header">읽음</span>
-            <span class="arrow" :class="toArrow('count')"/>
+            <span class="arrow" :class="toArrow('Count')"/>
           </th>
         </tr>
       </thead>
@@ -79,7 +79,7 @@ export default {
       searchData: {},
       sort: undefined,
       asc: true,
-      orderState: { title: null, type: null, count: null, date: null }
+      orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, Datetime: null }
     }
   },
   mounted () {

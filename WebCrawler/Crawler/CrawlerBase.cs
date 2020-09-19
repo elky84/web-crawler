@@ -130,23 +130,39 @@ namespace WebCrawler
             Log.Logger.Error($"Did not crawl page {pageToCrawl.Uri.AbsoluteUri} due to {e.DisallowedReason}");
         }
 
-        protected async Task OnCrawlData(CrawlingData data)
+        private async Task<CrawlingData> GetOriginData(CrawlingData crawlingData)
+        {
+            var builder = Builders<CrawlingData>.Filter;
+            var filter = builder.Eq(x => x.Type, crawlingData.Type);
+            if (crawlingData.RowId.HasValue)
+            {
+                filter &= builder.Eq(x => x.RowId, crawlingData.RowId.Value);
+            }
+            else
+            {
+                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Title, crawlingData.Title);
+            }
+
+            return await MongoDbCrawlingData.FindOneAsync(filter);
+        }
+
+        protected async Task OnCrawlData(CrawlingData crawlingData)
         {
             if (MongoDbCrawlingData == null)
             {
                 return;
             }
 
-            var origin = await MongoDbCrawlingData.FindOneAsync(Builders<CrawlingData>.Filter.Eq(x => x.Type, data.Type) & Builders<CrawlingData>.Filter.Eq(x => x.Title, data.Title));
+            var origin = await GetOriginData(crawlingData);
             if (origin != null)
             {
-                data.Id = origin.Id;
-                await MongoDbCrawlingData.UpdateAsync(data.Id, data);
+                crawlingData.Id = origin.Id;
+                await MongoDbCrawlingData.UpdateAsync(crawlingData.Id, crawlingData);
             }
             else
             {
-                await MongoDbCrawlingData.CreateAsync(data);
-                await OnCrawlDataDelegate?.Invoke(data);
+                await MongoDbCrawlingData.CreateAsync(crawlingData);
+                await OnCrawlDataDelegate?.Invoke(crawlingData);
             }
         }
     }

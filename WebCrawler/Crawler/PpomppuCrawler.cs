@@ -44,6 +44,11 @@ namespace WebCrawler
                     {
                         text = y.QuerySelector("img")?.GetAttribute("alt");
                     }
+                    else if (y.QuerySelector("a") != null)
+                    {
+                        text = y.QuerySelector("a").TextContent;
+                    }
+
                     return text;
                 })
                 ).ToArray();

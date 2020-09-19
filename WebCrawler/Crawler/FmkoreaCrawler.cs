@@ -49,7 +49,7 @@ namespace WebCrawler
                     BoardId = Source.BoardId,
                     BoardName = Source.Name,
                     Category = category,
-                    Title = title,
+                    Title = title.Substring("\t"),
                     Author = author,
                     Recommend = recommend,
                     Count = count,

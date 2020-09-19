@@ -30,7 +30,10 @@ namespace WebCrawler
             var tdContent = document.QuerySelectorAll("tbody tr")
                 .Where(x => x.ClassName == "view list_tr_humordata")
                 .Select(x => x.QuerySelectorAll("td"))
-                .SelectMany(x => x.Select(y => y.TextContent.Trim()))
+                .SelectMany(x => x.Select(y =>
+                {
+                    return y.QuerySelector("a") != null ? y.QuerySelector("a").TextContent.Trim() : y.TextContent.Trim();
+                }))
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr td")

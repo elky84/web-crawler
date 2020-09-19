@@ -52,9 +52,21 @@ namespace WebCrawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
-            var thContent = document.QuerySelectorAll("thead tr th").Select(x => x.TextContent.Trim()).ToArray();
-            var tdContent = document.QuerySelectorAll("tbody tr td").Select(x => x.TextContent.Trim()).ToArray();
-            var tdHref = document.QuerySelectorAll("tbody tr td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("sbj")).Select(x => x.QuerySelector("a").GetAttribute("href")).ToArray();
+            var thContent = document.QuerySelectorAll("thead tr th")
+                .Select(x => x.TextContent.Trim()).ToArray();
+
+            var tdContent = document.QuerySelectorAll("tbody tr td")
+                .Select(x =>
+                {
+                    return x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim();
+                })
+                .ToArray();
+
+            var tdHref = document.QuerySelectorAll("tbody tr td")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("sbj"))
+                .Select(x => x.QuerySelector("a").GetAttribute("href"))
+                .ToArray();
+
             if (!thContent.Any() || !tdContent.Any())
             {
                 return;

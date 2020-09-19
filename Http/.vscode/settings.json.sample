@@ -1,0 +1,12 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+        },
+        "local": {
+            "host": "http://localhost:5000"
+        },
+        "production": {
+            "host": "##PRODUCTION-URL##"
+        }
+    }
+}

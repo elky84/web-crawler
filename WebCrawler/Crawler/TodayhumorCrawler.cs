@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Code;
 using WebCrawler.Models;
@@ -45,13 +47,19 @@ namespace WebCrawler
             {
                 return;
             }
+
+            var cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            var calendar = cultureInfo.Calendar;
+            calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
+            cultureInfo.DateTimeFormat.Calendar = calendar;
+
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {
                 var cursor = n * thContent.Length;
                 var id = tdContent[cursor + 0].ToInt();
                 var title = tdContent[cursor + 2];
                 var author = tdContent[cursor + 3];
-                var date = DateTime.Parse(tdContent[cursor + 4]);
+                var date = DateTime.ParseExact(tdContent[cursor + 4], "yy/MM/dd HH:mm", cultureInfo);
                 var count = tdContent[cursor + 5].ToInt();
                 var recommend = tdContent[cursor + 6].ToInt();
 

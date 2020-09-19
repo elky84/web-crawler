@@ -1,11 +1,11 @@
 ### Source Get
 
-GET https://localhost:5001/Source
+GET {{host}}/Source
 
 
 ### Source Create Multi
 
-POST https://localhost:5001/Source/Multi
+POST {{host}}/Source/Multi
 Content-Type: application/json
 
 {
@@ -65,7 +65,7 @@ Content-Type: application/json
 }
 ### Source Create
 
-POST https://localhost:5001/Source
+POST {{host}}/Source
 Content-Type: application/json
 
 {
@@ -76,11 +76,11 @@ Content-Type: application/json
 
 ### Source Get
 
-GET https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+GET {{host}}/Source/5f5a25cc6e6fbaf1a5e7ccca
 
 ### Source Update
 
-PUT https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+PUT {{host}}/Source/5f5a25cc6e6fbaf1a5e7ccca
 Content-Type: application/json
 
 {
@@ -91,5 +91,5 @@ Content-Type: application/json
 
 ### Source Delete
 
-DELETE https://localhost:5001/Source/5f5a25cc6e6fbaf1a5e7ccca
+DELETE {{host}}/Source/5f5a25cc6e6fbaf1a5e7ccca
 

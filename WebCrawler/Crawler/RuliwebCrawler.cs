@@ -36,6 +36,7 @@ namespace WebCrawler
             var tdHref = document.QuerySelectorAll("tbody tr td a")
                 .Where(x => x.ClassName == "deco")
                 .Select(x => x.GetAttribute("href"))
+                .Where(x => x.StartsWith("http"))
                 .ToArray();
 
             if (!thContent.Any() || !tdContent.Any())

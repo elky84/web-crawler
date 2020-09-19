@@ -1,13 +1,17 @@
 ### Crawling all
 
-GET https://localhost:5001/Crawling
-Content-Type: application/json
+GET {{host}}/Crawling?offset=0&limit=10&asc=true
 
 ### Crawling all
 
-POST https://localhost:5001/Crawling
+POST {{host}}/Crawling
 Content-Type: application/json
 
 {
     "All":true
 }
+
+###
+
+GET {{host}}/Crawling?offset=0&limit=10&asc=true
+

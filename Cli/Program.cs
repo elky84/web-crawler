@@ -65,6 +65,13 @@ namespace cli
                 BoardId = "board/1020",
                 Name = "핫딜게시판"
             }).RunAsync();
+
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "board/1003",
+                Name = "핫딜게시판"
+            }).RunAsync();
         }
     }
 }

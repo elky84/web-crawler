@@ -1,1 +1,0 @@
-docker build -t web-crawler -f Server/Dockerfile .

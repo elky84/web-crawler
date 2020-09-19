@@ -72,7 +72,7 @@ namespace Server
             }
             else
             {
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection();
             }
 
             app.UseCors("AllowSpecificOrigin");

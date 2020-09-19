@@ -49,7 +49,7 @@ namespace WebUtil.Util
                 return null;
             }
 
-            return int.Parse(str, NumberStyles.AllowThousands);
+            return int.Parse(str, NumberStyles.Any);
         }
 
         public static int ToInt(this string str, int defaultValue = 0)
@@ -58,7 +58,7 @@ namespace WebUtil.Util
             {
                 return defaultValue;
             }
-            return int.Parse(str, NumberStyles.AllowThousands);
+            return int.Parse(str, NumberStyles.Any);
         }
 
 

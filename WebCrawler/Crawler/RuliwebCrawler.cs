@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
 using Serilog;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Code;
 using WebCrawler.Models;
@@ -44,6 +46,11 @@ namespace WebCrawler
                 return;
             }
 
+            var cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            var calendar = cultureInfo.Calendar;
+            calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
+            cultureInfo.DateTimeFormat.Calendar = calendar;
+
             Parallel.For(0, tdContent.Length / thContent.Count, n =>
             {
                 var cursor = n * thContent.Count;
@@ -58,7 +65,11 @@ namespace WebCrawler
                 var author = tdContent.GetValue(thContent, "글쓴이", cursor);
                 var recommend = tdContent.GetValue(thContent, "추천", cursor).ToIntNullable();
                 var count = tdContent.GetValue(thContent, "조회", cursor).ToInt();
-                var date = DateTime.Parse(tdContent.GetValue(thContent, "날짜", cursor));
+
+                var dateTimeStr = tdContent.GetValue(thContent, "날짜", cursor);
+                var date = dateTimeStr.Contains(':') ?
+                    DateTime.ParseExact(dateTimeStr, "HH:mm", cultureInfo) :
+                    DateTime.ParseExact(dateTimeStr, "yy.MM.dd", cultureInfo);
 
                 var href = tdHref[n];
 

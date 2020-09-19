@@ -122,7 +122,7 @@ Content-Type: application/json
         {
 			"Type": "Slack",
 			"Name": "[루리웹] 많이 본 글",
-            "Channel": "C01AVLPP1U5",
+            "Channel": "C01AW22MX5Y",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
             "CrawlingType": "Ruliweb",

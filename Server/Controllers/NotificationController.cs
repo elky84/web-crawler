@@ -31,7 +31,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public async Task<Protocols.Response.Notification> Create([FromBody] Protocols.Request.Notification notificaion)
+        public async Task<Protocols.Response.Notification> Create([FromBody] Protocols.Request.NotificationCreate notificaion)
         {
             return await _notificationService.Create(notificaion);
         }

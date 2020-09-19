@@ -33,7 +33,7 @@ namespace Server.Services
             return await _mongoDbNotification.All();
         }
 
-        public async Task<Protocols.Response.Notification> Create(Protocols.Request.Notification notification)
+        public async Task<Protocols.Response.Notification> Create(Protocols.Request.NotificationCreate notification)
         {
             var created = await Create(notification.NotificationData);
 
@@ -49,7 +49,7 @@ namespace Server.Services
         {
             try
             {
-                var source = await _sourceService.Get(notification.BoardName);
+                var source = await _sourceService.GetByName(notification.CrawlingType, notification.BoardName);
                 if (source == null)
                 {
                     throw new DeveloperException(Code.ResultCode.NotFoundSource);

@@ -22,6 +22,9 @@ namespace Server.Protocols.Common
 
         public string IconUrl { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CrawlingType CrawlingType { get; set; }
+
         public string BoardName { get; set; }
 
         public int CountBaseLine { get; set; }

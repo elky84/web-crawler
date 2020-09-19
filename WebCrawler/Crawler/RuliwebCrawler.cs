@@ -12,7 +12,7 @@ namespace WebCrawler
     public class RuliwebCrawler : CrawlerBase
     {
         public RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/market/{source.BoardId}", source)
+            base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)
         {
         }
 
@@ -33,9 +33,9 @@ namespace WebCrawler
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
 
-            var tdHref = document.QuerySelectorAll("tbody tr td a")
-                .Where(x => x.ClassName == "deco")
-                .Select(x => x.GetAttribute("href"))
+            var tdHref = document.QuerySelectorAll("tbody tr td")
+                .Where(x => x.ClassName == "subject" && x.QuerySelector("a") != null)
+                .Select(x => x.QuerySelector("a").GetAttribute("href"))
                 .Where(x => x.StartsWith("http"))
                 .ToArray();
 
@@ -49,6 +49,11 @@ namespace WebCrawler
                 var cursor = n * thContent.Count;
                 var id = tdContent.GetValue(thContent, "ID", cursor).ToIntNullable();
                 var category = tdContent.GetValue(thContent, "구분", cursor);
+                if (string.IsNullOrEmpty(category))
+                {
+                    category = tdContent.GetValue(thContent, "게시판", cursor);
+                }
+
                 var title = tdContent.GetValue(thContent, "제목", cursor).Substring("\n");
                 var author = tdContent.GetValue(thContent, "글쓴이", cursor);
                 var recommend = tdContent.GetValue(thContent, "추천", cursor).ToIntNullable();

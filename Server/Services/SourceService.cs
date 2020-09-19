@@ -89,9 +89,10 @@ namespace Server.Services
                 Builders<Source>.Filter.Eq(x => x.BoardId, boardId));
         }
 
-        public async Task<Source> Get(string boardName)
+        public async Task<Source> GetByName(CrawlingType crawlingType, string boardName)
         {
-            return await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Name, boardName));
+            return await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Type, crawlingType) &
+                Builders<Source>.Filter.Eq(x => x.Name, boardName));
         }
 
         public async Task<Protocols.Response.Source> Update(string id, Protocols.Request.Source source)

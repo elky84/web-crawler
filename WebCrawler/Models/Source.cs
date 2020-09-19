@@ -21,10 +21,10 @@ namespace WebCrawler.Models
 
         public string Name { get; set; }
 
-        public int PageMin { get; set; }
+        public int PageMin { get; set; } = 1;
 
-        public int PageMax { get; set; }
+        public int PageMax { get; set; } = 5;
 
-        public int Interval { get; set; }
+        public int Interval { get; set; } = 200;
     }
 }

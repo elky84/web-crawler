@@ -22,7 +22,7 @@ namespace cli
             Log.Logger.Information("starting up!");
 
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
-            var database = client.GetDatabase("Cli-Web-Crawler");
+            var database = client.GetDatabase("cli-web-crawler");
 
             await new PpomppuCrawler(null, database, new WebCrawler.Models.Source
             {
@@ -62,15 +62,22 @@ namespace cli
             await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,
-                BoardId = "board/1020",
+                BoardId = "market/board/1020",
                 Name = "핫딜게시판"
             }).RunAsync();
 
             await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,
-                BoardId = "board/1003",
-                Name = "핫딜게시판"
+                BoardId = "market/board/1003",
+                Name = "콘솔뉴스"
+            }).RunAsync();
+
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "best/selection",
+                Name = "베스트"
             }).RunAsync();
         }
     }

@@ -12,17 +12,17 @@ Content-Type: application/json
 	"SourceDatas": [
         {
 			"Type": "Ruliweb",
-			"BoardId": "board/1020",
+			"BoardId": "market/board/1020",
 			"Name": "핫딜게시판"
 		},
         {
 			"Type": "Ruliweb",
-			"BoardId": "board/1001",
+			"BoardId": "market/board/1001",
 			"Name": "콘솔뉴스"
 		},
         {
 			"Type": "Ruliweb",
-			"BoardId": "board/1003",
+			"BoardId": "market/board/1003",
 			"Name": "PC뉴스"
 		},
         {

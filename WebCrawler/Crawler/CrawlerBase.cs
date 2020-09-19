@@ -162,7 +162,11 @@ namespace WebCrawler
             else
             {
                 await MongoDbCrawlingData.CreateAsync(crawlingData);
-                await OnCrawlDataDelegate?.Invoke(crawlingData);
+
+                if (OnCrawlDataDelegate != null)
+                {
+                    await OnCrawlDataDelegate.Invoke(crawlingData);
+                }
             }
         }
     }

@@ -67,9 +67,17 @@ namespace WebCrawler
                 var count = tdContent.GetValue(thContent, "조회", cursor).ToInt();
 
                 var dateTimeStr = tdContent.GetValue(thContent, "날짜", cursor);
-                var date = dateTimeStr.Contains(':') ?
-                    DateTime.ParseExact(dateTimeStr, "HH:mm", cultureInfo) :
-                    DateTime.ParseExact(dateTimeStr, "yy.MM.dd", cultureInfo);
+                DateTime? date;
+                if (dateTimeStr.Contains('.'))
+                {
+                    date = dateTimeStr.IndexOf('.') >= 4 ?
+                        DateTime.ParseExact(dateTimeStr, "yyyy.MM.dd", cultureInfo) :
+                        DateTime.ParseExact(dateTimeStr, "yy.MM.dd", cultureInfo);
+                }
+                else
+                {
+                    date = DateTime.Parse(dateTimeStr);
+                }
 
                 var href = tdHref[n];
 
@@ -83,7 +91,7 @@ namespace WebCrawler
                     Author = author,
                     Recommend = recommend.GetValueOrDefault(0),
                     Count = count,
-                    DateTime = date,
+                    DateTime = date.GetValueOrDefault(DateTime.Now),
                     RowId = id,
                     Href = href,
                     SourceId = Source.Id

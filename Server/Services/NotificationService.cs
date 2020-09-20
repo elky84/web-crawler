@@ -162,7 +162,7 @@ namespace Server.Services
 
         private async Task DiscordNotify(Notification notification, CrawlingData crawlingData)
         {
-            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
+            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"<{crawlingData.Category}>";
 
             await _httpClientFactory.RequestJson<Protocols.Notification.Response.DiscordWebHook>(HttpMethod.Post,
                 notification.HookUrl,

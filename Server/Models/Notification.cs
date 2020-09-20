@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Server.Code;
 using System;
+using WebCrawler.Code;
 
 namespace Server.Models
 {
@@ -21,6 +22,9 @@ namespace Server.Models
         public string Channel { get; set; }
 
         public string IconUrl { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
+        public CrawlingType CrawlingType { get; set; }
 
         public string SourceId { get; set; }
     }

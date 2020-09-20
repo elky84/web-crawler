@@ -65,9 +65,17 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757111653832589412/JgGoutmu-ZrN6VVMUrm8kOGR0pk1WKd74TVig5UNBlrkwEMUYqC2-d4T3wY3Q-yltp8w",
             "CrawlingType": "FmKorea",
             "BoardName": "축구 뉴스"
+		},
+        {
+			"Type": "Discord",
+			"Name": "Rss",
+            "IconUrl": "https://www.bruegel.org/wp-content/uploads/2015/08/icon-rss.png",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883438956604/YRdxA4KgvT0cEdzECC8bu4DyeSIuoxlLhMfPoG3BQgtrn1-fpArcr1ogo7uMTqK-QeKG",
+            "CrawlingType": "Rss"
 		}
 	]
 }
+
 
 ### Notification Create Multi Discord (for local debug)
 
@@ -123,6 +131,13 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "TodayHumor",
             "BoardName": "베오베"
+		},
+        {
+			"Type": "Discord",
+			"Name": "Rss",
+            "IconUrl": "https://www.bruegel.org/wp-content/uploads/2015/08/icon-rss.png",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Rss"
 		}
 	]
 }

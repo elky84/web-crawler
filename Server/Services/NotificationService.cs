@@ -8,6 +8,7 @@ using Server.Exception;
 using System.Net.Http;
 using WebUtil.HttpClient;
 using WebCrawler.Models;
+using FeedCrawler.Models;
 
 namespace Server.Services
 {
@@ -45,19 +46,31 @@ namespace Server.Services
 
         }
 
+        private async Task<string> GetSourceId(Protocols.Common.NotificationCreate notification)
+        {
+            if (notification.CrawlingType == WebCrawler.Code.CrawlingType.Rss)
+            {
+                return string.Empty;
+            }
+
+            var source = await _sourceService.GetByName(notification.CrawlingType, notification.BoardName);
+            if (source == null)
+            {
+                throw new DeveloperException(Code.ResultCode.NotFoundSource);
+            }
+
+            return source.Id;
+        }
+
         private async Task<Notification> Create(Protocols.Common.NotificationCreate notification)
         {
             try
             {
-                var source = await _sourceService.GetByName(notification.CrawlingType, notification.BoardName);
-                if (source == null)
-                {
-                    throw new DeveloperException(Code.ResultCode.NotFoundSource);
-                }
+                var sourceId = await GetSourceId(notification);
+                var newData = notification.ToModel(sourceId);
 
-                var newData = notification.ToModel(source.Id);
-
-                var origin = await _mongoDbNotification.FindOneAsync(Builders<Notification>.Filter.Eq(x => x.SourceId, source.Id) &
+                var origin = await _mongoDbNotification.FindOneAsync(Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
+                    Builders<Notification>.Filter.Eq(x => x.CrawlingType, notification.CrawlingType) &
                     Builders<Notification>.Filter.Eq(x => x.Type, notification.Type));
                 if (origin != null)
                 {
@@ -171,6 +184,53 @@ namespace Server.Services
                     username = notification.Name,
                     avatar_url = notification.IconUrl,
                     content = $"[{category}{crawlingData.Title}]({crawlingData.Href}) <{crawlingData.DateTime}>"
+                }
+            );
+        }
+
+
+        public async Task Execute(FilterDefinition<Notification> filter, FeedData feedData)
+        {
+            var notifications = await Get(filter);
+            foreach (var notification in notifications)
+            {
+                switch (notification.Type)
+                {
+                    case Code.NotificationType.Slack:
+                        await SlackNotify(notification, feedData);
+                        break;
+                    case Code.NotificationType.Discord:
+                        await DiscordNotify(notification, feedData);
+                        break;
+                    default:
+                        throw new DeveloperException(Code.ResultCode.NotImplementedYet);
+                }
+            }
+        }
+
+        private async Task SlackNotify(Notification notification, FeedData feedData)
+        {
+            await _httpClientFactory.RequestJson<Protocols.Notification.Response.SlackWebHook>(HttpMethod.Post,
+                notification.HookUrl,
+                new Protocols.Notification.Request.SlackWebHook
+                {
+                    username = notification.Name,
+                    channel = notification.Channel,
+                    icon_url = notification.IconUrl,
+                    text = $"<{feedData.Href}|<{feedData.FeedTitle}>[{feedData.ItemTitle}]> [{feedData.DateTime}]"
+                }
+            );
+        }
+
+        private async Task DiscordNotify(Notification notification, FeedData feedData)
+        {
+            await _httpClientFactory.RequestJson<Protocols.Notification.Response.DiscordWebHook>(HttpMethod.Post,
+                notification.HookUrl,
+                new Protocols.Notification.Request.DiscordWebHook
+                {
+                    username = notification.Name,
+                    avatar_url = notification.IconUrl,
+                    content = $"[<{feedData.FeedTitle}<{feedData.ItemTitle}]({feedData.Href}) <{feedData.DateTime}>"
                 }
             );
         }

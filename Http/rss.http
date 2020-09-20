@@ -1,0 +1,786 @@
+### Rss Get
+
+GET {{host}}/Rss
+
+
+### Rss Create Multi
+
+POST {{host}}/Rss/Multi
+Content-Type: application/json
+
+{
+	"RssDatas": [
+		{
+            "Url": "https://ppss.kr/archives/category/it/rss",
+            "Name": "ㅍㅍㅅㅅ"
+        },
+        {
+            "Url": "https://medium.com/feed/@ghilbut",
+            "Name": "김준형 (토스, LG전자 등)"
+        },
+        {
+            "Url": "https://blog.kivol.net/rss",
+            "Name": "흔한 개발자 (노리 CTO 조승연)"
+        },
+        {
+            "Url": "https://devblogs.microsoft.com/cppblog/feed/",
+            "Name": "C++ Team Blog"
+        },
+        {
+            "Url": "https://code.facebook.com/posts/rss",
+            "Name": "Facebook Engineering"
+        },
+        {
+            "Url": "http://code.google.com/feeds/updates.xml",
+            "Name": "Google Developers "
+        },
+        {
+            "Url": "http://www.ebaytechblog.com/feed/",
+            "Name": "eBay Tech Blog"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/TwitterBlog",
+            "Name": "Twitter Blog"
+        },
+        {
+            "Url": "https://medium.com/feed/netflix-techblog",
+            "Name": "Netflix TechBlog"
+        },
+        {
+            "Url": "https://blog.jetbrains.com/feed/",
+            "Name": "JetBrains: Developer Tools for Professionals and Teams – Company Blog | JetBrains"
+        },
+        {
+            "Url": "https://engineering.linkedin.com/blog.rss",
+            "Name": "LinkedIn Engineering"
+        },
+        {
+            "Url": "https://medium.com/feed/airbnb-engineering",
+            "Name": "Airbnb Engineering & Data Science"
+        },
+        {
+            "Url": "https://developer.amazon.com/blogs/home/feed/entries/atom",
+            "Name": "Amazon Developer Blogs"
+        },
+        {
+            "Url": "http://instagram-engineering.tumblr.com/rss",
+            "Name": "Instagram Engineering"
+        },
+        {
+            "Url": "https://medium.com/feed/paypal-engineering",
+            "Name": "PayPal Engineering"
+        },
+        {
+            "Url": "https://techcommunity.microsoft.com/gxcuf89792/rss/message?board.id=PlannerBlog&message.id=200",
+            "Name": "article New updates to Planner comment notifications and settings in Planner Blog"
+        },
+        {
+            "Url": "https://devblogs.microsoft.com/visualstudio/feed/",
+            "Name": "Visual Studio Blog"
+        },
+        {
+            "Url": "https://instagram-engineering.com/feed",
+            "Name": "Instagram Engineering"
+        },
+        {
+            "Url": "https://blogs.dropbox.com/tech/feed/",
+            "Name": "Dropbox Tech Blog"
+        },
+        {
+            "Url": "https://joshua1988.github.io/atom.xml",
+            "Name": "Captain Pangyo - Articles"
+        },
+        {
+            "Url": "http://dataninja.me/feed.xml",
+            "Name": "권재명"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@ERG",
+            "Name": "김석기"
+        },
+        {
+            "Url": "http://sunyzero.tistory.com/rss",
+            "Name": "김선영"
+        },
+        {
+            "Url": "http://jinhokwon.tistory.com/rss",
+            "Name": "권진호"
+        },
+        {
+            "Url": "http://charsyam.wordpress.com/feed/",
+            "Name": "강대명"
+        },
+        {
+            "Url": "http://xguru.net/feed",
+            "Name": "권정혁"
+        },
+        {
+            "Url": "https://wckhg89.github.io/feed.xml",
+            "Name": "강홍구"
+        },
+        {
+            "Url": "http://nolsigan.github.io/feed.xml",
+            "Name": "김범준"
+        },
+        {
+            "Url": "https://subokim.wordpress.com/feed/",
+            "Name": "김수보"
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/himskim",
+            "Name": "김명신"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@2MrI",
+            "Name": "김시은"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@YZF",
+            "Name": "곽민수"
+        },
+        {
+            "Url": "https://medium.com/feed/@beejei",
+            "Name": "김범진"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/mseokim011117.xml",
+            "Name": "김민서"
+        },
+        {
+            "Url": "https://iamnotokay.tistory.com/rss",
+            "Name": "I am not Okay"
+        },
+        {
+            "Url": "http://thoughts.chkwon.net/feed/",
+            "Name": "권창현"
+        },
+        {
+            "Url": "http://kwongyo.tistory.com/rss",
+            "Name": "권기호"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@PUo",
+            "Name": "김수민"
+        },
+        {
+            "Url": "http://daddynkidsmakers.blogspot.com/feeds/posts/default",
+            "Name": "강태욱"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@H9i",
+            "Name": "권용진"
+        },
+        {
+            "Url": "http://blog.nacyot.com/feed.xml",
+            "Name": "김대권"
+        },
+        {
+            "Url": "https://nesoy.github.io/atom.xml",
+            "Name": "권영재"
+        },
+        {
+            "Url": "http://alwayspr.tistory.com/rss",
+            "Name": "김민수"
+        },
+        {
+            "Url": "http://raccoonyy.github.io/rss/index.rss",
+            "Name": "김승호"
+        },
+        {
+            "Url": "https://kingbbode.github.io/feed.xml",
+            "Name": "권용근"
+        },
+        {
+            "Url": "http://kimbyeonghwan.tumblr.com/rss",
+            "Name": "김병환"
+        },
+        {
+            "Url": "https://rss.blog.naver.com/boyism.xml",
+            "Name": "RSS feed for boyism Blog"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@20dR",
+            "Name": "김성준의 린스타트업과 디자인씽킹"
+        },
+        {
+            "Url": "https://medium.com/feed/@khwsc1",
+            "Name": "권혁우"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@1fY0",
+            "Name": "강동혁"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@24SO",
+            "Name": "고종범"
+        },
+        {
+            "Url": "https://cheese10yun.github.io/feed.xml",
+            "Name": "김남윤"
+        },
+        {
+            "Url": "http://forest71.tistory.com/rss",
+            "Name": "구자철"
+        },
+        {
+            "Url": "https://oraora.tistory.com/rss",
+            "Name": "FSS"
+        },
+        {
+            "Url": "https://mayajuni.github.io/feed.xml",
+            "Name": "권동준"
+        },
+        {
+            "Url": "http://app-developer.tistory.com/rss",
+            "Name": "김용일"
+        },
+        {
+            "Url": "http://seokjun.kr/rss/",
+            "Name": "김석준"
+        },
+        {
+            "Url": "http://www.dokyun.pe.kr/rss",
+            "Name": "김도균"
+        },
+        {
+            "Url": "http://hhko.tistory.com/rss",
+            "Name": "고형호"
+        },
+        {
+            "Url": "http://interpiler.com/index.php/feed/",
+            "Name": "김상훈"
+        },
+        {
+            "Url": "https://feeds.feedburner.com/firejune",
+            "Name": "경준호"
+        },
+        {
+            "Url": "https://brunch.co.kr/atom/@@O1Z",
+            "Name": "김민석"
+        },
+        {
+            "Url": "https://dongwoo.blog/feed/",
+            "Name": "김동우"
+        },
+        {
+            "Url": "http://web-front-end.tistory.com/rss",
+            "Name": "권윤학"
+        },
+        {
+            "Url": "https://velopert.com/feed",
+            "Name": "김민준"
+        },
+        {
+            "Url": "https://medium.com/feed/@devholic",
+            "Name": "강성훈"
+        },
+        {
+            "Url": "https://mansoo-sw.blogspot.com/feeds/posts/default",
+            "Name": "김만수"
+        },
+        {
+            "Url": "https://elky84.github.io/feed.xml",
+            "Name": "김성훈"
+        },
+        {
+            "Url": "http://thdev.tech/feed.xml",
+            "Name": "권태환"
+        },
+        {
+            "Url": "http://bomjun.tistory.com/rss",
+            "Name": "김범준"
+        },
+        {
+            "Url": "http://shiren.github.io/feed.xml",
+            "Name": "김성호"
+        },
+        {
+            "Url": "http://blog.seulgi.kim/feeds/posts/default",
+            "Name": "김슬기"
+        },
+        {
+            "Url": "https://kwang82.blogspot.com/feeds/posts/default",
+            "Name": "김광현(광파리)"
+        },
+        {
+            "Url": "http://sungbine.github.io/feed.xml",
+            "Name": "김성빈"
+        },
+        {
+            "Url": "http://datajournal.kr/feed/",
+            "Name": "김영우"
+        },
+        {
+            "Url": "http://kangmyounghun.blogspot.com/feeds/posts/default",
+            "Name": "강명훈"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/theyearlyprophet/GGGO",
+            "Name": "구종만"
+        },
+        {
+            "Url": "https://b.luavis.kr/feed.xml",
+            "Name": "강성일"
+        },
+        {
+            "Url": "http://minjang.github.io/feed.xml",
+            "Name": "김민장"
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/kwon37xi",
+            "Name": "권남"
+        },
+        {
+            "Url": "http://mingeun.com/feed",
+            "Name": "김민근"
+        },
+        {
+            "Url": "http://insanehong.kr/rss.xml",
+            "Name": "김덕홍"
+        },
+        {
+            "Url": "http://sungjk.github.io/feed.xml",
+            "Name": "김성중"
+        },
+        {
+            "Url": "http://danielku.com/atom.xml",
+            "Name": "구교준"
+        },
+        {
+            "Url": "http://martian36.tistory.com/rss",
+            "Name": "김덕기"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@LOc",
+            "Name": "고명환"
+        },
+        {
+            "Url": "https://medium.com/feed/@shaynekang",
+            "Name": "강성희"
+        },
+        {
+            "Url": "http://j.mearie.org/rss",
+            "Name": "강성훈"
+        },
+        {
+            "Url": "http://wookje.github.io/rss/",
+            "Name": "권욱제"
+        },
+        {
+            "Url": "http://blog.hatemogi.com/rss",
+            "Name": "김대현"
+        },
+        {
+            "Url": "https://01010011.blog/feed/",
+            "Name": "강병수"
+        },
+        {
+            "Url": "https://harfangk.github.io/feed.xml",
+            "Name": "김봉현"
+        },
+        {
+            "Url": "https://hskang9.github.io/feed.xml",
+            "Name": "강형석"
+        },
+        {
+            "Url": "http://babysunmoon.tistory.com/rss",
+            "Name": "김수로"
+        },
+        {
+            "Url": "http://minieetea.com/feed",
+            "Name": "강미경"
+        },
+        {
+            "Url": "http://greemate.tistory.com/rss",
+            "Name": "김성현"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@3Y0",
+            "Name": "강진우"
+        },
+        {
+            "Url": "https://mingrammer.com/index.xml",
+            "Name": "권민재"
+        },
+        {
+            "Url": "https://taetaetae.github.io/atom.xml",
+            "Name": "권태관"
+        },
+        {
+            "Url": "http://dokonk.blogspot.com/feeds/posts/default",
+            "Name": "김도곤"
+        },
+        {
+            "Url": "http://keyassist.tistory.com/rss",
+            "Name": "김영웅"
+        },
+        {
+            "Url": "https://rss.blog.naver.com/lbs0718.xml",
+            "Name": "칡토스의 게임 개발"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/sckim007.xml",
+            "Name": "김선철"
+        },
+        {
+            "Url": "https://nolboo.kim/feed.xml",
+            "Name": "김놀부"
+        },
+        {
+            "Url": "https://rss.blog.naver.com/clauds.xml",
+            "Name": "아이티카노(IT Car Know)"
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/isao76",
+            "Name": "isao의 IT,게임번역소"
+        },
+        {
+            "Url": "http://blog.lael.be/feed",
+            "Name": "Lael's World"
+        },
+        {
+            "Url": "http://muzbox.tistory.com/rss",
+            "Name": "프리웨어 이야기"
+        },
+        {
+            "Url": "http://chauchau0.tistory.com/rss",
+            "Name": "동우리의 블로그"
+        },
+        {
+            "Url": "http://www.hatena.co.kr/rss",
+            "Name": "하테나"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/lazion",
+            "Name": "늑돌이네 라지온"
+        },
+        {
+            "Url": "http://bbs.ruliweb.com/news/board/11/rss",
+            "Name": "루리웹 - 루리웹 리뷰 게시판"
+        },
+        {
+            "Url": "https://brunch.co.kr/rss/@@34qN",
+            "Name": "Reasontobe"
+        },
+        {
+            "Url": "http://crazytigerlife.tistory.com/rss",
+            "Name": "자유로운 생활"
+        },
+        {
+            "Url": "http://estima.wordpress.com/feed/",
+            "Name": "에스티마의 인터넷이야기 EstimaStory.com"
+        },
+        {
+            "Url": "http://sacstory.tistory.com/rss",
+            "Name": "나긋한 개발 - 데비안 리눅스와 프로그램 언어"
+        },
+        {
+            "Url": "http://blog.leekyoungil.com/?feed=rss2",
+            "Name": "Kyoungil's Blog"
+        },
+        {
+            "Url": "http://mygony.com/feed",
+            "Name": "코드쓰는사람"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/laster40.xml",
+            "Name": "일상을 여행처럼..."
+        },
+        {
+            "Url": "http://khrislog.net/rss",
+            "Name": "khris'log"
+        },
+        {
+            "Url": "http://feedproxy.google.com/rickstrahl",
+            "Name": "Rick Strahl's Web Log"
+        },
+        {
+            "Url": "http://justhackem.wordpress.com/feed/",
+            "Name": "Just hack'em"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/CppTruths",
+            "Name": "C++ Truths"
+        },
+        {
+            "Url": "https://jacking75.github.io/feed.xml",
+            "Name": "jacking75"
+        },
+        {
+            "Url": "http://www.joelonsoftware.com/rss.xml",
+            "Name": "Joel on Software"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/crazytazo",
+            "Name": "벤자민로그"
+        },
+        {
+            "Url": "http://blog.xcoda.net/rss",
+            "Name": "악보쓰는 프로그래머"
+        },
+        {
+            "Url": "http://jeremyko.blogspot.com/feeds/posts/default",
+            "Name": "쭌안아빠"
+        },
+        {
+            "Url": "http://aker.tistory.com/rss",
+            "Name": "A Gangster World"
+        },
+        {
+            "Url": "http://luckyyowu.tistory.com/rss",
+            "Name": "요우의 내맘대로 블로그"
+        },
+        {
+            "Url": "http://blog.gaerae.com/feeds/posts/default",
+            "Name": "개발자스럽다"
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/oniondev",
+            "Name": "양파개발자 Sw의 블로그입니다^^"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/crisious.xml",
+            "Name": "Against All Odds."
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/parkpd",
+            "Name": "박피디의 게임 개발 이야기"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/gal_yong.xml",
+            "Name": "움직이는 게임서버"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/sangwook",
+            "Name": "이상욱"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/arcangeleri.xml",
+            "Name": "개발자"
+        },
+        {
+            "Url": "https://zzsza.github.io/feed.xml",
+            "Name": "어쩐지 오늘은"
+        },
+        {
+            "Url": "https://oddpoet.net/feed.xml",
+            "Name": "oddpoet’s étude"
+        },
+        {
+            "Url": "http://agile.egloos.com/index.xml",
+            "Name": "애자일 이야기"
+        },
+        {
+            "Url": "https://snutiise.github.io/feed.xml",
+            "Name": "0x00 - NULL"
+        },
+        {
+            "Url": "http://serverdown.tistory.com/rss",
+            "Name": "퇴근 후 서버다운"
+        },
+        {
+            "Url": "https://coolspeed.wordpress.com/feed/",
+            "Name": "coolspeed"
+        },
+        {
+            "Url": "https://perfectacle.github.io/atom.xml",
+            "Name": "오늘도 끄적끄적"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/sorkelf.xml",
+            "Name": "dx11 Vanica's Lifelog - 夢が夢で終わらないように"
+        },
+        {
+            "Url": "http://arcangeleri.tistory.com/rss",
+            "Name": "초코사랑"
+        },
+        {
+            "Url": "https://www.zerocho.com/api/rss.xml",
+            "Name": "ZeroCho Blog"
+        },
+        {
+            "Url": "http://hybrid0.tumblr.com/rss",
+            "Name": "Hybrid's Notes"
+        },
+        {
+            "Url": "https://libsora.so/index.xml",
+            "Name": "/usr/lib/libsora.so on /usr/lib/libsora.so"
+        },
+        {
+            "Url": "http://rss.egloos.com/blog/Agbird",
+            "Name": "gimmesilver's blog"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/imays.xml",
+            "Name": "imays게임엔진개발자"
+        },
+        {
+            "Url": "https://rss.blog.naver.com/hurinmon.xml",
+            "Name": "RSS feed for hurinmon Blog"
+        },
+        {
+            "Url": "http://mgun.tistory.com/rss",
+            "Name": "꽃 피는 봄이 오면..."
+        },
+        {
+            "Url": "http://jojoldu.tistory.com/rss",
+            "Name": "기억보단 기록을"
+        },
+        {
+            "Url": "http://westwoodforever.blogspot.com/feeds/posts/default",
+            "Name": "WestwoodForever's Dev Log"
+        },
+        {
+            "Url": "http://java.ihoney.pe.kr/rss",
+            "Name": "허니몬(Honeymon)의 자바guru"
+        },
+        {
+            "Url": "http://honsal.blogspot.kr/feeds/posts/default?alt=rss",
+            "Name": "Wolf Loves Fox :: 일상"
+        },
+        {
+            "Url": "http://lunapiece.net/Article/rss",
+            "Name": "Moon with C++ Programmer"
+        },
+        {
+            "Url": "http://kindtis.tistory.com/rss",
+            "Name": "Game Programmer Life"
+        },
+        {
+            "Url": "https://10yearscoder.tistory.com/rss",
+            "Name": "IT 프리랜서 이야기"
+        },
+        {
+            "Url": "http://whiteship.me/?feed=rss2",
+            "Name": "Whiteship's Epril"
+        },
+        {
+            "Url": "https://megayuchi.wordpress.com/feed/",
+            "Name": "yuchi's dev"
+        },
+        {
+            "Url": "https://joone.net/feed/",
+            "Name": "만화로 나누는 자유/오픈소스 소프트웨어 이야기"
+        },
+        {
+            "Url": "http://hyeonseok.com/rss/",
+            "Name": "신현석(Hyeonseok Shin)"
+        },
+        {
+            "Url": "http://www.sangkon.com/rss/",
+            "Name": "Sigmadream"
+        },
+        {
+            "Url": "https://woolbro.tistory.com/feed/",
+            "Name": "개발자 울이 노트"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/dlehddus84.xml",
+            "Name": "즐거운 개발자 :: 네이버  블로그"
+        },
+        {
+            "Url": "http://blog.rss.naver.com/kimbeast.xml",
+            "Name": "황제펭귄의 게임개발이야기 [여기는 한국]"
+        },
+        {
+            "Url": "https://engineering.linecorp.com/ko/blog/rss2",
+            "Name": "LINE ENGINEERING"
+        },
+        {
+            "Url": "http://d2.naver.com/d2.atom",
+            "Name": "D2 Blog"
+        },
+        {
+            "Url": "https://blog.banksalad.com/rss.xml",
+            "Name": "뱅크샐러드 블로그"
+        },
+        {
+            "Url": "http://woowabros.github.io/feed.xml",
+            "Name": "우아한형제들 기술 블로그"
+        },
+        {
+            "Url": "http://tmondev.blog.me/rss",
+            "Name": "티몬의 개발이야기"
+        },
+        {
+            "Url": "https://meetup.toast.com/rss",
+            "Name": "TOAST Meetup"
+        },
+        {
+            "Url": "http://we.weirdmeetup.com/feed/",
+            "Name": "이상한모임"
+        },
+        {
+            "Url": "https://zuminternet.github.io/feed.xml",
+            "Name": "ZUM 기술 블로그"
+        },
+        {
+            "Url": "https://tech.peoplefund.co.kr/feed.xml",
+            "Name": "Peoplefund Tech"
+        },
+        {
+            "Url": "http://tech.kakao.com/rss/",
+            "Name": "tech.kakao.com"
+        },
+        {
+            "Url": "https://tech.lezhin.com/rss",
+            "Name": "레진 기술 블로그"
+        },
+        {
+            "Url": "http://feeds.feedburner.com/skpreadme",
+            "Name": "README"
+        },
+        {
+            "Url": "http://spoqa.github.com/atom.xml",
+            "Name": "Spoqa tech blog"
+        },
+        {
+            "Url": "https://rss.blog.naver.com/teamwaldo.xml",
+            "Name": "팀 왈도 번역팀"
+        }
+	]
+}
+
+### Rss Create Multi
+
+POST {{host}}/Rss/Multi
+Content-Type: application/json
+
+{
+	"RssDatas": [
+		{
+			"Url": "http://elky84.github.io/feed.xml",
+			"Name": "Elky Essay"
+		}
+	]
+}
+
+
+### Rss Create
+
+POST {{host}}/Rss
+Content-Type: application/json
+
+{
+	"Url": "http://elky84.github.io/feed.xml",
+	"Name": "Elky Essay"
+}
+
+### Rss Get
+
+GET {{host}}/Rss/5f5a25cc6e6fbaf1a5e7ccca
+
+### Rss Update
+
+PUT {{host}}/Rss/5f5a25cc6e6fbaf1a5e7ccca
+Content-Type: application/json
+
+{
+	"Url": "http://elky84.github.io/feed.xml",
+	"Name": "Elky Essay"
+}
+
+### Rss Delete
+
+DELETE {{host}}/Rss/5f5a25cc6e6fbaf1a5e7ccca
+

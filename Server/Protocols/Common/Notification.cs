@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
@@ -24,5 +25,8 @@ namespace Server.Protocols.Common
         public string IconUrl { get; set; }
 
         public string SourceId { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CrawlingType CrawlingType { get; set; }
     }
 }

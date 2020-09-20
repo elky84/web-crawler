@@ -11,7 +11,7 @@ using WebCrawler.Models;
 
 namespace Server.Services
 {
-    public class CrawlingService
+    public class WebCrawlingService
     {
         private readonly MongoDbService _mongoDbService;
 
@@ -21,7 +21,7 @@ namespace Server.Services
 
         private readonly MongoDbUtil<CrawlingData> _mongoDbUtil;
 
-        public CrawlingService(MongoDbService mongoDbService,
+        public WebCrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
             NotificationService notificationService)
         {

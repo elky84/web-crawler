@@ -1,14 +1,10 @@
 ﻿using Abot2.Core;
 using Abot2.Crawler;
 using Abot2.Poco;
-using AngleSharp;
 using MongoDB.Driver;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Models;
@@ -25,10 +21,6 @@ namespace WebCrawler
         protected Source Source { get; set; }
 
         protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
-
-        protected int PagePerInterval { get; set; }
-
-        protected IMongoDatabase MongoDb { get; set; }
 
         public delegate Task CrawlDataDelegate(CrawlingData data);
 

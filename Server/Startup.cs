@@ -56,11 +56,16 @@ namespace Server
 
             services.AddTransient<MongoDbService>();
 
-            services.AddSingleton<IHostedService, CrawlingRepeatedService>();
+            services.AddSingleton<IHostedService, WebCrawlingRepeatedService>();
+            services.AddSingleton<IHostedService, FeedCrawlingRepeatedService>();
 
-            services.AddSingleton<CrawlingService>();
+            services.AddSingleton<WebCrawlingService>();
             services.AddSingleton<SourceService>();
+
             services.AddSingleton<NotificationService>();
+
+            services.AddSingleton<FeedCrawlingService>();
+            services.AddSingleton<RssService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

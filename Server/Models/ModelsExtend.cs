@@ -60,11 +60,12 @@ namespace Server.Models
                 HookUrl = notification.HookUrl,
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
-                SourceId = notification.SourceId
+                SourceId = notification.SourceId,
+                CrawlingType = notification.CrawlingType
             };
         }
 
-        public static Notification ToModel(this Protocols.Common.NotificationCreate notification, string sourceId)
+        public static Notification ToModel(this Protocols.Common.NotificationCreate notification, string sourceId = "")
         {
             return new Notification
             {
@@ -73,7 +74,8 @@ namespace Server.Models
                 HookUrl = notification.HookUrl,
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
-                SourceId = sourceId
+                SourceId = sourceId,
+                CrawlingType = notification.CrawlingType
             };
         }
 
@@ -115,6 +117,62 @@ namespace Server.Models
                 Title = crawling.Title,
                 DateTime = crawling.DateTime,
                 RowId = crawling.RowId
+            };
+        }
+
+
+        public static Protocols.Common.Rss ToProtocol(this FeedCrawler.Models.Rss rss)
+        {
+            return new Protocols.Common.Rss
+            {
+                Id = rss.Id,
+                Url = rss.Url,
+                Name = rss.Name,
+                Day = rss.Day
+            };
+        }
+
+        public static FeedCrawler.Models.Rss ToModel(this Protocols.Common.Rss rss)
+        {
+            return new FeedCrawler.Models.Rss
+            {
+                Id = rss.Id,
+                Url = rss.Url,
+                Name = rss.Name,
+                Day = rss.Day
+            };
+        }
+
+
+        public static Protocols.Common.FeedData ToProtocol(this FeedCrawler.Models.FeedData feed)
+        {
+            return new Protocols.Common.FeedData
+            {
+                Id = feed.Id,
+                FeedTitle = feed.FeedTitle,
+                Description = feed.Description,
+                Href = feed.Href,
+                DateTime = feed.DateTime,
+                Url = feed.Url,
+                ItemTitle = feed.ItemTitle,
+                ItemAuthor = feed.ItemAuthor,
+                ItemContent = feed.ItemContent
+            };
+        }
+
+        public static FeedCrawler.Models.FeedData ToModel(this Protocols.Common.FeedData feed)
+        {
+            return new FeedCrawler.Models.FeedData
+            {
+                Id = feed.Id,
+                FeedTitle = feed.FeedTitle,
+                Description = feed.Description,
+                Href = feed.Href,
+                DateTime = feed.DateTime,
+                Url = feed.Url,
+                ItemTitle = feed.ItemTitle,
+                ItemAuthor = feed.ItemAuthor,
+                ItemContent = feed.ItemContent
             };
         }
 

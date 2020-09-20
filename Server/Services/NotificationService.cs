@@ -230,7 +230,7 @@ namespace Server.Services
                 {
                     username = notification.Name,
                     avatar_url = notification.IconUrl,
-                    content = $"[<{feedData.FeedTitle}<{feedData.ItemTitle}]({feedData.Href}) <{feedData.DateTime}>"
+                    content = $"[<{feedData.FeedTitle}>{feedData.ItemTitle}]({feedData.Href}) <{feedData.DateTime}>"
                 }
             );
         }

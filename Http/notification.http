@@ -52,14 +52,6 @@ Content-Type: application/json
 		},
         {
 			"Type": "Discord",
-			"Name": "유머 베스트",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "유머 베스트"
-		},
-        {
-			"Type": "Discord",
 			"Name": "베오베",
             "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
@@ -123,14 +115,6 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "Ruliweb",
             "BoardName": "많이 본 글"
-		},
-                {
-			"Type": "Discord",
-			"Name": "유머 베스트",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "유머 베스트"
 		},
         {
 			"Type": "Discord",

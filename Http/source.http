@@ -10,6 +10,11 @@ Content-Type: application/json
 
 {
 	"SourceDatas": [
+		{
+			"Type": "Ruliweb",
+			"BoardId": "best",
+			"Name": "유머 베스트"
+		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "market/board/1020",

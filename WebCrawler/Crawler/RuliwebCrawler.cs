@@ -35,9 +35,11 @@ namespace WebCrawler
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
 
-            var tdHref = document.QuerySelectorAll("tbody tr td")
-                .Where(x => x.ClassName == "subject" && x.QuerySelector("a") != null)
-                .Select(x => x.QuerySelector("a").GetAttribute("href"))
+            var tdHref = document.QuerySelectorAll("tbody tr")
+                .Where(x => x.ClassName == "table_body")
+                .Select(x => x.QuerySelectorAll("td"))
+                .SelectMany(x => x.Where(y => y.ClassName == "subject" && y.QuerySelector("a") != null)
+                                  .Select(y => y.QuerySelector("a").GetAttribute("href")))
                 .Where(x => x.StartsWith("http"))
                 .ToArray();
 

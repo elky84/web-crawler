@@ -79,6 +79,13 @@ namespace cli
                 BoardId = "best/selection",
                 Name = "베스트"
             }).RunAsync();
+
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "best",
+                Name = "유머베스트"
+            }).RunAsync();
         }
     }
 }

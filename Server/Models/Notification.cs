@@ -23,9 +23,5 @@ namespace Server.Models
         public string IconUrl { get; set; }
 
         public string SourceId { get; set; }
-
-        public int CountBaseLine { get; set; } = 0;
-
-        public int RecommendBaseLine { get; set; } = 0;
     }
 }

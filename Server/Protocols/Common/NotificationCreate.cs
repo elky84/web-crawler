@@ -26,9 +26,5 @@ namespace Server.Protocols.Common
         public CrawlingType CrawlingType { get; set; }
 
         public string BoardName { get; set; }
-
-        public int CountBaseLine { get; set; }
-
-        public int RecommendBaseLine { get; set; }
     }
 }

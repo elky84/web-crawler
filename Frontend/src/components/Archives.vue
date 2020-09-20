@@ -21,9 +21,9 @@
             <span class="header">글 제목</span>
             <span class="arrow" :class="toArrow('Title')"/>
           </th>
-          <th width="150px" v-on:click="sortBy('Datetime')">
+          <th width="150px" v-on:click="sortBy('DateTime')">
             <span class="header">시간</span>
-            <span class="arrow" :class="toArrow('Datetime')"/>
+            <span class="arrow" :class="toArrow('DateTime')"/>
           </th>
           <th width="70px" v-on:click="sortBy('Count')">
             <span class="header">읽음</span>
@@ -42,7 +42,7 @@
             </td>
             <td align="center"><span class="category">{{archive.category}}</span></td>
             <td align="left"><span class="title"><a v-bind:href=archive.href>{{archive.title}}</a></span></td>
-            <td align="center"><span class="time">{{momentTime(archive.date)}}</span></td>
+            <td align="center"><span class="time">{{momentTime(archive.dateTime)}}</span></td>
             <td align="center"><span class="count">{{abbreviation(archive.count)}}</span></td>
           </tr>
         </template>
@@ -79,7 +79,7 @@ export default {
       searchData: {},
       sort: undefined,
       asc: true,
-      orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, Datetime: null }
+      orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, DateTime: null }
     }
   },
   mounted () {

@@ -128,20 +128,20 @@ namespace Server.Services
         public async Task Execute(FilterDefinition<Notification> filter, CrawlingData crawlingData)
         {
             var notifications = await Get(filter);
-            Parallel.ForEach(notifications, notification =>
+            foreach (var notification in notifications)
             {
                 switch (notification.Type)
                 {
                     case Code.NotificationType.Slack:
-                        _ = SlackNotify(notification, crawlingData);
+                        await SlackNotify(notification, crawlingData);
                         break;
                     case Code.NotificationType.Discord:
-                        _ = DiscordNotify(notification, crawlingData);
+                        await DiscordNotify(notification, crawlingData);
                         break;
                     default:
                         throw new DeveloperException(Code.ResultCode.NotImplementedYet);
                 }
-            });
+            }
         }
 
         private async Task SlackNotify(Notification notification, CrawlingData crawlingData)

@@ -57,6 +57,14 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "TodayHumor",
             "BoardName": "베오베"
+		},
+        {
+			"Type": "Discord",
+			"Name": "축구 뉴스",
+            "IconUrl": "https://pbs.twimg.com/profile_images/1119513037902438400/VCzygL7m_400x400.png",
+            "HookUrl": "https://discordapp.com/api/webhooks/757111653832589412/JgGoutmu-ZrN6VVMUrm8kOGR0pk1WKd74TVig5UNBlrkwEMUYqC2-d4T3wY3Q-yltp8w",
+            "CrawlingType": "FmKorea",
+            "BoardName": "축구 뉴스"
 		}
 	]
 }

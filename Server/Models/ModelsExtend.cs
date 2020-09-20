@@ -73,9 +73,7 @@ namespace Server.Models
                 HookUrl = notification.HookUrl,
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
-                SourceId = sourceId,
-                CountBaseLine = notification.CountBaseLine,
-                RecommendBaseLine = notification.RecommendBaseLine
+                SourceId = sourceId
             };
         }
 

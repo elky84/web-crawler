@@ -23,6 +23,6 @@ namespace Server.Protocols.Common
 
         public int PageMax { get; set; } = 5;
 
-        public int Interval { get; set; } = 200;
+        public int Interval { get; set; } = 1;
     }
 }

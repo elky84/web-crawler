@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Server.Code
+namespace Server.Protocols.Notification.Response
 {
-    public enum NotificationType
+    public class DiscordWebHook
     {
-        Slack,
-        Discord,
     }
 }

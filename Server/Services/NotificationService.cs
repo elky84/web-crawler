@@ -130,24 +130,49 @@ namespace Server.Services
             var notifications = await Get(filter);
             Parallel.ForEach(notifications, notification =>
             {
-                if (notification.Type != Code.NotificationType.Slack)
+                switch (notification.Type)
                 {
-                    return;
+                    case Code.NotificationType.Slack:
+                        _ = SlackNotify(notification, crawlingData);
+                        break;
+                    case Code.NotificationType.Discord:
+                        _ = DiscordNotify(notification, crawlingData);
+                        break;
+                    default:
+                        throw new DeveloperException(Code.ResultCode.NotImplementedYet);
                 }
-
-                var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
-
-                _ = _httpClientFactory.RequestJson<Protocols.Slack.Response.WebHook>(HttpMethod.Post,
-                    notification.HookUrl,
-                    new Protocols.Slack.Request.WebHook
-                    {
-                        username = notification.Name,
-                        channel = notification.Channel,
-                        icon_url = notification.IconUrl,
-                        text = $"<{crawlingData.Href}|{category}{crawlingData.Title}> [{crawlingData.DateTime}]"
-                    }
-                );
             });
+        }
+
+        private async Task SlackNotify(Notification notification, CrawlingData crawlingData)
+        {
+            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
+
+            await _httpClientFactory.RequestJson<Protocols.Notification.Response.SlackWebHook>(HttpMethod.Post,
+                notification.HookUrl,
+                new Protocols.Notification.Request.SlackWebHook
+                {
+                    username = notification.Name,
+                    channel = notification.Channel,
+                    icon_url = notification.IconUrl,
+                    text = $"<{crawlingData.Href}|{category}{crawlingData.Title}> [{crawlingData.DateTime}]"
+                }
+            );
+        }
+
+        private async Task DiscordNotify(Notification notification, CrawlingData crawlingData)
+        {
+            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
+
+            await _httpClientFactory.RequestJson<Protocols.Notification.Response.DiscordWebHook>(HttpMethod.Post,
+                notification.HookUrl,
+                new Protocols.Notification.Request.DiscordWebHook
+                {
+                    username = notification.Name,
+                    avatar_url = notification.IconUrl,
+                    content = $"[{category}{crawlingData.Title}]({crawlingData.Href}) <{crawlingData.DateTime}>"
+                }
+            );
         }
     }
 }

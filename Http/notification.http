@@ -3,7 +3,125 @@
 GET {{host}}/Notification
 
 
-### Notification Create Multi
+### Notification Create Multi Discord
+
+POST {{host}}/Notification/Multi
+Content-Type: application/json
+
+{
+	"NotificationDatas": [
+        {
+			"Type": "Discord",
+			"Name": "중고장터",
+            "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093885569663077/RaNvzjzoIrFTZDhutMEFq9pRQlqpkSqLChH8CcB2SDsMjY-gbghowJn0DGn-Lg09vSNj",
+            "CrawlingType": "Clien",
+            "BoardName": "회원중고장터"
+		},
+        {
+			"Type": "Discord",
+			"Name": "핫딜",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "핫딜게시판"
+		},
+        {
+			"Type": "Discord",
+			"Name": "콘솔뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093886328832130/jKs9EL3-Q7XzP1f6tJUXDGu-SOEAQHWzrR42MfJwz0NB2jpAWsBVoTb8sm7Tt7YTub47",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "콘솔뉴스"
+		},
+        {
+			"Type": "Discord",
+			"Name": "PC뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/749487855423717480/Nv35ssFNegqBdzpMiG5lTQYM9P4B8uff_hGcbwAvECt51zyq9vwOGyDAI86LiDzneoQb",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "PC뉴스"
+		},
+        {
+			"Type": "Discord",
+			"Name": "많이 본 글",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "많이 본 글"
+		},
+        {
+			"Type": "Discord",
+			"Name": "베오베",
+            "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
+            "CrawlingType": "TodayHumor",
+            "BoardName": "베오베"
+		}
+	]
+}
+
+### Notification Create Multi Discord (for local debug)
+
+POST {{host}}/Notification/Multi
+Content-Type: application/json
+
+{
+	"NotificationDatas": [
+        {
+			"Type": "Discord",
+			"Name": "중고장터",
+            "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Clien",
+            "BoardName": "회원중고장터"
+		},
+        {
+			"Type": "Discord",
+			"Name": "핫딜",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "핫딜게시판"
+		},
+        {
+			"Type": "Discord",
+			"Name": "콘솔뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "콘솔뉴스"
+		},
+        {
+			"Type": "Discord",
+			"Name": "PC뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "PC뉴스"
+		},
+        {
+			"Type": "Discord",
+			"Name": "많이 본 글",
+            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "Ruliweb",
+            "BoardName": "많이 본 글"
+		},
+        {
+			"Type": "Discord",
+			"Name": "베오베",
+            "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "TodayHumor",
+            "BoardName": "베오베"
+		}
+	]
+}
+
+
+
+### Notification Create Multi Slack
 
 POST {{host}}/Notification/Multi
 Content-Type: application/json
@@ -12,7 +130,7 @@ Content-Type: application/json
 	"NotificationDatas": [
         {
 			"Type": "Slack",
-			"Name": "[클리앙] 장터",
+			"Name": "장터",
             "Channel": "C01AW5D68Q3",
             "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -21,7 +139,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 핫딜",
+			"Name": "핫딜",
             "Channel": "CMEGGHK3J",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -30,7 +148,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 콘솔뉴스",
+			"Name": "콘솔뉴스",
             "Channel": "CMGCFNG6B",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -39,7 +157,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] PC뉴스",
+			"Name": "PC뉴스",
             "Channel": "C017G0KHBKM",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -48,7 +166,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 많이 본 글",
+			"Name": "많이 본 글",
             "Channel": "C01AW22MX5Y",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -57,7 +175,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[펨코] 축구 뉴스",
+			"Name": "축구 뉴스",
             "Channel": "CMEGGM5NC",
             "IconUrl": "https://pbs.twimg.com/profile_images/1119513037902438400/VCzygL7m_400x400.png",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -66,7 +184,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[오유] 베오베",
+			"Name": "베오베",
             "Channel": "C01AW22MX5Y",
             "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -76,7 +194,7 @@ Content-Type: application/json
 	]
 }
 
-### Notification Create Multi (for local debug)
+### Notification Create Multi Slack (for local debug)
 
 POST {{host}}/Notification/Multi
 Content-Type: application/json
@@ -85,7 +203,7 @@ Content-Type: application/json
 	"NotificationDatas": [
         {
 			"Type": "Slack",
-			"Name": "[클리앙] 장터",
+			"Name": "장터",
             "Channel": "C01AVLPP1U5",
             "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -94,7 +212,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 핫딜",
+			"Name": "핫딜",
             "Channel": "C01AVLPP1U5",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -103,7 +221,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 콘솔뉴스",
+			"Name": "콘솔뉴스",
             "Channel": "C01AVLPP1U5",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -112,7 +230,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] PC뉴스",
+			"Name": "PC뉴스",
             "Channel": "C01AVLPP1U5",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -121,7 +239,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[루리웹] 많이 본 글",
+			"Name": "많이 본 글",
             "Channel": "C01AW22MX5Y",
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://hooks.slack.com/services/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",
@@ -130,7 +248,7 @@ Content-Type: application/json
 		},
         {
 			"Type": "Slack",
-			"Name": "[펨코] 축구 뉴스",
+			"Name": "축구 뉴스",
             "Channel": "C01AVLPP1U5",
             "IconUrl": "https://pbs.twimg.com/profile_images/1119513037902438400/VCzygL7m_400x400.png",
             "HookUrl": "https://hooks.slack.com/services/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",

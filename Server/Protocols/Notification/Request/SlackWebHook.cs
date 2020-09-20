@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Server.Protocols.Slack.Request
+namespace Server.Protocols.Notification.Request
 {
-    public class WebHook
+    public class SlackWebHook
     {
 #pragma warning disable IDE1006 // Naming Styles
         public string text { get; set; }

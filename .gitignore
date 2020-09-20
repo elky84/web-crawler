@@ -351,3 +351,6 @@ MigrationBackup/
 
 # production settings
 appsettings.Production.json
+
+# local config
+deploy_*.bat

@@ -135,12 +135,6 @@ namespace Server.Services
                     return;
                 }
 
-                if (notification.CountBaseLine > crawlingData.Count ||
-                    notification.RecommendBaseLine > crawlingData.Recommend)
-                {
-                    return;
-                }
-
                 var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
 
                 _ = _httpClientFactory.RequestJson<Protocols.Slack.Response.WebHook>(HttpMethod.Post,

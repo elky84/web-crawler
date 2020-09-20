@@ -35,6 +35,7 @@ namespace WebCrawler.Models
 
         public string Title { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime DateTime { get; set; }
 
         public long? RowId { get; set; }

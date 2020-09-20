@@ -24,9 +24,5 @@ namespace Server.Protocols.Common
         public string IconUrl { get; set; }
 
         public string SourceId { get; set; }
-
-        public int CountBaseLine { get; set; }
-
-        public int RecommendBaseLine { get; set; }
     }
 }

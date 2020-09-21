@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebUtil.HttpClient
+namespace WebUtil.Util
 {
     public static class HttpClientUtil
     {

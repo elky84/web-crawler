@@ -6,9 +6,11 @@ using Server.Models;
 using System.Collections.Generic;
 using Server.Exception;
 using System.Net.Http;
-using WebUtil.HttpClient;
 using WebCrawler.Models;
 using FeedCrawler.Models;
+using System.Linq;
+using System;
+using System.Collections.Concurrent;
 
 namespace Server.Services
 {
@@ -16,9 +18,12 @@ namespace Server.Services
     {
         private readonly MongoDbUtil<Notification> _mongoDbNotification;
 
+
         private readonly IHttpClientFactory _httpClientFactory;
 
         private readonly SourceService _sourceService;
+
+        private readonly ConcurrentDictionary<string, List<Func<Task>>> _httpTasks = new ConcurrentDictionary<string, List<Func<Task>>>();
 
         public NotificationService(MongoDbService mongoDbService,
             IHttpClientFactory httpClientFactory,
@@ -26,6 +31,7 @@ namespace Server.Services
         {
             _mongoDbNotification = new MongoDbUtil<Notification>(mongoDbService.Database);
             _httpClientFactory = httpClientFactory;
+
             _sourceService = sourceService;
         }
 
@@ -143,13 +149,19 @@ namespace Server.Services
             var notifications = await Get(filter);
             foreach (var notification in notifications)
             {
+                if (false == _httpTasks.TryGetValue(notification.HookUrl, out var httpTaskList))
+                {
+                    httpTaskList = new List<Func<Task>>();
+                    _httpTasks.TryAdd(notification.HookUrl, httpTaskList);
+                }
+
                 switch (notification.Type)
                 {
                     case Code.NotificationType.Slack:
-                        await SlackNotify(notification, crawlingData);
+                        httpTaskList.Add(() => _ = SlackNotify(notification, crawlingData));
                         break;
                     case Code.NotificationType.Discord:
-                        await DiscordNotify(notification, crawlingData);
+                        httpTaskList.Add(() => _ = DiscordNotify(notification, crawlingData));
                         break;
                     default:
                         throw new DeveloperException(Code.ResultCode.NotImplementedYet);
@@ -194,17 +206,24 @@ namespace Server.Services
             var notifications = await Get(filter);
             foreach (var notification in notifications)
             {
-                switch (notification.Type)
+                if (false == _httpTasks.TryGetValue(notification.HookUrl, out var httpTaskList))
                 {
-                    case Code.NotificationType.Slack:
-                        await SlackNotify(notification, feedData);
-                        break;
-                    case Code.NotificationType.Discord:
-                        await DiscordNotify(notification, feedData);
-                        break;
-                    default:
-                        throw new DeveloperException(Code.ResultCode.NotImplementedYet);
+                    httpTaskList = new List<Func<Task>>();
+                    _httpTasks.TryAdd(notification.HookUrl, httpTaskList);
                 }
+
+                if (httpTaskList == null)
+                    switch (notification.Type)
+                    {
+                        case Code.NotificationType.Slack:
+                            httpTaskList.Add(() => _ = SlackNotify(notification, feedData));
+                            break;
+                        case Code.NotificationType.Discord:
+                            httpTaskList.Add(() => _ = DiscordNotify(notification, feedData));
+                            break;
+                        default:
+                            throw new DeveloperException(Code.ResultCode.NotImplementedYet);
+                    }
             }
         }
 
@@ -233,6 +252,17 @@ namespace Server.Services
                     content = $"[<{feedData.FeedTitle}>{feedData.ItemTitle}]({feedData.Href}) <{feedData.DateTime}>"
                 }
             );
+        }
+
+        public async Task HttpTaskRun(int count)
+        {
+            foreach (var httpTaskList in _httpTasks)
+            {
+                var tasks = httpTaskList.Value.Take(count).ToList();
+                httpTaskList.Value.RemoveRange(0, Math.Min(tasks.Count, count));
+
+                await Task.WhenAll(tasks.Select(x => x.Invoke()));
+            }
         }
     }
 }

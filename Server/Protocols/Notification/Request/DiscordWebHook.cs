@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace Server.Protocols.Notification.Request
 
         public string avatar_url { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
+
+        [JsonIgnore]
+        public string HookUrl { get; set; }
     }
 }

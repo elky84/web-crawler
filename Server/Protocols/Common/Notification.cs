@@ -28,5 +28,8 @@ namespace Server.Protocols.Common
 
         [JsonConverter(typeof(StringEnumConverter))]
         public CrawlingType CrawlingType { get; set; }
+
+        public string Keyword { get; set; }
+
     }
 }

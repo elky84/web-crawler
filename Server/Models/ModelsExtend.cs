@@ -46,7 +46,8 @@ namespace Server.Models
                 HookUrl = notification.HookUrl,
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
-                SourceId = notification.SourceId
+                SourceId = notification.SourceId,
+                Keyword = notification.Keyword
             };
         }
 
@@ -61,7 +62,8 @@ namespace Server.Models
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
                 SourceId = notification.SourceId,
-                CrawlingType = notification.CrawlingType
+                CrawlingType = notification.CrawlingType,
+                Keyword = notification.Keyword
             };
         }
 
@@ -75,7 +77,8 @@ namespace Server.Models
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
                 SourceId = sourceId,
-                CrawlingType = notification.CrawlingType
+                CrawlingType = notification.CrawlingType,
+                Keyword = notification.Keyword
             };
         }
 

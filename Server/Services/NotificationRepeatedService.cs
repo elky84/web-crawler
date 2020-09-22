@@ -11,7 +11,7 @@ namespace Server.Services
 
         private readonly ILogger<NotificationRepeatedService> _logger;
         public NotificationRepeatedService(ILogger<NotificationRepeatedService> logger, NotificationService notificationService)
-            : base(logger, new TimeSpan(0, 0, 3))
+            : base(logger, new TimeSpan(0, 0, 5))
         {
             _notificationService = notificationService;
             _logger = logger;
@@ -19,8 +19,7 @@ namespace Server.Services
 
         protected override void DoWork(object state)
         {
-            // 임의로 Discord 제한에 맞춤
-            _ = _notificationService.HttpTaskRun(5);
+            _ = _notificationService.HttpTaskRun();
         }
     }
 }

@@ -14,37 +14,31 @@ namespace WebUtil.Util
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-
-        public static async Task<T> Request<T>(this IHttpClientFactory httpClientFactory,
-            HttpMethod httpMethod,
-            string url,
-            Action<HttpRequestMessage> preAction = null)
-        {
-            using var client = httpClientFactory.CreateClient();
-            var request = new HttpRequestMessage(httpMethod, url);
-            preAction?.Invoke(request);
-            var response = await client.SendAsync(request);
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-        }
-
-        public static async Task<T> RequestJson<T>(this IHttpClientFactory httpClientFactory,
-                HttpMethod httpMethod,
-                string url,
-                string body)
-        {
-            using var client = httpClientFactory.CreateClient();
-            var request = new HttpRequestMessage(httpMethod, url);
-            request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-            var response = await client.SendAsync(request);
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-        }
-
         public static async Task<T> RequestJson<T>(this IHttpClientFactory httpClientFactory,
             HttpMethod httpMethod,
             string url,
             object body)
         {
-            return await httpClientFactory.RequestJson<T>(httpMethod, url, JsonConvert.SerializeObject(body));
+            var response = await httpClientFactory.RequestJson(httpMethod, url, JsonConvert.SerializeObject(body));
+            return await response.ResponseDeserialize<T>();
+        }
+
+        public static async Task<HttpResponseMessage> RequestJson(this IHttpClientFactory httpClientFactory,
+            HttpMethod httpMethod,
+            string url,
+            object body)
+        {
+            using var client = httpClientFactory.CreateClient();
+            var request = new HttpRequestMessage(httpMethod, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json")
+            };
+            return await client.SendAsync(request);
+        }
+
+        private static async Task<T> ResponseDeserialize<T>(this HttpResponseMessage httpResponse)
+        {
+            return JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
         }
     }
 }

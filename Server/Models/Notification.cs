@@ -23,6 +23,8 @@ namespace Server.Models
 
         public string IconUrl { get; set; }
 
+        public string Keyword { get; set; }
+
         [BsonRepresentation(BsonType.String)]
         public CrawlingType CrawlingType { get; set; }
 

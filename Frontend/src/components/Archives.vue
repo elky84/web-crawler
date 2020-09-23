@@ -137,9 +137,9 @@ export default {
       viewPageCount: 1,
       totalItems: 0,
       searchData: { limit: LIMIT_TYPES[0] },
-      sort: undefined,
-      asc: true,
-      orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, DateTime: null }
+      sort: 'DateTime',
+      asc: false,
+      orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, DateTime: -1 }
     }
   },
   mounted () {
@@ -245,15 +245,17 @@ export default {
 }
 .arrow.asc {
     display: inline-block;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-bottom: 3px solid #FFFFFF;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #FFFFFF;
+    border-bottom-color: #0089ff;
 }
 .arrow.dsc {
     display: inline-block;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-top: 3px solid #FFFFFF;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #FFFFFF;
+    border-top-color: #0089ff;
 }
 .badge {
   font-size: 1em !important;

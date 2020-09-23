@@ -48,7 +48,7 @@ namespace FeedCrawler
                         ItemAuthor = item.Author,
                         ItemContent = item.Content,
                         FeedTitle = feed.Title,
-                        Href = feed.Link,
+                        Href = item.Link,
                         DateTime = feed.LastUpdatedDate.GetValueOrDefault(DateTime.Now)
                     };
 

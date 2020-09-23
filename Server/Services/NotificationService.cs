@@ -288,7 +288,7 @@ namespace Server.Services
                     var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
                     var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
                     var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (response.IsSuccessStatusCode)
                     {
                         processList.Add(webHook);
                     }

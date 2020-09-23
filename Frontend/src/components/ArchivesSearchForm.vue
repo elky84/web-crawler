@@ -7,7 +7,7 @@
             <option :value=null>타입 (전체)</option>
             <option v-for="(value, key) in ARCHIVES_TYPES" :value="key" :key="value.text">{{value.text}}</option>
           </select>
-          <select class="col-md-1 form-control form-control-sm" @change="changeLimit()" v-model="limit" name="limit">
+          <select class="col-md-1 form-control form-control-sm" @change="search()" v-model="searchProtocol.limit" name="limit">
             <option v-for="(value) in LIMIT_TYPES" :value="value" :key="value">{{value}}</option>
           </select>
           <button type="submit" class="btn btn-sm btn-primary">검색<i class="fa fa-sm fa-search"></i></button>&nbsp;
@@ -26,7 +26,8 @@ import {
 
 const SEARCH_PROTOCOL = {
   type: null,
-  keyword: null
+  keyword: null,
+  limit: LIMIT_TYPES[0]
 }
 Object.freeze(SEARCH_PROTOCOL)
 
@@ -35,8 +36,7 @@ export default {
     return {
       searchProtocol: Object.assign({}, SEARCH_PROTOCOL),
       ARCHIVES_TYPES: ARCHIVES_TYPES,
-      LIMIT_TYPES: LIMIT_TYPES,
-      limit: LIMIT_TYPES[0]
+      LIMIT_TYPES: LIMIT_TYPES
     }
   },
   beforeMount () {
@@ -57,12 +57,9 @@ export default {
       this.$localStorage.set('searchProtocol', JSON.stringify(this.searchProtocol))
       this.$emit('searching', this.searchProtocol)
     },
-    changeLimit () {
-      this.$emit('changeLimit', this.limit)
-    },
     reset () {
       this.searchProtocol = Object.assign({}, SEARCH_PROTOCOL)
-      this.limit = LIMIT_TYPES[0]
+
       this.$localStorage.set('searchProtocol', null)
       this.$emit('searching', this.searchProtocol)
     }

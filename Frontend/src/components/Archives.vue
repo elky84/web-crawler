@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <archives-searchForm @searching="parentSearching(... arguments)" @changeLimit="changeLimit(... arguments)" ref="searchForm"/>
+    <archives-searchForm @searching="parentSearching(... arguments)" ref="searchForm"/>
 
     <table class="table table-bordered">
       <thead class="thead-dark">
@@ -49,7 +49,7 @@
       </tbody>
     </table>
 
-    <b-pagination align="center" size="md" v-model="currentPage" :limit="20" :total-rows="totalItems" :per-page="limit" @change="listing(... arguments)" />
+    <b-pagination align="center" size="md" v-model="currentPage" :limit="20" :total-rows="totalItems" :per-page="searchData.limit" @change="listing(... arguments)" />
   </div>
 </template>
 
@@ -75,8 +75,7 @@ export default {
       currentPage: 1,
       viewPageCount: 1,
       totalItems: 0,
-      limit: LIMIT_TYPES[0],
-      searchData: {},
+      searchData: { limit: LIMIT_TYPES[0] },
       sort: undefined,
       asc: true,
       orderState: { Category: null, BoardName: null, Title: null, Type: null, Count: null, DateTime: null }
@@ -85,6 +84,15 @@ export default {
   mounted () {
     if (!this.searchData) {
       this.getArchives(this.searchData)
+    }
+  },
+  computed: {
+    isMobile () {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -101,13 +109,12 @@ export default {
       return ArchivesUtils.substr(str)
     },
     getArchives (searchData) {
-      this.searchData = searchData
+      this.searchData = Object.assign({}, searchData)
 
       var vm = this
       this.$http.get(`${process.env.VUE_APP_URL_BACKEND}/Crawling`, {
         params: {
-          offset: this.limit * (this.currentPage - 1),
-          limit: this.limit,
+          offset: this.searchData.limit * (this.currentPage - 1),
           sort: this.sort,
           asc: this.asc
         },
@@ -120,14 +127,20 @@ export default {
           })
         } })
         .then((result) => {
-          console.log(result)
-          this.viewPageCount = Math.ceil(result.data.total / this.limit)
+          this.viewPageCount = Math.ceil(result.data.total / this.searchData.limit)
           this.totalItems = result.data.total
 
           vm.archives = result.data.crawlingDatas
         })
     },
     parentSearching (searchData) {
+      console.log(JSON.stringify(this.searchData))
+      console.log(JSON.stringify(searchData))
+
+      if (JSON.stringify(this.searchData) !== JSON.stringify(searchData)) {
+        this.currentPage = 1
+      }
+
       this.getArchives(searchData)
     },
     listing (page) {
@@ -155,10 +168,6 @@ export default {
     },
     onClickLink (archive, index) {
       window.open(archive.href, '_blank')
-    },
-    changeLimit (limit) {
-      this.limit = limit
-      this.getArchives(this.searchData)
     }
   }
 }

@@ -4,46 +4,107 @@
 
     <table class="table table-bordered">
       <thead class="thead-dark">
-        <tr class="text-center">
-          <th width="120px" v-on:click="sortBy('Type')">
+        <tr class="text-center" v-if="!isMobile">
+          <th width="120" v-on:click="sortBy('Type')">
             <span class="header">사이트</span>
             <span class="arrow" :class="toArrow('Type')"/>
           </th>
-          <th width="120px" v-on:click="sortBy('BoardName')">
+          <th width="120" v-on:click="sortBy('BoardName')">
             <span class="header">게시판</span>
             <span class="arrow" :class="toArrow('BoardName')"/>
           </th>
-          <th width="120px" v-on:click="sortBy('Category')">
+          <th width="120" v-on:click="sortBy('Category')">
             <span class="header">카테고리</span>
             <span class="arrow" :class="toArrow('Category')"/>
           </th>
           <th v-on:click="sortBy('Title')">
-            <span class="header">글 제목</span>
+            <span class="header">제목</span>
             <span class="arrow" :class="toArrow('Title')"/>
           </th>
-          <th width="150px" v-on:click="sortBy('DateTime')">
+          <th width="120" v-on:click="sortBy('DateTime')">
             <span class="header">시간</span>
             <span class="arrow" :class="toArrow('DateTime')"/>
           </th>
-          <th width="70px" v-on:click="sortBy('Count')">
+          <th width="120" v-on:click="sortBy('Count')">
             <span class="header">읽음</span>
             <span class="arrow" :class="toArrow('Count')"/>
+          </th>
+        </tr>
+        <tr v-else>
+          <th class="th-mobile">
+            <span class="header">게시글</span>
           </th>
         </tr>
       </thead>
       <tbody>
         <template v-for="(archive, index) in archives">
-          <tr class="cursor-pointer" :key="archive._id" @click.prevent="onClickLink(archive, index)">
-            <td align="center"><span class="type">{{archive.type}}</span></td>
+          <tr class="cursor-pointer" :key="archive._id" @click.prevent="onClickLink(archive, index)" v-if="isMobile">
+            <td class="td-mobile">
+              <div class="title row">
+                <span class="title">
+                  <a v-bind:href=archive.href>
+                    {{archive.title}}
+                  </a>
+                </span>
+              </div>
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
+                  {{archive.type}}
+                </span>
+
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
+                  {{archive.boardName}}
+                </span>
+
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label
+                  v-if="archive.category">
+                  {{archive.category}}
+                </span>
+                <span class="time">
+                  {{momentTime(archive.dateTime)}}
+                </span>
+                <span class="count">
+                  {{abbreviation(archive.count)}}
+                </span>
+            </td>
+          </tr>
+          <tr class="cursor-pointer" :key="archive._id" @click.prevent="onClickLink(archive, index)" v-if="!isMobile">
+            <td align="center">
+              <span class="type">
+                {{archive.type}}
+              </span>
+            </td>
+
             <td align="center">
               <span class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
                 {{archive.boardName}}
               </span>
             </td>
-            <td align="center"><span class="category">{{archive.category}}</span></td>
-            <td align="left"><span class="title"><a v-bind:href=archive.href>{{archive.title}}</a></span></td>
-            <td align="center"><span class="time">{{momentTime(archive.dateTime)}}</span></td>
-            <td align="center"><span class="count">{{abbreviation(archive.count)}}</span></td>
+
+            <td align="center">
+              <span class="category">
+                {{archive.category}}
+              </span>
+            </td>
+
+            <td align="left">
+              <span class="title">
+                <a v-bind:href=archive.href>
+                  {{archive.title}}
+                </a>
+              </span>
+            </td>
+
+            <td align="center">
+              <span class="time">
+                {{momentTime(archive.dateTime)}}
+              </span>
+            </td>
+
+            <td align="center">
+              <span class="count">
+                {{abbreviation(archive.count)}}
+              </span>
+            </td>
           </tr>
         </template>
       </tbody>
@@ -134,9 +195,6 @@ export default {
         })
     },
     parentSearching (searchData) {
-      console.log(JSON.stringify(this.searchData))
-      console.log(JSON.stringify(searchData))
-
       if (JSON.stringify(this.searchData) !== JSON.stringify(searchData)) {
         this.currentPage = 1
       }
@@ -174,11 +232,9 @@ export default {
 </script>
 
 <style scoped>
-
 .badge.block-badge {
   display: block;
 }
-
 .arrow {
     display: inline-block;
     vertical-align: middle;
@@ -187,24 +243,23 @@ export default {
     margin-left: 5px;
     opacity: 0.66;
 }
-
 .arrow.asc {
     display: inline-block;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     border-bottom: 3px solid #FFFFFF;
 }
-
 .arrow.dsc {
     display: inline-block;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     border-top: 3px solid #FFFFFF;
 }
-
 .badge {
   font-size: 1em !important;
   font-family: Arial !important;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 .header {
   font-size: 1em !important;
@@ -221,14 +276,70 @@ export default {
 .title {
   font-size: 1em !important;
   font-family: Arial !important;
+  margin-left: 2px;
+  margin-right: 2px;
 }
-
 .cursor-pointer.unread {
   background: #FFFFFF;
 }
-
 .cursor-pointer.read {
   background: #EEEEEE;
+}
+
+th.site-mobile {
+  font-size: 11px;
+}
+
+th.board-mobile {
+  font-size: 11px;
+}
+
+th.category-mobile {
+  font-size: 11px;
+}
+
+th.title-mobile {
+  font-size: 11px;
+}
+
+th.time-mobile {
+  font-size: 11px;
+}
+
+th.read-mobile {
+  font-size: 9px;
+}
+
+td.site-mobile {
+  font-size: 9px;
+}
+
+td.board-mobile {
+  font-size: 9px;
+}
+
+td.category-mobile {
+  font-size: 9px;
+}
+
+td.title-mobile {
+  font-size: 11px;
+}
+
+td.time-mobile {
+  font-size: 10px;
+}
+
+td.read-mobile {
+  font-size: 9px;
+}
+
+th.th-mobile {
+  font-size: 10px;
+}
+
+td.td-mobile {
+  font-size: 10px;
 }
 
 </style>

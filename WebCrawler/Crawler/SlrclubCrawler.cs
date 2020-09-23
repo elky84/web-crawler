@@ -79,12 +79,6 @@ namespace WebCrawler
                 var title = tdContent[cursor + 1];
                 var author = tdContent[cursor + 2];
                 var date = DateTime.Parse(tdContent[cursor + 3]);
-                // 현재시간보다 크다면, 시간만 담긴 데이터에서 전날 글에 대한 시간 + 오늘 날짜로 값이 들어와서 그런 것. 이에 대한 예외처리
-                if (date > DateTime.Now)
-                {
-                    date = date.AddDays(-1);
-                }
-
                 var recommend = tdContent[cursor + 4].ToInt();
                 var count = tdContent[cursor + 5].ToInt();
 

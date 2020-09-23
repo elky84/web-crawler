@@ -41,6 +41,11 @@ namespace Server.Services
             _httpClientFactory = httpClientFactory;
 
             _sourceService = sourceService;
+
+            _mongoDbNotification.Collection.Indexes.CreateOne(new CreateIndexModel<Notification>(
+                Builders<Notification>.IndexKeys.Ascending(x => x.SourceId)
+                .Ascending(x => x.CrawlingType)
+                .Ascending(x => x.Type)));
         }
 
         public async Task<List<Notification>> All()
@@ -70,7 +75,7 @@ namespace Server.Services
             var source = await _sourceService.GetByName(notification.CrawlingType, notification.BoardName);
             if (source == null)
             {
-                throw new DeveloperException(Code.ResultCode.NotFoundSource);
+                throw new DeveloperException(ResultCode.NotFoundSource);
             }
 
             return source.Id;
@@ -157,7 +162,7 @@ namespace Server.Services
             var notifications = await Get(filter);
             foreach (var notification in notifications)
             {
-                if (!string.IsNullOrEmpty(notification.Keyword) && !crawlingData.Title.Contains(notification.Keyword))
+                if (!notification.ContainsKeyword(crawlingData.Title))
                 {
                     return;
                 }
@@ -182,9 +187,8 @@ namespace Server.Services
             var notifications = await Get(filter);
             foreach (var notification in notifications)
             {
-                if (!string.IsNullOrEmpty(notification.Keyword) &&
-                    !feedData.FeedTitle.Contains(notification.Keyword) &&
-                    !feedData.ItemTitle.Contains(notification.Keyword))
+                if (!notification.ContainsKeyword(feedData.FeedTitle) &&
+                    !notification.ContainsKeyword(feedData.ItemTitle))
                 {
                     return;
                 }
@@ -284,6 +288,11 @@ namespace Server.Services
                     var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
                     var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
                     var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        processList.Add(webHook);
+                    }
+
                     if (rateLimitRemaining <= 1 || rateLimitAfter > 0)
                     {
                         Thread.Sleep((rateLimitAfter + 1) * 1000);
@@ -295,8 +304,6 @@ namespace Server.Services
                         Log.Logger.Error($"Too Many Requests [{group.Key}] [{rateLimitRemaining}, {rateLimitAfter}]");
                         break;
                     }
-
-                    processList.Add(webHook);
                 }
             });
 

@@ -21,7 +21,7 @@ namespace Server.Services
 
         private readonly NotificationService _notificationService;
 
-        private readonly MongoDbUtil<FeedData> _mongoDbUtil;
+        private readonly MongoDbUtil<FeedData> _mongoFeedData;
 
         public FeedCrawlingService(MongoDbService mongoDbService,
             RssService rssService,
@@ -30,7 +30,16 @@ namespace Server.Services
             _mongoDbService = mongoDbService;
             _rssService = rssService;
             _notificationService = notificationService;
-            _mongoDbUtil = new MongoDbUtil<FeedData>(mongoDbService.Database);
+            _mongoFeedData = new MongoDbUtil<FeedData>(mongoDbService.Database);
+
+            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
+                Builders<FeedData>.IndexKeys.Ascending(x => x.DateTime)));
+
+            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
+                Builders<FeedData>.IndexKeys.Ascending(x => x.ItemTitle)));
+
+            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
+                Builders<FeedData>.IndexKeys.Ascending(x => x.FeedTitle)));
         }
 
         public async Task<Protocols.Response.FeedList> Get(Protocols.Request.FeedList feedList)
@@ -49,8 +58,8 @@ namespace Server.Services
                 Offset = feedList.Offset,
                 Sort = feedList.Sort,
                 Asc = feedList.Asc,
-                FeedDatas = (await _mongoDbUtil.Page(filter, feedList.Limit, feedList.Offset, feedList.Sort, feedList.Asc)).ConvertAll(x => x.ToProtocol()),
-                Total = await _mongoDbUtil.CountAsync(filter)
+                FeedDatas = (await _mongoFeedData.Page(filter, feedList.Limit, feedList.Offset, feedList.Sort, feedList.Asc)).ConvertAll(x => x.ToProtocol()),
+                Total = await _mongoFeedData.CountAsync(filter)
             };
         }
 

@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Server.Code;
 using System;
+using System.Linq;
 using WebCrawler.Code;
 
 namespace Server.Models
@@ -29,5 +30,15 @@ namespace Server.Models
         public CrawlingType CrawlingType { get; set; }
 
         public string SourceId { get; set; }
+
+        public bool ContainsKeyword(string check)
+        {
+            if (string.IsNullOrEmpty(Keyword))
+            {
+                return true;
+            }
+
+            return Keyword.Split("|").Any(x => check.Contains(x));
+        }
     }
 }

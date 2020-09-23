@@ -17,7 +17,7 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093885569663077/RaNvzjzoIrFTZDhutMEFq9pRQlqpkSqLChH8CcB2SDsMjY-gbghowJn0DGn-Lg09vSNj",
             "CrawlingType": "Clien",
             "BoardName": "회원중고장터",
-            "Keyword": "PC"
+            "Keyword": "PC|게임|태블릿"
 		},
         {
 			"Type": "Discord",

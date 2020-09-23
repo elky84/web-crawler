@@ -17,6 +17,9 @@ namespace Server.Services
         public RssService(MongoDbService mongoDbService)
         {
             _mongoDbRss = new MongoDbUtil<Rss>(mongoDbService.Database);
+
+            _mongoDbRss.Collection.Indexes.CreateOne(new CreateIndexModel<Rss>(
+                Builders<Rss>.IndexKeys.Ascending(x => x.Url)));
         }
 
         public async Task<List<Rss>> All()

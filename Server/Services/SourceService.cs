@@ -17,6 +17,12 @@ namespace Server.Services
         public SourceService(MongoDbService mongoDbService)
         {
             _mongoDbSource = new MongoDbUtil<Source>(mongoDbService.Database);
+
+            _mongoDbSource.Collection.Indexes.CreateOne(new CreateIndexModel<Source>(
+                Builders<Source>.IndexKeys.Ascending(x => x.Type)));
+
+            _mongoDbSource.Collection.Indexes.CreateOne(new CreateIndexModel<Source>(
+                Builders<Source>.IndexKeys.Ascending(x => x.Type).Ascending(x => x.BoardId)));
         }
 
         public async Task<List<Source>> All()

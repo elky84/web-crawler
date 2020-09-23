@@ -19,7 +19,7 @@ namespace Server.Services
 
         private readonly NotificationService _notificationService;
 
-        private readonly MongoDbUtil<CrawlingData> _mongoDbUtil;
+        private readonly MongoDbUtil<CrawlingData> _mongoCrawlingData;
 
         public WebCrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
@@ -28,7 +28,16 @@ namespace Server.Services
             _mongoDbService = mongoDbService;
             _sourceService = sourceService;
             _notificationService = notificationService;
-            _mongoDbUtil = new MongoDbUtil<CrawlingData>(mongoDbService.Database);
+            _mongoCrawlingData = new MongoDbUtil<CrawlingData>(mongoDbService.Database);
+
+            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
+                Builders<CrawlingData>.IndexKeys.Ascending(x => x.DateTime)));
+
+            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
+                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Title)));
+
+            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
+                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)));
         }
 
         public async Task<Protocols.Response.CrawlingList> Get(Protocols.Request.CrawlingList crawlingList)
@@ -52,8 +61,8 @@ namespace Server.Services
                 Offset = crawlingList.Offset,
                 Sort = crawlingList.Sort,
                 Asc = crawlingList.Asc,
-                CrawlingDatas = (await _mongoDbUtil.Page(filter, crawlingList.Limit, crawlingList.Offset, crawlingList.Sort, crawlingList.Asc)).ConvertAll(x => x.ToProtocol()),
-                Total = await _mongoDbUtil.CountAsync(filter)
+                CrawlingDatas = (await _mongoCrawlingData.Page(filter, crawlingList.Limit, crawlingList.Offset, crawlingList.Sort, crawlingList.Asc)).ConvertAll(x => x.ToProtocol()),
+                Total = await _mongoCrawlingData.CountAsync(filter)
             };
         }
 

@@ -2,7 +2,7 @@
 FROM node:lts-alpine as build-stage
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -g n
 COPY . .
 RUN npm run build
 

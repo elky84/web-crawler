@@ -46,7 +46,7 @@ namespace Server.Services
             var filter = FilterDefinition<CrawlingData>.Empty;
             if (!string.IsNullOrEmpty(crawlingList.Keyword))
             {
-                filter &= builder.Regex(x => x.Title, "^" + crawlingList.Keyword + ".*");
+                filter &= builder.Regex(x => x.Title, ".*" + crawlingList.Keyword + ".*");
             }
 
             if (crawlingList.Type.HasValue)

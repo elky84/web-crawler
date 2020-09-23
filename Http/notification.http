@@ -16,7 +16,8 @@ Content-Type: application/json
             "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
             "HookUrl": "https://discordapp.com/api/webhooks/757093885569663077/RaNvzjzoIrFTZDhutMEFq9pRQlqpkSqLChH8CcB2SDsMjY-gbghowJn0DGn-Lg09vSNj",
             "CrawlingType": "Clien",
-            "BoardName": "회원중고장터"
+            "BoardName": "회원중고장터",
+            "Keyword": "PC"
 		},
         {
 			"Type": "Discord",
@@ -64,7 +65,8 @@ Content-Type: application/json
             "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
             "HookUrl": "https://discordapp.com/api/webhooks/757111653832589412/JgGoutmu-ZrN6VVMUrm8kOGR0pk1WKd74TVig5UNBlrkwEMUYqC2-d4T3wY3Q-yltp8w",
             "CrawlingType": "FmKorea",
-            "BoardName": "축구 뉴스"
+            "BoardName": "축구 뉴스",
+            "Keyword": "토트넘"
 		},
         {
 			"Type": "Discord",

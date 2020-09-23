@@ -255,18 +255,18 @@ namespace Server.Services
             };
         }
 
-        private async Task ProcessSlackWebHooks()
+        private void ProcessSlackWebHooks()
         {
-            var processList = new List<Protocols.Notification.Request.SlackWebHook>();
-            foreach (var group in _slackWebHooks.GroupBy(x => x.channel))
+            var processList = new ConcurrentBag<Protocols.Notification.Request.SlackWebHook>();
+            Parallel.ForEach(_slackWebHooks.GroupBy(x => x.channel), group =>
             {
                 foreach (var webHook in group.Select(x => x))
                 {
-                    await _httpClientFactory.RequestJson(HttpMethod.Post, webHook.HookUrl, webHook);
+                    _ = _httpClientFactory.RequestJson(HttpMethod.Post, webHook.HookUrl, webHook);
                     Thread.Sleep(1000); // 초당 한개...라고함.
                     processList.Add(webHook);
                 }
-            }
+            });
 
             foreach (var process in processList)
             {
@@ -274,38 +274,31 @@ namespace Server.Services
             }
         }
 
-        public static int UnixTimeNow()
+        private void ProcessDiscordWebHooks()
         {
-            return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-        }
-
-        private async Task ProcessDiscordWebHooks()
-        {
-            var processList = new List<Protocols.Notification.Request.DiscordWebHook>();
-            foreach (var group in _discordWebHooks.GroupBy(x => x.HookUrl))
+            var processList = new ConcurrentBag<Protocols.Notification.Request.DiscordWebHook>();
+            Parallel.ForEach(_discordWebHooks.GroupBy(x => x.HookUrl), group =>
             {
                 foreach (var webHook in group.Select(x => x))
                 {
-                    Log.Logger.Error($"Try Request [{group.Key}]");
-                    var response = await _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook);
+                    var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
+                    var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
+                    var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
+                    if (rateLimitRemaining <= 1 || rateLimitAfter > 0)
+                    {
+                        Thread.Sleep((rateLimitAfter + 1) * 1000);
+                        continue;
+                    }
+
                     if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
                     {
-                        Log.Logger.Error($"Too Many Requests [{group.Key}]");
+                        Log.Logger.Error($"Too Many Requests [{group.Key}] [{rateLimitRemaining}, {rateLimitAfter}]");
                         break;
                     }
 
                     processList.Add(webHook);
-
-                    var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
-                    if (rateLimitRemaining == 0)
-                    {
-                        var waitTime = Math.Max(0, response.Headers.GetValues("x-ratelimit-reset").FirstOrDefault().ToInt() - UnixTimeNow()) + 1;
-                        Log.Logger.Error($"RateLimiting Sleep [{group.Key}, {waitTime}]");
-                        await Task.Delay(waitTime * 1000);
-                        break;
-                    }
                 }
-            }
+            });
 
             foreach (var process in processList)
             {
@@ -313,10 +306,10 @@ namespace Server.Services
             }
         }
 
-        public async Task HttpTaskRun()
+        public void HttpTaskRun()
         {
-            await ProcessDiscordWebHooks();
-            await ProcessSlackWebHooks();
+            ProcessDiscordWebHooks();
+            ProcessSlackWebHooks();
         }
     }
 }

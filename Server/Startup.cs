@@ -56,7 +56,7 @@ namespace Server
 
             services.AddTransient<MongoDbService>();
 
-            services.AddSingleton<IHostedService, NotificationRepeatedService>();
+            services.AddSingleton<IHostedService, NotificationLoopingService>();
             services.AddSingleton<IHostedService, WebCrawlingRepeatedService>();
             services.AddSingleton<IHostedService, FeedCrawlingRepeatedService>();
 

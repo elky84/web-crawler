@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Code;
 using WebCrawler.Models;
 using WebUtil.Util;
 
-namespace WebCrawler
+namespace WebCrawler.Crawler
 {
     public class ClienCrawler : CrawlerBase
     {

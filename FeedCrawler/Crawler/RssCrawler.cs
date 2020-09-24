@@ -1,14 +1,12 @@
 ﻿using MongoDB.Driver;
 using Serilog;
 using System;
-using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using FeedCrawler.Models;
 using WebUtil.Util;
 using CodeHollow.FeedReader;
 
-namespace FeedCrawler
+namespace FeedCrawler.Crawler
 {
     public class RssCrawler
     {

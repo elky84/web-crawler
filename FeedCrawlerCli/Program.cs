@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using FeedCrawler;
+using FeedCrawler.Crawler;
 using MongoDB.Driver;
 using Serilog;
 

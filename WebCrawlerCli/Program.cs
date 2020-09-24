@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Serilog;
-using WebCrawler;
 using WebCrawler.Code;
+using WebCrawler.Crawler;
 
 namespace WebCrawlerCli
 {

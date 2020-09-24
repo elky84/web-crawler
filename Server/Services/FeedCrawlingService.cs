@@ -10,6 +10,7 @@ using Server.Models;
 using WebCrawler.Models;
 using FeedCrawler.Models;
 using FeedCrawler;
+using FeedCrawler.Crawler;
 
 namespace Server.Services
 {

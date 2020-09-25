@@ -94,7 +94,7 @@ namespace WebUtil.Util
         public void Update(FilterDefinition<T> filter, T t) =>
             Collection.ReplaceOne(filter, t);
 
-        public async Task<T> UpsertAsync(FilterDefinition<T> filter, T t)
+        public async Task<T> UpsertAsync(FilterDefinition<T> filter, T t, Action<T> createAction = null)
         {
             var origin = await FindOneAsync(filter);
             if (origin != null)
@@ -105,6 +105,7 @@ namespace WebUtil.Util
             }
             else
             {
+                createAction?.Invoke(t);
                 return await CreateAsync(t);
             }
         }

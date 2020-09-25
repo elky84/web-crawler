@@ -46,19 +46,7 @@ namespace Server.Services
         {
             try
             {
-                var newData = source.ToModel();
-
-                var origin = await _mongoDbSource.FindOneAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) & Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId));
-                if (origin != null)
-                {
-                    newData.Id = origin.Id;
-                    await _mongoDbSource.UpdateAsync(newData.Id, newData);
-                    return newData;
-                }
-                else
-                {
-                    return await _mongoDbSource.CreateAsync(source.ToModel());
-                }
+                return await _mongoDbSource.UpsertAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) & Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId), source.ToModel());
             }
             catch (MongoWriteException)
             {

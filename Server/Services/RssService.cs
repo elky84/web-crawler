@@ -43,19 +43,7 @@ namespace Server.Services
         {
             try
             {
-                var newData = rss.ToModel();
-
-                var origin = await _mongoDbRss.FindOneAsync(Builders<Rss>.Filter.Eq(x => x.Url, rss.Url));
-                if (origin != null)
-                {
-                    newData.Id = origin.Id;
-                    await _mongoDbRss.UpdateAsync(newData.Id, newData);
-                    return newData;
-                }
-                else
-                {
-                    return await _mongoDbRss.CreateAsync(rss.ToModel());
-                }
+                return await _mongoDbRss.UpsertAsync(Builders<Rss>.Filter.Eq(x => x.Url, rss.Url), rss.ToModel());
             }
             catch (MongoWriteException)
             {

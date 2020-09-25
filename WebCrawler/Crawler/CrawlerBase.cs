@@ -122,22 +122,6 @@ namespace WebCrawler
             Log.Logger.Error($"Did not crawl page {pageToCrawl.Uri.AbsoluteUri} due to {e.DisallowedReason}");
         }
 
-        private async Task<CrawlingData> GetOriginData(CrawlingData crawlingData)
-        {
-            var builder = Builders<CrawlingData>.Filter;
-            var filter = builder.Eq(x => x.Type, crawlingData.Type);
-            if (crawlingData.RowId.HasValue)
-            {
-                filter &= builder.Eq(x => x.RowId, crawlingData.RowId.Value);
-            }
-            else
-            {
-                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Title, crawlingData.Title);
-            }
-
-            return await MongoDbCrawlingData.FindOneAsync(filter);
-        }
-
         protected async Task OnCrawlData(CrawlingData crawlingData)
         {
             if (MongoDbCrawlingData == null)
@@ -151,21 +135,25 @@ namespace WebCrawler
                 crawlingData.DateTime = crawlingData.DateTime.AddDays(-1);
             }
 
-            var origin = await GetOriginData(crawlingData);
-            if (origin != null)
+            var builder = Builders<CrawlingData>.Filter;
+            var filter = builder.Eq(x => x.Type, crawlingData.Type);
+            if (crawlingData.RowId.HasValue)
             {
-                crawlingData.Id = origin.Id;
-                await MongoDbCrawlingData.UpdateAsync(crawlingData.Id, crawlingData);
+                filter &= builder.Eq(x => x.RowId, crawlingData.RowId.Value);
             }
             else
             {
-                await MongoDbCrawlingData.CreateAsync(crawlingData);
-
-                if (OnCrawlDataDelegate != null)
-                {
-                    await OnCrawlDataDelegate.Invoke(crawlingData);
-                }
+                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Title, crawlingData.Title);
             }
+
+            await MongoDbCrawlingData.UpsertAsync(filter, crawlingData,
+                async (crawlingData) =>
+                {
+                    if (OnCrawlDataDelegate != null)
+                    {
+                        await OnCrawlDataDelegate.Invoke(crawlingData);
+                    }
+                });
         }
     }
 }

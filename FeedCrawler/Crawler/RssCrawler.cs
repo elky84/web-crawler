@@ -60,12 +60,6 @@ namespace FeedCrawler.Crawler
 
         }
 
-        private async Task<FeedData> GetOriginData(FeedData feedData)
-        {
-            return await MongoDbFeedData.FindOneAsync(Builders<FeedData>.Filter.Eq(x => x.Url, feedData.Url) &
-                    Builders<FeedData>.Filter.Eq(x => x.ItemTitle, feedData.ItemTitle));
-        }
-
         protected async Task OnCrawlData(FeedData feedData)
         {
             if (MongoDbFeedData == null)
@@ -73,21 +67,16 @@ namespace FeedCrawler.Crawler
                 return;
             }
 
-            var origin = await GetOriginData(feedData);
-            if (origin != null)
-            {
-                feedData.Id = origin.Id;
-                await MongoDbFeedData.UpdateAsync(feedData.Id, feedData);
-            }
-            else
-            {
-                await MongoDbFeedData.CreateAsync(feedData);
-
-                if (OnCrawlDataDelegate != null)
-                {
-                    await OnCrawlDataDelegate.Invoke(feedData);
-                }
-            }
+            await MongoDbFeedData.UpsertAsync(Builders<FeedData>.Filter.Eq(x => x.Url, feedData.Url) &
+                    Builders<FeedData>.Filter.Eq(x => x.ItemTitle, feedData.ItemTitle),
+                    feedData,
+                    async (feedData) =>
+                    {
+                        if (OnCrawlDataDelegate != null)
+                        {
+                            await OnCrawlDataDelegate.Invoke(feedData);
+                        }
+                    });
         }
     }
 }

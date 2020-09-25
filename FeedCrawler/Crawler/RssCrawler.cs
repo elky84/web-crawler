@@ -46,7 +46,7 @@ namespace FeedCrawler.Crawler
                         ItemAuthor = item.Author,
                         ItemContent = item.Content,
                         FeedTitle = feed.Title,
-                        Href = item.Link,
+                        Href = item.Link.StartsWith("http") ? item.Link : feed.Link + item.Link,
                         DateTime = feed.LastUpdatedDate.GetValueOrDefault(DateTime.Now)
                     };
 

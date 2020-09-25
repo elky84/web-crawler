@@ -27,6 +27,12 @@ namespace FeedCrawlerCli
                 Url = "https://elky84.github.io/feed.xml",
                 Name = "Elky Essay"
             }).RunAsync();
+
+            await new RssCrawler(null, database, new FeedCrawler.Models.Rss
+            {
+                Url = "https://developer.amazon.com/blogs/home/feed/entries/atom",
+                Name = "Amazon Developer Blogs"
+            }).RunAsync();
         }
     }
 }

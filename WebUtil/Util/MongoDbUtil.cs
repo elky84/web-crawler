@@ -3,10 +3,11 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebUtil.Models;
 
 namespace WebUtil.Util
 {
-    public class MongoDbUtil<T> where T : class
+    public class MongoDbUtil<T> where T : MongoDbHeader
     {
         public IMongoCollection<T> Collection { get; private set; }
 
@@ -21,7 +22,7 @@ namespace WebUtil.Util
         }
 
         public async Task<List<T>> All() =>
-            (await Collection.FindAsync(t => true)).ToList();
+                   (await Collection.FindAsync(t => true)).ToList();
 
         public async Task<long> CountAsync() => await Collection.CountDocumentsAsync(x => true);
 
@@ -35,6 +36,7 @@ namespace WebUtil.Util
                 .Limit(limit)
                 .ToListAsync();
         }
+
 
         public T FindOne(FilterDefinition<T> filter) =>
             Collection.Find(filter).FirstOrDefault();
@@ -50,6 +52,9 @@ namespace WebUtil.Util
 
         public async Task<List<T>> FindAsync(FilterDefinition<T> filter) =>
             (await Collection.FindAsync(filter)).ToList();
+
+        public List<T> Find(FilterDefinition<T> filter) =>
+             Collection.Find(filter).ToList();
 
         public List<T> List(FilterDefinition<T> filter) => Collection.Find(filter).ToList();
 
@@ -89,6 +94,20 @@ namespace WebUtil.Util
         public void Update(FilterDefinition<T> filter, T t) =>
             Collection.ReplaceOne(filter, t);
 
+        public async Task<T> UpsertAsync(FilterDefinition<T> filter, T t)
+        {
+            var origin = await FindOneAsync(filter);
+            if (origin != null)
+            {
+                t.Id = origin.Id;
+                t.Created = t.Created;
+                return await UpdateAsync(origin.Id, t);
+            }
+            else
+            {
+                return await CreateAsync(t);
+            }
+        }
 
         public async Task<T> UpdateAsync(FilterDefinition<T> filter, T t)
         {

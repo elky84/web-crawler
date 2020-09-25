@@ -28,6 +28,5 @@ namespace Server.Protocols.Common
         public string BoardName { get; set; }
 
         public string Keyword { get; set; }
-
     }
 }

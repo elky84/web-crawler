@@ -8,10 +8,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
-    public class Rss
+    public class Rss : Header
     {
-        public string Id { get; set; }
-
         public string Url { get; set; }
 
         public string Name { get; set; }

@@ -8,10 +8,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
-    public class Source
+    public class Source : Header
     {
-        public string Id { get; set; }
-
         [JsonConverter(typeof(StringEnumConverter))]
         public CrawlingType Type { get; set; }
 

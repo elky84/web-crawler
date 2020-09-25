@@ -5,15 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Code;
+using WebUtil.Models;
 
 namespace WebCrawler.Models
 {
-    public class CrawlingData
+    public class CrawlingData : MongoDbHeader
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         [BsonRepresentation(BsonType.String)]
         public CrawlingType Type { get; set; }
 

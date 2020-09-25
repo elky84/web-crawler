@@ -1,18 +1,14 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Server.Code;
-using System;
 using System.Linq;
 using WebCrawler.Code;
+using WebUtil.Models;
 
 namespace Server.Models
 {
-    public class Notification
+    public class Notification : MongoDbHeader
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         [BsonRepresentation(BsonType.String)]
         public NotificationType Type { get; set; }
 

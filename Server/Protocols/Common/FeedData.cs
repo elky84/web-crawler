@@ -5,10 +5,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
-    public class FeedData
+    public class FeedData : Header
     {
-        public string Id { get; set; }
-
         public string FeedTitle { get; set; }
 
         public string Description { get; set; }

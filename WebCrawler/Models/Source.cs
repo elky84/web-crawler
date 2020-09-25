@@ -5,15 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Code;
+using WebUtil.Models;
 
 namespace WebCrawler.Models
 {
-    public class Source
+    public class Source : MongoDbHeader
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         public string BoardId { get; set; }
 
         [BsonRepresentation(BsonType.String)]

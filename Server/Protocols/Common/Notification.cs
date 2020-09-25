@@ -9,10 +9,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
-    public class Notification
+    public class Notification : Header
     {
-        public string Id { get; set; }
-
         [JsonConverter(typeof(StringEnumConverter))]
         public NotificationType Type { get; set; }
 

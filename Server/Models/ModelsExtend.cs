@@ -2,23 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUtil.Models;
 
 namespace Server.Models
 {
     public static class ModelsExtend
     {
+        public static T ToProtocol<T>(this T t, MongoDbHeader header)
+            where T : Protocols.Common.Header
+        {
+            t.Id = header.Id;
+            t.Created = header.Created;
+            return t;
+        }
+
+
         public static Protocols.Common.Source ToProtocol(this WebCrawler.Models.Source source)
         {
             return new Protocols.Common.Source
             {
-                Id = source.Id,
                 BoardId = source.BoardId,
                 Type = source.Type,
                 Name = source.Name,
                 PageMin = source.PageMin,
                 PageMax = source.PageMax,
                 Interval = source.Interval
-            };
+            }.ToProtocol(source);
         }
 
         public static WebCrawler.Models.Source ToModel(this Protocols.Common.Source source)
@@ -40,7 +49,6 @@ namespace Server.Models
         {
             return new Protocols.Common.Notification
             {
-                Id = notification.Id,
                 Type = notification.Type,
                 Name = notification.Name,
                 HookUrl = notification.HookUrl,
@@ -48,7 +56,7 @@ namespace Server.Models
                 IconUrl = notification.IconUrl,
                 SourceId = notification.SourceId,
                 Keyword = notification.Keyword
-            };
+            }.ToProtocol(notification);
         }
 
         public static Notification ToModel(this Protocols.Common.Notification notification)
@@ -87,7 +95,6 @@ namespace Server.Models
         {
             return new Protocols.Common.CrawlingData
             {
-                Id = crawling.Id,
                 Type = crawling.Type,
                 BoardId = crawling.BoardId,
                 BoardName = crawling.BoardName,
@@ -100,7 +107,7 @@ namespace Server.Models
                 Title = crawling.Title,
                 DateTime = crawling.DateTime,
                 RowId = crawling.RowId
-            };
+            }.ToProtocol(crawling);
         }
 
         public static WebCrawler.Models.CrawlingData ToModel(this Protocols.Common.CrawlingData crawling)
@@ -128,11 +135,10 @@ namespace Server.Models
         {
             return new Protocols.Common.Rss
             {
-                Id = rss.Id,
                 Url = rss.Url,
                 Name = rss.Name,
                 Day = rss.Day
-            };
+            }.ToProtocol(rss);
         }
 
         public static FeedCrawler.Models.Rss ToModel(this Protocols.Common.Rss rss)
@@ -151,7 +157,6 @@ namespace Server.Models
         {
             return new Protocols.Common.FeedData
             {
-                Id = feed.Id,
                 FeedTitle = feed.FeedTitle,
                 Description = feed.Description,
                 Href = feed.Href,
@@ -160,7 +165,7 @@ namespace Server.Models
                 ItemTitle = feed.ItemTitle,
                 ItemAuthor = feed.ItemAuthor,
                 ItemContent = feed.ItemContent
-            };
+            }.ToProtocol(feed);
         }
 
         public static FeedCrawler.Models.FeedData ToModel(this Protocols.Common.FeedData feed)

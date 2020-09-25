@@ -1,14 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using WebUtil.Models;
 
 namespace FeedCrawler.Models
 {
-    public class Rss
+    public class Rss : MongoDbHeader
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         public string Url { get; set; }
 
         public string Name { get; set; }

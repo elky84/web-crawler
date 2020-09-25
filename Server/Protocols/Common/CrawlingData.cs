@@ -5,10 +5,8 @@ using WebCrawler.Code;
 
 namespace Server.Protocols.Common
 {
-    public class CrawlingData
+    public class CrawlingData : Header
     {
-        public string Id { get; set; }
-
         [JsonConverter(typeof(StringEnumConverter))]
         public CrawlingType Type { get; set; }
 

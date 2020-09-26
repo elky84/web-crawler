@@ -70,6 +70,12 @@ namespace WebUtil.Util
             return t;
         }
 
+        public async Task<List<T>> CreateManyAsync(List<T> t)
+        {
+            await Collection.InsertManyAsync(t);
+            return t;
+        }
+
         public List<T> Create(List<T> t)
         {
             try

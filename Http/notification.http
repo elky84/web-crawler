@@ -290,9 +290,13 @@ POST {{host}}/Notification
 Content-Type: application/json
 
 {
-    "Type":"Ruliweb",
-    "BoardId": "1020",
-	"Name": "핫딜게시판"
+    "Type": "Slack",
+    "Name": "축구 뉴스",
+    "Channel": "C01AVLPP1U5",
+    "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+    "HookUrl": "https://hooks.slack.com/services/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",
+    "CrawlingType": "FmKorea",
+    "BoardName": "축구 뉴스"
 }
 
 ### Notification Get
@@ -305,9 +309,13 @@ PUT {{host}}/Notification/5f5a25cc6e6fbaf1a5e7ccca
 Content-Type: application/json
 
 {
-    "Type":"Ruliweb",
-    "BoardId": "1020",
-	"Name": "핫딜게시판"
+    "Type": "Slack",
+    "Name": "축구 뉴스",
+    "Channel": "C01AVLPP1U5",
+    "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+    "HookUrl": "https://hooks.slack.com/services/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",
+    "CrawlingType": "FmKorea",
+    "BoardName": "축구 뉴스"
 }
 
 ### Notification Delete

@@ -86,21 +86,10 @@ namespace Server.Services
             try
             {
                 var sourceId = await GetSourceId(notification);
-                var newData = notification.ToModel(sourceId);
-
-                var origin = await _mongoDbNotification.FindOneAsync(Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
+                return await _mongoDbNotification.UpsertAsync(Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
                     Builders<Notification>.Filter.Eq(x => x.CrawlingType, notification.CrawlingType) &
-                    Builders<Notification>.Filter.Eq(x => x.Type, notification.Type));
-                if (origin != null)
-                {
-                    newData.Id = origin.Id;
-                    await _mongoDbNotification.UpdateAsync(newData.Id, newData);
-                    return newData;
-                }
-                else
-                {
-                    return await _mongoDbNotification.CreateAsync(newData);
-                }
+                    Builders<Notification>.Filter.Eq(x => x.Type, notification.Type),
+                    notification.ToModel(sourceId));
             }
             catch (MongoWriteException)
             {

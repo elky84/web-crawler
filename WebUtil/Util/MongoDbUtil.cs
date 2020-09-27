@@ -94,11 +94,17 @@ namespace WebUtil.Util
             Collection.DeleteMany(x => true);
         }
 
-        public void Update(string id, T t) =>
+        public void Update(string id, T t)
+        {
+            t.Updated = DateTime.Now;
             Collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)), t);
+        }
 
-        public void Update(FilterDefinition<T> filter, T t) =>
+        public void Update(FilterDefinition<T> filter, T t)
+        {
+            t.Updated = DateTime.Now;
             Collection.ReplaceOne(filter, t);
+        }
 
         public async Task<T> UpsertAsync(FilterDefinition<T> filter, T t, Action<T> createAction = null)
         {
@@ -107,6 +113,7 @@ namespace WebUtil.Util
             {
                 t.Id = origin.Id;
                 t.Created = t.Created;
+                t.Updated = DateTime.Now;
                 return await UpdateAsync(origin.Id, t);
             }
             else
@@ -118,12 +125,14 @@ namespace WebUtil.Util
 
         public async Task<T> UpdateAsync(FilterDefinition<T> filter, T t)
         {
+            t.Updated = DateTime.Now;
             var result = await Collection.ReplaceOneAsync(filter, t);
             return result.ModifiedCount > 0 ? t : null;
         }
 
         public async Task<T> UpdateAsync(string id, T t)
         {
+            t.Updated = DateTime.Now;
             var result = await Collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)), t);
             return result.ModifiedCount > 0 ? t : null;
         }
@@ -133,6 +142,12 @@ namespace WebUtil.Util
         public async Task<T> RemoveAsync(string id) => await Collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)));
 
         public async Task<T> RemoveAsync(FilterDefinition<T> filter) => await Collection.FindOneAndDeleteAsync(filter);
+
+        public async Task<bool> RemoveManyAsync(FilterDefinition<T> filter)
+        {
+            var result = await Collection.DeleteManyAsync(filter);
+            return result.DeletedCount > 0;
+        }
 
     }
 }

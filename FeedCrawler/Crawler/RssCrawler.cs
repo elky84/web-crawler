@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using FeedCrawler.Models;
 using WebUtil.Util;
 using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Feeds;
+using System.Linq;
 
 namespace FeedCrawler.Crawler
 {
@@ -38,6 +40,13 @@ namespace FeedCrawler.Crawler
 
                 foreach (var item in feed.Items)
                 {
+                    var link = item.Link.StartsWith("http") ? item.Link : feed.Link + item.Link;
+                    if (item.SpecificItem is AtomFeedItem)
+                    {
+                        var atomFeedItem = item.SpecificItem as AtomFeedItem;
+                        link = atomFeedItem.Links.LastOrDefault().Href;
+                    }
+
                     var feedData = new FeedData
                     {
                         Url = Rss.Url,
@@ -46,7 +55,7 @@ namespace FeedCrawler.Crawler
                         ItemAuthor = item.Author,
                         ItemContent = item.Content,
                         FeedTitle = feed.Title,
-                        Href = item.Link.StartsWith("http") ? item.Link : feed.Link + item.Link,
+                        Href = link,
                         DateTime = feed.LastUpdatedDate.GetValueOrDefault(DateTime.Now)
                     };
 

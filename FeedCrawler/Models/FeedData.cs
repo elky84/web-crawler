@@ -25,6 +25,5 @@ namespace FeedCrawler.Models
         public string ItemAuthor { get; set; }
 
         public string ItemContent { get; set; }
-
     }
 }

@@ -18,6 +18,6 @@ namespace WebUtil.Models
 
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
     }
 }

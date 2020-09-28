@@ -38,6 +38,9 @@ namespace Server.Services
 
             _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
                 Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)));
+
+            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
+                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type).Ascending(x => x.BoardId)));
         }
 
         public async Task<Protocols.Response.CrawlingList> Get(Protocols.Request.CrawlingList crawlingList)

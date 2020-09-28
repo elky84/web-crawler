@@ -137,6 +137,8 @@ namespace WebCrawler
 
             var builder = Builders<CrawlingData>.Filter;
             var filter = builder.Eq(x => x.Type, crawlingData.Type);
+            filter &= builder.Eq(x => x.BoardId, crawlingData.BoardId);
+
             if (crawlingData.RowId.HasValue)
             {
                 filter &= builder.Eq(x => x.RowId, crawlingData.RowId.Value);

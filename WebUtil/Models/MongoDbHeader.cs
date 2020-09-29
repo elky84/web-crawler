@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace WebUtil.Models
 {
@@ -19,5 +20,15 @@ namespace WebUtil.Models
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? Updated { get; set; }
+    }
+
+    public static class MongoDbHeaderUtil
+    {
+        public static void CopyHeader(this MongoDbHeader source, MongoDbHeader dest)
+        {
+            dest.Id = source.Id;
+            dest.Created = source.Created;
+            dest.Updated = source.Updated;
+        }
     }
 }

@@ -37,6 +37,14 @@ namespace WebUtil.Util
                 .ToListAsync();
         }
 
+        public async Task<List<T>> Page(FilterDefinition<T> filter, int limit, int offset, Dictionary<string, int> dict)
+        {
+            return await Collection.Find(filter)
+                .Sort(new BsonDocument(dict))
+                .Skip(offset)
+                .Limit(limit)
+                .ToListAsync();
+        }
 
         public T FindOne(FilterDefinition<T> filter) =>
             Collection.Find(filter).FirstOrDefault();

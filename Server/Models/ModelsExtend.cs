@@ -13,9 +13,9 @@ namespace Server.Models
         {
             t.Id = header.Id;
             t.Created = header.Created;
+            t.Updated = header.Updated;
             return t;
         }
-
 
         public static Protocols.Common.Source ToProtocol(this WebCrawler.Models.Source source)
         {

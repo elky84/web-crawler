@@ -53,7 +53,7 @@ namespace WebUtil.Util
             await Collection.Find(filter).FirstOrDefaultAsync();
 
         public async Task<T> FindOneAsyncById(string id) =>
-            await Collection.Find(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id))).FirstOrDefaultAsync();
+            await Collection.Find(GetIdFilter(id)).FirstOrDefaultAsync();
 
         public async Task<List<T>> FindAsync() =>
             (await Collection.FindAsync(t => true)).ToList();
@@ -105,7 +105,7 @@ namespace WebUtil.Util
         public void Update(string id, T t)
         {
             t.Updated = DateTime.Now;
-            Collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)), t);
+            Collection.ReplaceOne(GetIdFilter(id), t);
         }
 
         public void Update(FilterDefinition<T> filter, T t)
@@ -141,13 +141,46 @@ namespace WebUtil.Util
         public async Task<T> UpdateAsync(string id, T t)
         {
             t.Updated = DateTime.Now;
-            var result = await Collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)), t);
+            var result = await Collection.ReplaceOneAsync(GetIdFilter(id), t);
             return result.ModifiedCount > 0 ? t : null;
+        }
+
+        public async Task<T> UpdateGetAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            return await Collection.FindOneAndUpdateAsync(filter, update, new FindOneAndUpdateOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After,
+            });
+        }
+
+        public async Task<bool> UpdateAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            var result = await Collection.UpdateOneAsync(filter, update);
+            return result.ModifiedCount > 0;
+        }
+
+        public async Task<T> UpdateGetAsync(string id, UpdateDefinition<T> update)
+        {
+            return await Collection.FindOneAndUpdateAsync(GetIdFilter(id), update, new FindOneAndUpdateOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After,
+            });
+        }
+
+        public async Task<bool> UpdateAsync(string id, UpdateDefinition<T> update)
+        {
+            var result = await Collection.UpdateOneAsync(GetIdFilter(id), update);
+            return result.ModifiedCount > 0;
+        }
+
+        private FilterDefinition<T> GetIdFilter(string id)
+        {
+            return Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
         }
 
         public void Remove(FilterDefinition<T> filter) => Collection.DeleteOne(filter);
 
-        public async Task<T> RemoveAsync(string id) => await Collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id)));
+        public async Task<T> RemoveAsync(string id) => await Collection.FindOneAndDeleteAsync(GetIdFilter(id));
 
         public async Task<T> RemoveAsync(FilterDefinition<T> filter) => await Collection.FindOneAndDeleteAsync(filter);
 

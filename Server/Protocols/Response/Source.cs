@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class Source : Header
     {
-        public Common.Source SourceData { get; set; }
+        public Common.Source Data { get; set; }
     }
 }

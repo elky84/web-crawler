@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class NotificationMulti : Header
     {
-        public List<Common.Notification> NotificationDatas { get; set; }
+        public List<Common.Notification> Datas { get; set; }
     }
 }

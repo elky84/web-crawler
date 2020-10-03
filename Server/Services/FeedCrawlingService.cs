@@ -59,7 +59,7 @@ namespace Server.Services
                 Offset = feedList.Offset,
                 Sort = feedList.Sort,
                 Asc = feedList.Asc,
-                FeedDatas = (await _mongoFeedData.Page(filter, feedList.Limit, feedList.Offset, feedList.Sort, feedList.Asc)).ConvertAll(x => x.ToProtocol()),
+                Datas = (await _mongoFeedData.Page(filter, feedList.Limit, feedList.Offset, feedList.Sort, feedList.Asc)).ConvertAll(x => x.ToProtocol()),
                 Total = await _mongoFeedData.CountAsync(filter)
             };
         }

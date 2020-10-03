@@ -64,7 +64,7 @@ namespace Server.Services
                 Offset = crawlingList.Offset,
                 Sort = crawlingList.Sort,
                 Asc = crawlingList.Asc,
-                CrawlingDatas = (await _mongoCrawlingData.Page(filter, crawlingList.Limit, crawlingList.Offset, crawlingList.Sort, crawlingList.Asc)).ConvertAll(x => x.ToProtocol()),
+                Datas = (await _mongoCrawlingData.Page(filter, crawlingList.Limit, crawlingList.Offset, crawlingList.Sort, crawlingList.Asc)).ConvertAll(x => x.ToProtocol()),
                 Total = await _mongoCrawlingData.CountAsync(filter)
             };
         }

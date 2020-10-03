@@ -9,7 +9,7 @@ POST {{host}}/Source/Multi
 Content-Type: application/json
 
 {
-	"SourceDatas": [
+	"Datas": [
 		{
 			"Type": "Ruliweb",
 			"BoardId": "best",
@@ -74,9 +74,11 @@ POST {{host}}/Source
 Content-Type: application/json
 
 {
-    "Type":"Ruliweb",
-    "BoardId": "1020",
-	"Name": "핫딜게시판"
+	"Data": {
+		"Type":"Ruliweb",
+		"BoardId": "1020",
+		"Name": "핫딜게시판"
+	}
 }
 
 ### Source Get
@@ -89,9 +91,11 @@ PUT {{host}}/Source/5f5a25cc6e6fbaf1a5e7ccca
 Content-Type: application/json
 
 {
-    "Type":"Ruliweb",
-    "BoardId": "1020",
-	"Name": "핫딜게시판"
+	"Data": {
+		"Type":"Ruliweb",
+		"BoardId": "1020",
+		"Name": "핫딜게시판"
+	}
 }
 
 ### Source Delete

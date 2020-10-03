@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class Notification : Header
     {
-        public Common.Notification NotificationData { get; set; }
+        public Common.Notification Data { get; set; }
     }
 }

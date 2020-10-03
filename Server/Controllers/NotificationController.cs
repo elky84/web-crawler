@@ -26,7 +26,7 @@ namespace Server.Controllers
         {
             return new Protocols.Response.NotificationMulti
             {
-                NotificationDatas = (await _notificationService.All()).ConvertAll(x => x.ToProtocol())
+                Datas = (await _notificationService.All()).ConvertAll(x => x.ToProtocol())
             };
         }
 

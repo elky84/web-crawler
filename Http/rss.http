@@ -9,7 +9,7 @@ POST {{host}}/Rss/Multi
 Content-Type: application/json
 
 {
-	"RssDatas": [
+	"Datas": [
 		{
             "Url": "https://ppss.kr/archives/category/it/rss",
             "Name": "ㅍㅍㅅㅅ"
@@ -747,7 +747,7 @@ POST {{host}}/Rss/Multi
 Content-Type: application/json
 
 {
-	"RssDatas": [
+	"Datas": [
 		{
 			"Url": "http://elky84.github.io/feed.xml",
 			"Name": "Elky Essay"
@@ -762,8 +762,10 @@ POST {{host}}/Rss
 Content-Type: application/json
 
 {
-	"Url": "http://elky84.github.io/feed.xml",
-	"Name": "Elky Essay"
+    "Data": {
+        "Url": "http://elky84.github.io/feed.xml",
+        "Name": "Elky Essay"
+    }
 }
 
 ### Rss Get
@@ -776,8 +778,10 @@ PUT {{host}}/Rss/5f5a25cc6e6fbaf1a5e7ccca
 Content-Type: application/json
 
 {
-	"Url": "http://elky84.github.io/feed.xml",
-	"Name": "Elky Essay"
+    "Data": {
+        "Url": "http://elky84.github.io/feed.xml",
+        "Name": "Elky Essay"
+    }
 }
 
 ### Rss Delete

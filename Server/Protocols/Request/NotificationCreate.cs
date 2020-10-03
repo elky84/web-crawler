@@ -8,6 +8,6 @@ namespace Server.Protocols.Request
 {
     public class NotificationCreate
     {
-        public Common.NotificationCreate NotificationData { get; set; }
+        public Common.NotificationCreate Data { get; set; }
     }
 }

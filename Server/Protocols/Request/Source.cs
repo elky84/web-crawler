@@ -8,6 +8,6 @@ namespace Server.Protocols.Request
 {
     public class Source
     {
-        public Common.Source SourceData { get; set; }
+        public Common.Source Data { get; set; }
     }
 }

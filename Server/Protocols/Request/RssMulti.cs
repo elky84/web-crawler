@@ -8,6 +8,6 @@ namespace Server.Protocols.Request
 {
     public class RssMulti
     {
-        public List<Common.Rss> RssDatas { get; set; }
+        public List<Common.Rss> Datas { get; set; }
     }
 }

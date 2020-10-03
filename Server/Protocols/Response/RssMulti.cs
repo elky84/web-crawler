@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class RssMulti : Header
     {
-        public List<Common.Rss> RssDatas { get; set; }
+        public List<Common.Rss> Datas { get; set; }
     }
 }

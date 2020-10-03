@@ -27,7 +27,7 @@ namespace Server.Controllers
         {
             return new Protocols.Response.SourceMulti
             {
-                SourceDatas = (await _sourceService.All()).ConvertAll(x => x.ToProtocol())
+                Datas = (await _sourceService.All()).ConvertAll(x => x.ToProtocol())
             };
         }
 

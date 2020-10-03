@@ -32,12 +32,12 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Source> Create(Protocols.Request.Source source)
         {
-            var created = await Create(source.SourceData);
+            var created = await Create(source.Data);
 
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                SourceData = created?.ToProtocol()
+                Data = created?.ToProtocol()
             };
 
         }
@@ -57,14 +57,14 @@ namespace Server.Services
         public async Task<Protocols.Response.SourceMulti> CreateMulti(Protocols.Request.SourceMulti sourceMulti)
         {
             var sources = new List<Source>();
-            foreach (var source in sourceMulti.SourceDatas)
+            foreach (var source in sourceMulti.Datas)
             {
                 sources.Add(await Create(source));
             }
 
             return new Protocols.Response.SourceMulti
             {
-                SourceDatas = sources.ConvertAll(x => x.ToProtocol())
+                Datas = sources.ConvertAll(x => x.ToProtocol())
             };
         }
 
@@ -73,7 +73,7 @@ namespace Server.Services
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                SourceData = (await _mongoDbSource.FindOneAsyncById(id))?.ToProtocol()
+                Data = (await _mongoDbSource.FindOneAsyncById(id))?.ToProtocol()
             };
         }
 
@@ -91,13 +91,13 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Source> Update(string id, Protocols.Request.Source source)
         {
-            var update = source.SourceData.ToModel();
+            var update = source.Data.ToModel();
 
             var updated = await _mongoDbSource.UpdateAsync(id, update);
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                SourceData = (updated ?? update).ToProtocol()
+                Data = (updated ?? update).ToProtocol()
             };
         }
 
@@ -106,7 +106,7 @@ namespace Server.Services
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                SourceData = (await _mongoDbSource.RemoveAsync(id))?.ToProtocol()
+                Data = (await _mongoDbSource.RemoveAsync(id))?.ToProtocol()
             };
         }
     }

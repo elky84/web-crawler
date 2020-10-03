@@ -27,7 +27,7 @@ namespace Server.Controllers
         {
             return new Protocols.Response.RssMulti
             {
-                RssDatas = (await _rssService.All()).ConvertAll(x => x.ToProtocol())
+                Datas = (await _rssService.All()).ConvertAll(x => x.ToProtocol())
             };
         }
 

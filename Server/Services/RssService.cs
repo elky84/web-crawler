@@ -29,12 +29,12 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Rss> Create(Protocols.Request.Rss rss)
         {
-            var created = await Create(rss.RssData);
+            var created = await Create(rss.Data);
 
             return new Protocols.Response.Rss
             {
                 ResultCode = Code.ResultCode.Success,
-                RssData = created?.ToProtocol()
+                Data = created?.ToProtocol()
             };
 
         }
@@ -54,14 +54,14 @@ namespace Server.Services
         public async Task<Protocols.Response.RssMulti> CreateMulti(Protocols.Request.RssMulti rssMulti)
         {
             var rsss = new List<Rss>();
-            foreach (var rss in rssMulti.RssDatas)
+            foreach (var rss in rssMulti.Datas)
             {
                 rsss.Add(await Create(rss));
             }
 
             return new Protocols.Response.RssMulti
             {
-                RssDatas = rsss.ConvertAll(x => x.ToProtocol())
+                Datas = rsss.ConvertAll(x => x.ToProtocol())
             };
         }
 
@@ -70,7 +70,7 @@ namespace Server.Services
             return new Protocols.Response.Rss
             {
                 ResultCode = Code.ResultCode.Success,
-                RssData = (await _mongoDbRss.FindOneAsyncById(id))?.ToProtocol()
+                Data = (await _mongoDbRss.FindOneAsyncById(id))?.ToProtocol()
             };
         }
 
@@ -81,13 +81,13 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Rss> Update(string id, Protocols.Request.Rss rss)
         {
-            var update = rss.RssData.ToModel();
+            var update = rss.Data.ToModel();
 
             var updated = await _mongoDbRss.UpdateAsync(id, update);
             return new Protocols.Response.Rss
             {
                 ResultCode = Code.ResultCode.Success,
-                RssData = (updated ?? update).ToProtocol()
+                Data = (updated ?? update).ToProtocol()
             };
         }
 
@@ -96,7 +96,7 @@ namespace Server.Services
             return new Protocols.Response.Rss
             {
                 ResultCode = Code.ResultCode.Success,
-                RssData = (await _mongoDbRss.RemoveAsync(id))?.ToProtocol()
+                Data = (await _mongoDbRss.RemoveAsync(id))?.ToProtocol()
             };
         }
     }

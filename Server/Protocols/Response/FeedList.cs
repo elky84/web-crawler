@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class FeedList : Pagable
     {
-        public List<Common.FeedData> FeedDatas = new List<Common.FeedData>();
+        public List<Common.FeedData> Datas = new List<Common.FeedData>();
     }
 }

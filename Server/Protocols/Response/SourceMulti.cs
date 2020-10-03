@@ -7,6 +7,6 @@ namespace Server.Protocols.Response
 {
     public class SourceMulti : Header
     {
-        public List<Common.Source> SourceDatas { get; set; }
+        public List<Common.Source> Datas { get; set; }
     }
 }

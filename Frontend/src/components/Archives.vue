@@ -191,7 +191,7 @@ export default {
           this.viewPageCount = Math.ceil(result.data.total / this.searchData.limit)
           this.totalItems = result.data.total
 
-          vm.archives = result.data.crawlingDatas
+          vm.archives = result.data.datas
         })
     },
     parentSearching (searchData) {

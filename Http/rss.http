@@ -737,7 +737,31 @@ Content-Type: application/json
         {
             "Url": "https://rss.blog.naver.com/teamwaldo.xml",
             "Name": "팀 왈도 번역팀"
-        }
+        },
+        {
+			"Url": "https://wit.nts-corp.com/feed",
+			"Name": "NTS"
+		},
+        {
+			"Url": "https://blog.hanlee.io/rss.xml",
+			"Name": "Han Lee"
+		},
+        {
+			"Url": "https://gracefullight.dev/feed.xml",
+			"Name": "Gracefullight Web.dev"
+		},
+        {
+			"Url": "https://hyperconnect.github.io/feed.xml",
+			"Name": "HyperConnect Tech Blog"
+		},
+        {
+			"Url": "https://gracefullight.dev/feed.xml",
+			"Name": "Gracefullight Web.dev"
+		},
+        {
+			"Url": "https://blog.roto.codes/rss/",
+			"Name": "로토의 블로그"
+		}
 	]
 }
 
@@ -747,12 +771,10 @@ POST {{host}}/Rss/Multi
 Content-Type: application/json
 
 {
-	"Datas": [
-		{
-			"Url": "http://elky84.github.io/feed.xml",
-			"Name": "Elky Essay"
-		}
-	]
+    "Data": {
+        "Url": "http://elky84.github.io/feed.xml",
+        "Name": "Elky Essay"
+    }
 }
 
 

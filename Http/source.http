@@ -65,6 +65,11 @@ Content-Type: application/json
 			"Type": "Clien",
 			"BoardId": "park",
 			"Name": "모두의공원"
+		},
+		{
+			"Type": "InvenNews",
+			"BoardId": "site=lol",
+			"Name": "인벤 LOL 뉴스"
 		}
 	]
 }
@@ -75,9 +80,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type":"Ruliweb",
-		"BoardId": "1020",
-		"Name": "핫딜게시판"
+		"Type": "InvenNews",
+		"BoardId": "site=lol",
+		"Name": "인벤 LOL 뉴스"
 	}
 }
 

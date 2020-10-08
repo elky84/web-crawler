@@ -13,6 +13,7 @@ namespace WebCrawler.Code
         FmKorea,
         SlrClub,
         Ppomppu,
-        TodayHumor
+        TodayHumor,
+        InvenNews,
     }
 }

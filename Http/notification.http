@@ -2,6 +2,21 @@
 
 GET {{host}}/Notification
 
+### Notification Create Discord
+
+POST {{host}}/Notification
+Content-Type: application/json
+
+{
+    "Data": {
+        "Type": "Discord",
+        "Name": "LOL 리포터 뉴스",
+        "IconUrl": "https://lh3.googleusercontent.com/Hc4D74YO7FYttrPCm5MuDm91NLblaaunJ6Y38WCg9mABUJfobgU_vXy1tjX668bI6xs=s180-rw",
+        "HookUrl": "https://discordapp.com/api/webhooks/763802481817026580/eSwxNI_pfy0V2zMtAEwLDydZ2zM7GilP-KPsZR5rGcYTCdlkPz9mFaUbl4BI7oI7RmtF",
+        "CrawlingType": "InvenNews",
+        "BoardName": "인벤 LOL 뉴스"
+    }
+}
 
 ### Notification Create Multi Discord
 
@@ -74,7 +89,15 @@ Content-Type: application/json
             "IconUrl": "https://www.bruegel.org/wp-content/uploads/2015/08/icon-rss.png",
             "HookUrl": "https://discordapp.com/api/webhooks/757093883438956604/YRdxA4KgvT0cEdzECC8bu4DyeSIuoxlLhMfPoG3BQgtrn1-fpArcr1ogo7uMTqK-QeKG",
             "CrawlingType": "Rss"
-		}
+		},
+        {
+            "Type": "Discord",
+            "Name": "LOL 리포터 뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/Hc4D74YO7FYttrPCm5MuDm91NLblaaunJ6Y38WCg9mABUJfobgU_vXy1tjX668bI6xs=s180-rw",
+            "HookUrl": "https://discordapp.com/api/webhooks/763802481817026580/eSwxNI_pfy0V2zMtAEwLDydZ2zM7GilP-KPsZR5rGcYTCdlkPz9mFaUbl4BI7oI7RmtF",
+            "CrawlingType": "InvenNews",
+            "BoardName": "인벤 LOL 뉴스"
+        }
 	]
 }
 
@@ -140,7 +163,15 @@ Content-Type: application/json
             "IconUrl": "https://www.bruegel.org/wp-content/uploads/2015/08/icon-rss.png",
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "Rss"
-		}
+		},
+        {
+            "Type": "Discord",
+            "Name": "LOL 리포터 뉴스",
+            "IconUrl": "https://lh3.googleusercontent.com/Hc4D74YO7FYttrPCm5MuDm91NLblaaunJ6Y38WCg9mABUJfobgU_vXy1tjX668bI6xs=s180-rw",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "InvenNews",
+            "BoardName": "인벤 LOL 뉴스"
+        }
 	]
 }
 
@@ -284,7 +315,7 @@ Content-Type: application/json
 }
 
 
-### Notification Create
+### Notification Create Slack
 
 POST {{host}}/Notification
 Content-Type: application/json

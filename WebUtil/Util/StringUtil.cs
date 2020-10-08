@@ -62,6 +62,16 @@ namespace WebUtil.Util
         }
 
 
+        public static int ToIntRegx(this string str, int defaultValue = 0)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+            return ToInt(Regex.Match(str, @"\d+").Value);
+        }
+
+
         public static int ToIntShorthand(this string str, int defaultValue = 0)
         {
             if (string.IsNullOrEmpty(str))

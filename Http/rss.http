@@ -1,7 +1,11 @@
-### Rss Get
+### Rss Get All
 
 GET {{host}}/Rss
 
+
+### Rss Get Error
+
+GET {{host}}/Rss/Error
 
 ### Rss Create Multi
 

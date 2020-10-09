@@ -31,6 +31,16 @@ namespace Server.Controllers
             };
         }
 
+        [HttpGet("Error")]
+        public async Task<Protocols.Response.RssMulti> Error()
+        {
+            return new Protocols.Response.RssMulti
+            {
+                Datas = (await _rssService.Error()).ConvertAll(x => x.ToProtocol())
+            };
+        }
+
+
         [HttpPost]
         public async Task<Protocols.Response.Rss> Create([FromBody] Protocols.Request.Rss rss)
         {

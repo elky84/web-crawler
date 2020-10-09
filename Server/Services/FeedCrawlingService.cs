@@ -71,7 +71,11 @@ namespace Server.Services
             Parallel.ForEach(rssList, new ParallelOptions { MaxDegreeOfParallelism = 16 },
                 async rss =>
                 {
-                    await new RssCrawler(onCrawlDataDelegate, _mongoDbService.Database, rss.ToModel()).RunAsync();
+                    var update = await new RssCrawler(onCrawlDataDelegate, _mongoDbService.Database, rss.ToModel()).RunAsync();
+                    if (update != null)
+                    {
+                        await _rssService.Update(update);
+                    }
                 }
             );
 

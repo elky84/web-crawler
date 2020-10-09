@@ -27,6 +27,11 @@ namespace Server.Services
             return await _mongoDbRss.All();
         }
 
+        public async Task<List<Rss>> Error()
+        {
+            return await _mongoDbRss.FindAsync(Builders<Rss>.Filter.Ne(x => x.ErrorTime, null));
+        }
+
         public async Task<Protocols.Response.Rss> Create(Protocols.Request.Rss rss)
         {
             var created = await Create(rss.Data);
@@ -89,6 +94,12 @@ namespace Server.Services
                 ResultCode = Code.ResultCode.Success,
                 Data = (updated ?? update).ToProtocol()
             };
+        }
+
+
+        public async Task<Rss> Update(Rss rss)
+        {
+            return await _mongoDbRss.UpdateAsync(rss.Id, rss);
         }
 
         public async Task<Protocols.Response.Rss> Delete(string id)

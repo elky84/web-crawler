@@ -137,7 +137,9 @@ namespace Server.Models
             {
                 Url = rss.Url,
                 Name = rss.Name,
-                Day = rss.Day
+                Day = rss.Day,
+                ErrorTime = rss.ErrorTime,
+                Error = rss.Error
             }.ToProtocol(rss);
         }
 
@@ -148,7 +150,9 @@ namespace Server.Models
                 Id = rss.Id,
                 Url = rss.Url,
                 Name = rss.Name,
-                Day = rss.Day
+                Day = rss.Day,
+                ErrorTime = rss.ErrorTime,
+                Error = rss.Error
             };
         }
 

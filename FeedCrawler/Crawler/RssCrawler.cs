@@ -16,7 +16,6 @@ namespace FeedCrawler.Crawler
 
         protected MongoDbUtil<FeedData> MongoDbFeedData;
 
-
         public delegate Task CrawlDataDelegate(FeedData data);
 
         public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
@@ -32,12 +31,11 @@ namespace FeedCrawler.Crawler
             Rss = rss;
         }
 
-        public virtual async Task RunAsync()
+        public virtual async Task<Rss> RunAsync()
         {
             try
             {
                 var feed = await FeedReader.ReadAsync(Rss.Url);
-
                 foreach (var item in feed.Items)
                 {
                     var link = item.Link.StartsWith("http") ? item.Link : feed.Link + item.Link;
@@ -61,12 +59,24 @@ namespace FeedCrawler.Crawler
 
                     await OnCrawlData(feedData);
                 }
+
+                if (!string.IsNullOrEmpty(Rss.Error))
+                {
+                    Rss.ErrorTime = null;
+                    Rss.Error = string.Empty;
+                    return Rss;
+                }
             }
             catch (Exception e)
             {
-                Log.Error(e.Message);
+                Rss.Error = e.Message;
+                if (!Rss.ErrorTime.HasValue)
+                {
+                    Rss.ErrorTime = DateTime.Now;
+                }
+                return Rss;
             }
-
+            return null;
         }
 
         protected async Task OnCrawlData(FeedData feedData)

@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 using WebUtil.Models;
 
 namespace FeedCrawler.Models
@@ -11,5 +12,9 @@ namespace FeedCrawler.Models
         public string Name { get; set; }
 
         public int Day { get; set; } = 7;
+
+        public DateTime? ErrorTime { get; set; }
+
+        public string Error { get; set; }
     }
 }

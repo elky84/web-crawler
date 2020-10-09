@@ -2,6 +2,7 @@
 
 GET {{host}}/Notification
 
+
 ### Notification Create Discord
 
 POST {{host}}/Notification
@@ -9,14 +10,15 @@ Content-Type: application/json
 
 {
     "Data": {
-        "Type": "Discord",
-        "Name": "LOL 리포터 뉴스",
-        "IconUrl": "https://lh3.googleusercontent.com/Hc4D74YO7FYttrPCm5MuDm91NLblaaunJ6Y38WCg9mABUJfobgU_vXy1tjX668bI6xs=s180-rw",
-        "HookUrl": "https://discordapp.com/api/webhooks/763802481817026580/eSwxNI_pfy0V2zMtAEwLDydZ2zM7GilP-KPsZR5rGcYTCdlkPz9mFaUbl4BI7oI7RmtF",
-        "CrawlingType": "InvenNews",
-        "BoardName": "인벤 LOL 뉴스"
-    }
+            "Type": "Discord",
+            "Name": "포텐터짐",
+            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
+            "CrawlingType": "FmKorea",
+            "BoardName": "포텐터짐"
+        }
 }
+
 
 ### Notification Create Multi Discord
 
@@ -97,6 +99,22 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/763802481817026580/eSwxNI_pfy0V2zMtAEwLDydZ2zM7GilP-KPsZR5rGcYTCdlkPz9mFaUbl4BI7oI7RmtF",
             "CrawlingType": "InvenNews",
             "BoardName": "인벤 LOL 뉴스"
+        },
+        {
+            "Type": "Discord",
+            "Name": "펨코핫딜",
+            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
+            "CrawlingType": "FmKorea",
+            "BoardName": "핫딜"
+        },
+        {
+            "Type": "Discord",
+            "Name": "포텐터짐",
+            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
+            "CrawlingType": "FmKorea",
+            "BoardName": "포텐터짐"
         }
 	]
 }
@@ -171,6 +189,22 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "InvenNews",
             "BoardName": "인벤 LOL 뉴스"
+        },
+        {
+            "Type": "Discord",
+            "Name": "펨코핫딜",
+            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "FmKorea",
+            "BoardName": "핫딜"
+        },
+        {
+            "Type": "Discord",
+            "Name": "포텐터짐",
+            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "FmKorea",
+            "BoardName": "포텐터짐"
         }
 	]
 }

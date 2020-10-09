@@ -70,6 +70,16 @@ Content-Type: application/json
 			"Type": "InvenNews",
 			"BoardId": "site=lol",
 			"Name": "인벤 LOL 뉴스"
+		},
+		{
+			"Type": "FmKorea",
+			"BoardId": "best",
+			"Name": "포텐터짐"
+		},
+		{
+			"Type": "FmKorea",
+			"BoardId": "hotdeal",
+			"Name": "핫딜"
 		}
 	]
 }
@@ -80,11 +90,12 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "InvenNews",
-		"BoardId": "site=lol",
-		"Name": "인벤 LOL 뉴스"
+		"Type": "FmKorea",
+		"BoardId": "best",
+		"Name": "포텐터짐"
 	}
 }
+
 
 ### Source Get
 

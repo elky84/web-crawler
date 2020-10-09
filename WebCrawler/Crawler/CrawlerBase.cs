@@ -129,6 +129,9 @@ namespace WebCrawler
                 return;
             }
 
+            // 글자 뒤의 공백 날리기
+            crawlingData.Title = crawlingData.Title.TrimEnd();
+
             // 현재시간보다 크다면, 시간만 담긴 데이터에서 전날 글에 대한 시간 + 오늘 날짜로 값이 들어와서 그런 것. 이에 대한 예외처리
             if (crawlingData.DateTime > DateTime.Now)
             {

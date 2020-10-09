@@ -10,13 +10,13 @@ Content-Type: application/json
 
 {
     "Data": {
-            "Type": "Discord",
-            "Name": "포텐터짐",
-            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
-            "CrawlingType": "FmKorea",
-            "BoardName": "포텐터짐"
-        }
+        "Type": "Discord",
+        "Name": "인기자료",
+        "IconUrl": "http://down.humoruniv.com/hwiparambbs/data/pdswait/a_4883065431_b9afd56add3ad86ccc10cde95a0d8c0cc57ead30.png",
+        "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
+        "CrawlingType": "HumorUniv",
+        "BoardName": "인기자료"
+    }
 }
 
 
@@ -115,6 +115,14 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "FmKorea",
             "BoardName": "포텐터짐"
+        },
+        {
+            "Type": "Discord",
+            "Name": "인기자료",
+            "IconUrl": "http://down.humoruniv.com/hwiparambbs/data/pdswait/a_4883065431_b9afd56add3ad86ccc10cde95a0d8c0cc57ead30.png",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "CrawlingType": "HumorUniv",
+            "BoardName": "인기자료"
         }
 	]
 }
@@ -134,78 +142,7 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "Clien",
             "BoardName": "회원중고장터"
-		},
-        {
-			"Type": "Discord",
-			"Name": "핫딜",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "핫딜게시판"
-		},
-        {
-			"Type": "Discord",
-			"Name": "콘솔뉴스",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "콘솔뉴스"
-		},
-        {
-			"Type": "Discord",
-			"Name": "PC뉴스",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "PC뉴스"
-		},
-        {
-			"Type": "Discord",
-			"Name": "많이 본 글",
-            "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Ruliweb",
-            "BoardName": "많이 본 글"
-		},
-        {
-			"Type": "Discord",
-			"Name": "베오베",
-            "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "TodayHumor",
-            "BoardName": "베오베"
-		},
-        {
-			"Type": "Discord",
-			"Name": "Rss",
-            "IconUrl": "https://www.bruegel.org/wp-content/uploads/2015/08/icon-rss.png",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Rss"
-		},
-        {
-            "Type": "Discord",
-            "Name": "LOL 리포터 뉴스",
-            "IconUrl": "https://lh3.googleusercontent.com/Hc4D74YO7FYttrPCm5MuDm91NLblaaunJ6Y38WCg9mABUJfobgU_vXy1tjX668bI6xs=s180-rw",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "InvenNews",
-            "BoardName": "인벤 LOL 뉴스"
-        },
-        {
-            "Type": "Discord",
-            "Name": "펨코핫딜",
-            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "FmKorea",
-            "BoardName": "핫딜"
-        },
-        {
-            "Type": "Discord",
-            "Name": "포텐터짐",
-            "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "FmKorea",
-            "BoardName": "포텐터짐"
-        }
+		}
 	]
 }
 

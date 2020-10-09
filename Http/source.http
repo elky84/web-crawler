@@ -80,6 +80,11 @@ Content-Type: application/json
 			"Type": "FmKorea",
 			"BoardId": "hotdeal",
 			"Name": "핫딜"
+		},
+		{
+			"Type": "HumorUniv",
+			"BoardId": "pick",
+			"Name": "인기자료"
 		}
 	]
 }
@@ -90,9 +95,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "FmKorea",
-		"BoardId": "best",
-		"Name": "포텐터짐"
+		"Type": "HumorUniv",
+		"BoardId": "pick",
+		"Name": "인기자료"
 	}
 }
 

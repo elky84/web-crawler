@@ -15,5 +15,6 @@ namespace WebCrawler.Code
         Ppomppu,
         TodayHumor,
         InvenNews,
+        HumorUniv,
     }
 }

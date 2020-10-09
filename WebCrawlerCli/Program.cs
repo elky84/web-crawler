@@ -24,6 +24,13 @@ namespace WebCrawlerCli
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");
 
+            await new HumorUnivCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.HumorUniv,
+                BoardId = "pick",
+                Name = "인기자료"
+            }).RunAsync();
+
             await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.FmKorea,

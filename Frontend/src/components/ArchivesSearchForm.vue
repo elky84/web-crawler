@@ -5,7 +5,7 @@
           <input type="text" class="col-md-1 form-control form-control-sm" v-model="searchProtocol.keyword" placeholder="제목 (like 검색)">
           <select class="col-md-1 form-control form-control-sm" v-model="searchProtocol.type" name="type">
             <option :value=null>타입 (전체)</option>
-            <option v-for="(value, key) in ARCHIVES_TYPES" :value="key" :key="value.text">{{value.text}}</option>
+            <option v-for="(value) in types" :value="value" :key="value">{{value}}</option>
           </select>
           <select class="col-md-1 form-control form-control-sm" @change="search()" v-model="searchProtocol.limit" name="limit">
             <option v-for="(value) in LIMIT_TYPES" :value="value" :key="value">{{value}}</option>
@@ -20,7 +20,6 @@
 <script>
 import _ from 'lodash'
 import {
-  ARCHIVES_TYPES,
   LIMIT_TYPES
 } from '@/common/constant/types'
 
@@ -35,24 +34,32 @@ export default {
   data () {
     return {
       searchProtocol: Object.assign({}, SEARCH_PROTOCOL),
-      ARCHIVES_TYPES: ARCHIVES_TYPES,
+      types: [],
       LIMIT_TYPES: LIMIT_TYPES
     }
   },
   beforeMount () {
-    var searchProtocol = JSON.parse(this.$localStorage.get('searchProtocol'))
-    if (searchProtocol === null) {
-      this.reset()
-    } else {
-      if (_.isEqual(Object.keys(searchProtocol), Object.keys(SEARCH_PROTOCOL))) {
-        this.searchProtocol = searchProtocol
-        this.$emit('searching', this.searchProtocol)
-      } else {
-        this.reset()
-      }
-    }
+    var vm = this
+    this.$http.get(`${process.env.VUE_APP_URL_BACKEND}/Code/CrawlingType`, {})
+      .then((result) => {
+        vm.types = result.data.datas
+      })
+    this.searchFromCache()
   },
   methods: {
+    searchFromCache () {
+      var searchProtocol = JSON.parse(this.$localStorage.get('searchProtocol'))
+      if (searchProtocol === null) {
+        this.reset()
+      } else {
+        if (_.isEqual(Object.keys(searchProtocol), Object.keys(SEARCH_PROTOCOL))) {
+          this.searchProtocol = searchProtocol
+          this.$emit('searching', this.searchProtocol)
+        } else {
+          this.reset()
+        }
+      }
+    },
     search (e) {
       this.$localStorage.set('searchProtocol', JSON.stringify(this.searchProtocol))
       this.$emit('searching', this.searchProtocol)

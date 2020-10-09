@@ -47,21 +47,23 @@
                   </a>
                 </span>
               </div>
-                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=getLabel(archive.type)>
                   {{archive.type}}
                 </span>
 
-                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=getLabel(archive.type)>
                   {{archive.boardName}}
                 </span>
 
-                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label
+                <span style="display:inline-block" width="120" class="badge block-badge" v-bind:class=getLabel(archive.type)
                   v-if="archive.category">
                   {{archive.category}}
                 </span>
+
                 <span class="time">
                   {{momentTime(archive.dateTime)}}
                 </span>
+
                 <span class="count">
                   {{abbreviation(archive.count)}}
                 </span>
@@ -69,19 +71,19 @@
           </tr>
           <tr class="cursor-pointer" :key="archive._id" @click.prevent="onClickLink(archive, index)" v-if="!isMobile">
             <td align="center">
-              <span class="type">
+              <span class="type badge block-badge" v-bind:class=getLabel(archive.type)>
                 {{archive.type}}
               </span>
             </td>
 
             <td align="center">
-              <span class="badge block-badge" v-bind:class=ARCHIVES_TYPES[archive.type].label>
+              <span class="badge block-badge" v-bind:class=getLabel(archive.type)>
                 {{archive.boardName}}
               </span>
             </td>
 
             <td align="center">
-              <span class="category">
+              <span v-if="!isEmptyString(archive.category)" class="category badge block-badge" v-bind:class=getLabel(archive.type)>
                 {{archive.category}}
               </span>
             </td>
@@ -119,7 +121,7 @@ import ArchivesSearchForm from './ArchivesSearchForm'
 import ArchivesUtils from './ArchivesUtils'
 import Qs from 'qs'
 import {
-  ARCHIVES_TYPES,
+  LABELS,
   LIMIT_TYPES
 } from '@/common/constant/types'
 
@@ -131,7 +133,7 @@ export default {
   data () {
     return {
       archives: [],
-      ARCHIVES_TYPES: ARCHIVES_TYPES,
+      LABELS: LABELS,
       LIMIT_TYPES: LIMIT_TYPES,
       currentPage: 1,
       viewPageCount: 1,
@@ -157,6 +159,9 @@ export default {
     }
   },
   methods: {
+    getLabel (type) {
+      return LABELS[type.charCodeAt(0) % LABELS.length]
+    },
     momentTime (date) {
       return ArchivesUtils.momentTime(date)
     },
@@ -168,6 +173,15 @@ export default {
     },
     substr (str) {
       return ArchivesUtils.substr(str)
+    },
+    isEmptyString (str) {
+      if (str) {
+        return this.trim(str) === ''
+      }
+      return true
+    },
+    trim (str) {
+      return str.replace(/^\s+|\s+$/g, '')
     },
     getArchives (searchData) {
       this.searchData = Object.assign({}, searchData)
@@ -235,6 +249,7 @@ export default {
 .badge.block-badge {
   display: block;
 }
+
 .arrow {
     display: inline-block;
     vertical-align: middle;
@@ -243,6 +258,7 @@ export default {
     margin-left: 5px;
     opacity: 0.66;
 }
+
 .arrow.asc {
     display: inline-block;
     border-left: 5px solid transparent;
@@ -250,6 +266,7 @@ export default {
     border-bottom: 5px solid #FFFFFF;
     border-bottom-color: #0089ff;
 }
+
 .arrow.dsc {
     display: inline-block;
     border-left: 5px solid transparent;
@@ -257,33 +274,40 @@ export default {
     border-top: 5px solid #FFFFFF;
     border-top-color: #0089ff;
 }
+
 .badge {
   font-size: 1em !important;
   font-family: Arial !important;
   margin-right: 2px;
   margin-left: 2px;
 }
+
 .header {
   font-size: 1em !important;
   font-family: Arial !important;
 }
+
 .count {
   font-size: 1em !important;
   font-family: Arial !important;
 }
+
 .time {
   font-size: 1em !important;
   font-family: Arial !important;
 }
+
 .title {
   font-size: 1em !important;
   font-family: Arial !important;
   margin-left: 2px;
   margin-right: 2px;
 }
+
 .cursor-pointer.unread {
   background: #FFFFFF;
 }
+
 .cursor-pointer.read {
   background: #EEEEEE;
 }

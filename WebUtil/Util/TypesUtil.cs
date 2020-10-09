@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebUtil.Common;
 
 namespace WebUtil.Util
@@ -59,6 +61,11 @@ namespace WebUtil.Util
             }
 
             return null;
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>() where T : struct
+        {
+            return (T[])Enum.GetValues(typeof(T));
         }
     }
 }

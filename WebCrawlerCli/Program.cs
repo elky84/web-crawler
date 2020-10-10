@@ -24,11 +24,11 @@ namespace WebCrawlerCli
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");
 
-            await new HumorUnivCrawler(null, database, new WebCrawler.Models.Source
+            await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source
             {
-                Type = CrawlingType.HumorUniv,
-                BoardId = "pick",
-                Name = "인기자료"
+                Type = CrawlingType.FmKorea,
+                BoardId = "hotdeal",
+                Name = "펨코핫딜"
             }).RunAsync();
 
             await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source
@@ -36,6 +36,13 @@ namespace WebCrawlerCli
                 Type = CrawlingType.FmKorea,
                 BoardId = "best",
                 Name = "포텐터짐"
+            }).RunAsync();
+
+            await new HumorUnivCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.HumorUniv,
+                BoardId = "pick",
+                Name = "인기자료"
             }).RunAsync();
 
             await new InvenNewsCrawler(null, database, new WebCrawler.Models.Source

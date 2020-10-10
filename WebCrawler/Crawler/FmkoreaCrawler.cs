@@ -92,7 +92,13 @@ namespace WebCrawler.Crawler
                         }).ToList();
 
                     tuples.AddRange(x.QuerySelectorAll("span")
-                        .Select(y => new Tuple<string, string>(y.ClassName, y.TextContent.Trim())).ToList());
+                        .Select(y => new Tuple<string, string>(y.ClassName, y.TextContent.Trim()))
+                        .ToList());
+
+                    tuples.AddRange(x.QuerySelectorAll("div")
+                        .Where(y => !string.IsNullOrEmpty(y.ClassName) && y.ClassName == "hotdeal_info")
+                        .Select(y => new Tuple<string, string>("info", y.TextContent.Replace("\t", string.Empty)))
+                        .ToList());
 
                     var hrefs = x.QuerySelectorAll("a")
                         .Select(x => x.GetAttribute("href"))
@@ -106,8 +112,15 @@ namespace WebCrawler.Crawler
                 var stringTuples = row.Item1;
                 var hrefs = row.Item2;
 
-                var category = stringTuples.FindValue("category");
+                var category = stringTuples.FindValue("category").Replace(" /", string.Empty);
                 var title = stringTuples.FindValue("title");
+
+                var info = stringTuples.FindValue("info");
+                if (!string.IsNullOrEmpty(info))
+                {
+                    title += $" [{info}]";
+                }
+
                 var author = stringTuples.FindValue("author").Replace("/ ", string.Empty);
                 var date = DateTime.Now;
                 var recommend = stringTuples.FindValue("count").ToInt();

@@ -113,7 +113,7 @@ namespace WebCrawler.Crawler
                 var hrefs = row.Item2;
 
                 var category = stringTuples.FindValue("category").Replace(" /", string.Empty);
-                var title = stringTuples.FindValue("title");
+                var title = stringTuples.FindValue("title").TrimEnd();
 
                 var info = stringTuples.FindValue("info");
                 if (!string.IsNullOrEmpty(info))

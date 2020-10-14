@@ -55,7 +55,10 @@ namespace Server.Models
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
                 SourceId = notification.SourceId,
-                Keyword = notification.Keyword
+                Keyword = notification.Keyword,
+                FilterDayOfWeeks = notification.FilterDayOfWeeks,
+                FilterStartTime = notification.FilterStartTime,
+                FilterEndTime = notification.FilterEndTime
             }.ToProtocol(notification);
         }
 
@@ -71,7 +74,10 @@ namespace Server.Models
                 IconUrl = notification.IconUrl,
                 SourceId = notification.SourceId,
                 CrawlingType = notification.CrawlingType,
-                Keyword = notification.Keyword
+                Keyword = notification.Keyword,
+                FilterDayOfWeeks = notification.FilterDayOfWeeks,
+                FilterStartTime = notification.FilterStartTime,
+                FilterEndTime = notification.FilterEndTime
             };
         }
 
@@ -86,7 +92,10 @@ namespace Server.Models
                 IconUrl = notification.IconUrl,
                 SourceId = sourceId,
                 CrawlingType = notification.CrawlingType,
-                Keyword = notification.Keyword
+                Keyword = notification.Keyword,
+                FilterDayOfWeeks = notification.FilterDayOfWeeks,
+                FilterStartTime = notification.FilterStartTime,
+                FilterEndTime = notification.FilterEndTime
             };
         }
 

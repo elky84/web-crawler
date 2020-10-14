@@ -104,6 +104,7 @@ namespace WebUtil.Util
 
         public T Update(string id, T t)
         {
+            t.Id = id;
             t.Updated = DateTime.Now;
             Collection.ReplaceOne(GetIdFilter(id), t);
             return t;
@@ -142,6 +143,7 @@ namespace WebUtil.Util
 
         public async Task<T> UpdateAsync(string id, T t)
         {
+            t.Id = id;
             t.Updated = DateTime.Now;
             var result = await Collection.ReplaceOneAsync(GetIdFilter(id), t);
             return result.ModifiedCount > 0 ? t : null;

@@ -14,6 +14,7 @@ using System.Collections.Concurrent;
 using Server.Code;
 using System.Threading;
 using Serilog;
+using WebCrawler.Code;
 
 namespace Server.Services
 {
@@ -65,14 +66,14 @@ namespace Server.Services
 
         }
 
-        private async Task<string> GetSourceId(Protocols.Common.NotificationCreate notification)
+        private async Task<string> GetSourceId(CrawlingType crawlingType, string boardName)
         {
-            if (notification.CrawlingType == WebCrawler.Code.CrawlingType.Rss)
+            if (crawlingType == CrawlingType.Rss)
             {
                 return string.Empty;
             }
 
-            var source = await _sourceService.GetByName(notification.CrawlingType, notification.BoardName);
+            var source = await _sourceService.GetByName(crawlingType, boardName);
             if (source == null)
             {
                 throw new DeveloperException(ResultCode.NotFoundSource);
@@ -81,19 +82,24 @@ namespace Server.Services
             return source.Id;
         }
 
+        private FilterDefinition<Notification> GetFilterDefinition(string sourceId, CrawlingType crawlingType, NotificationType notificationType)
+        {
+            return Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
+                    Builders<Notification>.Filter.Eq(x => x.CrawlingType, crawlingType) &
+                    Builders<Notification>.Filter.Eq(x => x.Type, notificationType);
+        }
+
         private async Task<Notification> Create(Protocols.Common.NotificationCreate notification)
         {
             try
             {
-                var sourceId = await GetSourceId(notification);
-                return await _mongoDbNotification.UpsertAsync(Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
-                    Builders<Notification>.Filter.Eq(x => x.CrawlingType, notification.CrawlingType) &
-                    Builders<Notification>.Filter.Eq(x => x.Type, notification.Type),
+                var sourceId = await GetSourceId(notification.CrawlingType, notification.BoardName);
+                return await _mongoDbNotification.UpsertAsync(GetFilterDefinition(sourceId, notification.CrawlingType, notification.Type),
                     notification.ToModel(sourceId));
             }
             catch (MongoWriteException)
             {
-                throw new DeveloperException(Code.ResultCode.UsingNotificationId);
+                throw new DeveloperException(ResultCode.UsingNotificationId);
             }
         }
 
@@ -125,6 +131,19 @@ namespace Server.Services
             return await _mongoDbNotification.FindAsync(filter);
         }
 
+        public async Task<Protocols.Response.Notification> Update(Protocols.Request.NotificationUpdate notificationUpdate)
+        {
+            var update = notificationUpdate.Data.ToModel();
+
+            var filter = GetFilterDefinition(update.SourceId, update.CrawlingType, update.Type);
+            var updated = await _mongoDbNotification.UpsertAsync(filter, update);
+            return new Protocols.Response.Notification
+            {
+                ResultCode = ResultCode.Success,
+                Data = (updated ?? update).ToProtocol()
+            };
+        }
+
         public async Task<Protocols.Response.Notification> Update(string id, Protocols.Request.NotificationUpdate notificationUpdate)
         {
             var update = notificationUpdate.Data.ToModel();
@@ -153,7 +172,12 @@ namespace Server.Services
             {
                 if (!notification.ContainsKeyword(crawlingData.Title))
                 {
-                    return;
+                    continue;
+                }
+
+                if (notification.FilteredTime(DateTime.Now))
+                {
+                    continue;
                 }
 
                 switch (notification.Type)
@@ -179,7 +203,12 @@ namespace Server.Services
                 if (!notification.ContainsKeyword(feedData.FeedTitle) &&
                     !notification.ContainsKeyword(feedData.ItemTitle))
                 {
-                    return;
+                    continue;
+                }
+
+                if (notification.FilteredTime(DateTime.Now))
+                {
+                    continue;
                 }
 
                 switch (notification.Type)

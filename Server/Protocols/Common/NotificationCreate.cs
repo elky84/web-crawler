@@ -28,5 +28,12 @@ namespace Server.Protocols.Common
         public string BoardName { get; set; }
 
         public string Keyword { get; set; }
+
+        [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+        public List<DayOfWeek> FilterDayOfWeeks { get; set; } = new List<DayOfWeek>();
+
+        public string FilterStartTime { get; set; }
+
+        public string FilterEndTime { get; set; }
     }
 }

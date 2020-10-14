@@ -36,6 +36,12 @@ namespace Server.Controllers
             return await _notificationService.Create(notificaion);
         }
 
+        [HttpPut]
+        public async Task<Protocols.Response.Notification> Update([FromBody] Protocols.Request.NotificationUpdate notificaion)
+        {
+            return await _notificationService.Update(notificaion);
+        }
+
         [HttpPost("Multi")]
         public async Task<Protocols.Response.NotificationMulti> CreateMulti([FromBody] Protocols.Request.NotificationMulti notificaionMulti)
         {

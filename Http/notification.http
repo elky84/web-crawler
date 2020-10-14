@@ -66,7 +66,10 @@ Content-Type: application/json
             "IconUrl": "https://lh3.googleusercontent.com/OwN24ti7VzhNXGWVw4RQD-dfkGEf-fnFb7yz--knAwPoxR9VSXpGb3UoOYJNyDIKiQ=s180",
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "Ruliweb",
-            "BoardName": "많이 본 글"
+            "BoardName": "많이 본 글",
+            "FilterDayOfWeeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+            "FilterStartTime": "09:00:00",
+            "FilterEndTime": "19:00:00",
 		},
         {
 			"Type": "Discord",
@@ -74,7 +77,10 @@ Content-Type: application/json
             "IconUrl": "https://apprecs.org/ios/images/app-icons/256/6f/664550767.jpg",
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "TodayHumor",
-            "BoardName": "베오베"
+            "BoardName": "베오베",
+            "FilterDayOfWeeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+            "FilterStartTime": "09:00:00",
+            "FilterEndTime": "19:00:00",
 		},
         {
 			"Type": "Discord",
@@ -114,15 +120,22 @@ Content-Type: application/json
             "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
             "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "FmKorea",
-            "BoardName": "포텐터짐"
+            "BoardName": "포텐터짐",
+            "Keyword": "LOL|LCK|DRX|손흥민",
+            "FilterDayOfWeeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+            "FilterStartTime": "09:00:00",
+            "FilterEndTime": "19:00:00",
         },
         {
             "Type": "Discord",
             "Name": "인기자료",
             "IconUrl": "http://down.humoruniv.com/hwiparambbs/data/pdswait/a_4883065431_b9afd56add3ad86ccc10cde95a0d8c0cc57ead30.png",
-            "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
             "CrawlingType": "HumorUniv",
-            "BoardName": "인기자료"
+            "BoardName": "인기자료",
+            "FilterDayOfWeeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+            "FilterStartTime": "09:00:00",
+            "FilterEndTime": "19:00:00",
         }
 	]
 }
@@ -285,24 +298,6 @@ Content-Type: application/json
 	]
 }
 
-
-### Notification Create Slack
-
-POST {{host}}/Notification
-Content-Type: application/json
-
-{
-    "Data": {
-        "Type": "Slack",
-        "Name": "축구 뉴스",
-        "Channel": "C01AVLPP1U5",
-        "IconUrl": "https://media.cdnandroid.com/item_images/1047984/imagen-i-i-i-ee-i-i-i-0thumb.jpeg",
-        "HookUrl": "https://hooks.slack.com/services/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",
-        "CrawlingType": "FmKorea",
-        "BoardName": "축구 뉴스"
-    }
-}
-
 ### Notification Get
 
 GET {{host}}/Notification/5f5a25cc6e6fbaf1a5e7ccca
@@ -314,6 +309,7 @@ Content-Type: application/json
 
 {
     "Data": {
+        "Id": "5f5a25cc6e6fbaf1a5e7ccca",
         "Type": "Slack",
         "Name": "축구 뉴스",
         "Channel": "C01AVLPP1U5",

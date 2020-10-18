@@ -136,7 +136,6 @@ export default {
       LABELS: LABELS,
       LIMIT_TYPES: LIMIT_TYPES,
       currentPage: 1,
-      viewPageCount: 1,
       totalItems: 0,
       searchData: { limit: LIMIT_TYPES[0] },
       sort: 'DateTime',
@@ -202,9 +201,7 @@ export default {
           })
         } })
         .then((result) => {
-          this.viewPageCount = Math.ceil(result.data.total / this.searchData.limit)
           this.totalItems = result.data.total
-
           vm.archives = result.data.datas
         })
     },

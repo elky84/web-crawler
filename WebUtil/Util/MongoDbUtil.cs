@@ -141,6 +141,11 @@ namespace WebUtil.Util
             return result.ModifiedCount > 0 ? t : null;
         }
 
+        public async Task UpdateManyAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            await Collection.UpdateManyAsync(filter, update);
+        }
+
         public async Task<T> UpdateAsync(string id, T t)
         {
             t.Id = id;

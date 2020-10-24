@@ -148,7 +148,7 @@ namespace WebCrawler
             }
             else
             {
-                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Title, crawlingData.Title);
+                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Href, crawlingData.Href);
             }
 
             await MongoDbCrawlingData.UpsertAsync(filter, crawlingData,

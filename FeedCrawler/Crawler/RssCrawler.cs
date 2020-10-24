@@ -87,7 +87,7 @@ namespace FeedCrawler.Crawler
             }
 
             await MongoDbFeedData.UpsertAsync(Builders<FeedData>.Filter.Eq(x => x.Url, feedData.Url) &
-                    Builders<FeedData>.Filter.Eq(x => x.ItemTitle, feedData.ItemTitle),
+                    Builders<FeedData>.Filter.Eq(x => x.Href, feedData.Href),
                     feedData,
                     async (feedData) =>
                     {

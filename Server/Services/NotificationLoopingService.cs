@@ -3,6 +3,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using Server.Exception;
 
 namespace Server.Services
 {
@@ -27,8 +28,7 @@ namespace Server.Services
                 }
                 catch (System.Exception e)
                 {
-                    _logger.LogError($"Implement Task Exception. Reason:{e.Message}");
-
+                    e.ExceptionLog();
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);

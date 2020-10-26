@@ -1,6 +1,7 @@
 ﻿using WebUtil.Services;
 using System;
 using Microsoft.Extensions.Logging;
+using Server.Exception;
 
 namespace Server.Services
 {
@@ -18,10 +19,17 @@ namespace Server.Services
 
         protected override void DoWork(object state)
         {
-            _ = _crawlingService.Execute(new Protocols.Request.Crawling
+            try
             {
-                All = true
-            });
+                _ = _crawlingService.Execute(new Protocols.Request.Crawling
+                {
+                    All = true
+                });
+            }
+            catch (System.Exception e)
+            {
+                e.ExceptionLog();
+            }
         }
     }
 }

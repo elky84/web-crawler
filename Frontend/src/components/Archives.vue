@@ -112,7 +112,7 @@
       </tbody>
     </table>
 
-    <b-pagination align="center" size="md" v-model="currentPage" :limit="20" :total-rows="totalItems" :per-page="searchData.limit" @change="listing(... arguments)" />
+    <b-pagination align="center" size="md" v-model="currentPage" :total-rows="totalItems" :per-page="searchData.limit" @change="listing(... arguments)" />
   </div>
 </template>
 

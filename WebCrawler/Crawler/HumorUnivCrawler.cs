@@ -59,7 +59,7 @@ namespace WebCrawler.Crawler
 
                 var originTitle = tdContent[cursor + 1];
 
-                var title = originTitle.Substring(0, originTitle.IndexOf("\n"));
+                var title = originTitle.Substring("\n");
                 var author = tdContent[cursor + 2];
                 var date = DateTime.Parse(tdContent[cursor + 3]);
                 var count = tdContent[cursor + 4].ToInt();

@@ -11,11 +11,11 @@ Content-Type: application/json
 {
     "Data": {
         "Type": "Discord",
-        "Name": "인기자료",
-        "IconUrl": "http://down.humoruniv.com/hwiparambbs/data/pdswait/a_4883065431_b9afd56add3ad86ccc10cde95a0d8c0cc57ead30.png",
-        "HookUrl": "https://discordapp.com/api/webhooks/757093883900461057/08cT2nsXg1GoaY7zBxtpC53ODb_PaQpy_tRbIAkKlajJlcpnZPuLfhhvX04mABlutlv7",
-        "CrawlingType": "HumorUniv",
-        "BoardName": "인기자료"
+        "Name": "알뜰구매",
+        "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+        "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
+        "CrawlingType": "Clien",
+        "BoardName": "알뜰구매"
     }
 }
 
@@ -136,6 +136,14 @@ Content-Type: application/json
             "FilterDayOfWeeks": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
             "FilterStartTime": "09:00:00",
             "FilterEndTime": "19:00:00",
+        },
+        {
+            "Type": "Discord",
+            "Name": "알뜰구매",
+            "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
+            "CrawlingType": "Clien",
+            "BoardName": "알뜰구매"
         }
 	]
 }
@@ -150,11 +158,11 @@ Content-Type: application/json
 	"Datas": [
         {
 			"Type": "Discord",
-			"Name": "중고장터",
+			"Name": "알뜰구매",
             "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
             "CrawlingType": "Clien",
-            "BoardName": "회원중고장터"
+            "BoardName": "알뜰구매"
 		}
 	]
 }

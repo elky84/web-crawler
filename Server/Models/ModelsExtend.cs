@@ -56,6 +56,7 @@ namespace Server.Models
                 IconUrl = notification.IconUrl,
                 SourceId = notification.SourceId,
                 Keyword = notification.Keyword,
+                CrawlingType = notification.CrawlingType,
                 FilterDayOfWeeks = notification.FilterDayOfWeeks,
                 FilterStartTime = notification.FilterStartTime,
                 FilterEndTime = notification.FilterEndTime

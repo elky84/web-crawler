@@ -39,8 +39,13 @@ namespace WebCrawler.Crawler
                             return new Tuple<string, string>(y.ClassName, text);
                         }).ToList();
 
-                    var hrefs = x.QuerySelectorAll("a")
-                        .Select(x => x.GetAttribute("href"))
+                    var a = x.QuerySelectorAll("a");
+
+                    stringTuples.AddRange(a.Where(x => !string.IsNullOrEmpty(x.ClassName))
+                        .Select(y => new Tuple<string, string>(y.ClassName, y.TextContent))
+                        .ToList());
+
+                    var hrefs = a.Select(x => x.GetAttribute("href"))
                         .ToList();
 
                     return new Tuple<List<Tuple<string, string>>, List<string>>(stringTuples, hrefs);
@@ -48,32 +53,44 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             Parallel.ForEach(tdContent, row =>
-            {
-                var stringTuples = row.Item1;
-                var hrefs = row.Item2;
-
-                var category = stringTuples.FindValue("category_fixed");
-                var title = stringTuples.FindValue("subject_fixed");
-                var author = stringTuples.FindValue("nickname");
-                var count = stringTuples.FindValue("hit").ToIntShorthand();
-                var date = DateTime.Parse(stringTuples.FindValue("timestamp"));
-
-                var href = UrlCompositeHref(hrefs[0]);
-
-                _ = OnCrawlData(new CrawlingData
                 {
-                    Type = Source.Type,
-                    BoardId = Source.BoardId,
-                    BoardName = Source.Name,
-                    Category = category,
-                    Title = title,
-                    Author = author,
-                    Count = count,
-                    DateTime = date,
-                    Href = href,
-                    SourceId = Source.Id
+                    var stringTuples = row.Item1;
+                    var hrefs = row.Item2;
+
+                    var category = stringTuples.FindValue("category_fixed");
+                    if (string.IsNullOrEmpty(category))
+                    {
+                        category = stringTuples.FindValue("icon_keyword");
+                    };
+
+                    var title = stringTuples.FindValue("subject_fixed");
+                    if (string.IsNullOrEmpty(title))
+                    {
+                        title = stringTuples.FindValue("list_subject");
+                    };
+
+                    title = title.Substring("\n");
+
+                    var author = stringTuples.FindValue("nickname");
+                    var count = stringTuples.FindValue("hit").ToIntShorthand();
+                    var date = DateTime.Parse(stringTuples.FindValue("timestamp"));
+
+                    var href = UrlCompositeHref(hrefs[0]);
+
+                    _ = OnCrawlData(new CrawlingData
+                    {
+                        Type = Source.Type,
+                        BoardId = Source.BoardId,
+                        BoardName = Source.Name,
+                        Category = category,
+                        Title = title,
+                        Author = author,
+                        Count = count,
+                        DateTime = date,
+                        Href = href,
+                        SourceId = Source.Id
+                    });
                 });
-            });
         }
     }
 }

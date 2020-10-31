@@ -85,6 +85,11 @@ Content-Type: application/json
 			"Type": "HumorUniv",
 			"BoardId": "pick",
 			"Name": "인기자료"
+		},
+		{
+			"Type": "Clien",
+			"BoardId": "jirum",
+			"Name": "알뜰구매"
 		}
 	]
 }
@@ -95,9 +100,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "HumorUniv",
-		"BoardId": "pick",
-		"Name": "인기자료"
+		"Type": "Clien",
+		"BoardId": "jirum",
+		"Name": "알뜰구매"
 	}
 }
 

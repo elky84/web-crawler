@@ -102,6 +102,9 @@ namespace Server.Services
                         case CrawlingType.HumorUniv:
                             await new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
+                        case CrawlingType.Itcm:
+                            await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
+                            break;
                         default:
                             throw new DeveloperException(Code.ResultCode.NotImplementedYet);
                     }

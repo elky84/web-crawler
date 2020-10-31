@@ -24,7 +24,7 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
-            var tdContent = document.QuerySelectorAll("tbody tr")
+            var tdContents = document.QuerySelectorAll("tbody tr")
                 .Select(x =>
                 {
                     var stringTuples = x.QuerySelectorAll("span")
@@ -39,7 +39,7 @@ namespace WebCrawler.Crawler
                 })
                 .ToArray();
 
-            Parallel.ForEach(tdContent, row =>
+            Parallel.ForEach(tdContents, row =>
             {
                 var stringTuples = row.Item1;
                 var hrefs = row.Item2;

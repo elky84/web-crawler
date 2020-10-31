@@ -9,16 +9,16 @@ POST {{host}}/Notification
 Content-Type: application/json
 
 {
-    "Data": {
+	"Data":
+    {
         "Type": "Discord",
-        "Name": "알뜰구매",
-        "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+        "Name": "ITCM 핫딜",
+        "IconUrl": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/6b/6b9915f60cb45d4df113cd8f36387ba1de8ce601_full.jpg",
         "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
-        "CrawlingType": "Clien",
-        "BoardName": "알뜰구매"
+        "CrawlingType": "Itcm",
+        "BoardName": "핫딜"
     }
 }
-
 
 ### Notification Create Multi Discord
 
@@ -144,6 +144,14 @@ Content-Type: application/json
             "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
             "CrawlingType": "Clien",
             "BoardName": "알뜰구매"
+        },
+        {
+            "Type": "Discord",
+            "Name": "핫딜",
+            "IconUrl": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/6b/6b9915f60cb45d4df113cd8f36387ba1de8ce601_full.jpg",
+            "HookUrl": "https://discordapp.com/api/webhooks/757093885078929458/Ao4NQdGJxyF--6KZhzOX5WVIn9oungNGepQUXp3SQd0f3N5MbrhLG5bSb2QZUg0ypjLW",
+            "CrawlingType": "Itcm",
+            "BoardName": "핫딜"
         }
 	]
 }
@@ -158,11 +166,11 @@ Content-Type: application/json
 	"Datas": [
         {
 			"Type": "Discord",
-			"Name": "알뜰구매",
-            "IconUrl": "https://cdn.clien.net/web/api/file/F01/2581830/94f801b57da24373a43.PNG",
+			"Name": "핫딜",
+            "IconUrl": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/6b/6b9915f60cb45d4df113cd8f36387ba1de8ce601_full.jpg",
             "HookUrl": "https://discordapp.com/api/webhooks/757093882747158622/m2mrsgUWaPIzi8K7DjuRTLmUZet5VuNllhKRkekhcx_MSNHSRTdmuSISq67HlwN1ehJ6",
-            "CrawlingType": "Clien",
-            "BoardName": "알뜰구매"
+            "CrawlingType": "Itcm",
+            "BoardName": "핫딜"
 		}
 	]
 }

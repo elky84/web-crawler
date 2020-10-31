@@ -16,5 +16,6 @@ namespace WebCrawler.Code
         TodayHumor,
         InvenNews,
         HumorUniv,
+        Itcm
     }
 }

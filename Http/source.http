@@ -90,6 +90,11 @@ Content-Type: application/json
 			"Type": "Clien",
 			"BoardId": "jirum",
 			"Name": "알뜰구매"
+		},
+		{
+			"Type": "Itcm",
+			"BoardId": "game_news",
+			"Name": "핫딜"
 		}
 	]
 }
@@ -100,9 +105,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "Clien",
-		"BoardId": "jirum",
-		"Name": "알뜰구매"
+		"Type": "Itcm",
+		"BoardId": "game_news",
+		"Name": "핫딜"
 	}
 }
 

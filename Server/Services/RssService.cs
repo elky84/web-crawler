@@ -107,7 +107,7 @@ namespace Server.Services
             return new Protocols.Response.Rss
             {
                 ResultCode = Code.ResultCode.Success,
-                Data = (await _mongoDbRss.RemoveAsync(id))?.ToProtocol()
+                Data = (await _mongoDbRss.RemoveGetAsync(id))?.ToProtocol()
             };
         }
     }

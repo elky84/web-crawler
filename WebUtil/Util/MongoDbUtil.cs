@@ -189,9 +189,13 @@ namespace WebUtil.Util
 
         public void Remove(FilterDefinition<T> filter) => Collection.DeleteOne(filter);
 
-        public async Task<T> RemoveAsync(string id) => await Collection.FindOneAndDeleteAsync(GetIdFilter(id));
+        public async Task RemoveAsync(string id) => await Collection.DeleteOneAsync(GetIdFilter(id));
 
-        public async Task<T> RemoveAsync(FilterDefinition<T> filter) => await Collection.FindOneAndDeleteAsync(filter);
+        public async Task RemoveAsync(FilterDefinition<T> filter) => await Collection.DeleteOneAsync(filter);
+
+        public async Task<T> RemoveGetAsync(string id) => await Collection.FindOneAndDeleteAsync(GetIdFilter(id));
+
+        public async Task<T> RemoveGetAsync(FilterDefinition<T> filter) => await Collection.FindOneAndDeleteAsync(filter);
 
         public async Task<bool> RemoveManyAsync(FilterDefinition<T> filter)
         {

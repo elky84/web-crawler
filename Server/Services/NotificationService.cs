@@ -161,7 +161,7 @@ namespace Server.Services
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = (await _mongoDbNotification.RemoveAsync(id))?.ToProtocol()
+                Data = (await _mongoDbNotification.RemoveGetAsync(id))?.ToProtocol()
             };
         }
 

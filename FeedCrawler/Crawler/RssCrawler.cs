@@ -38,12 +38,14 @@ namespace FeedCrawler.Crawler
                 var feed = await FeedReader.ReadAsync(Rss.Url);
                 foreach (var item in feed.Items)
                 {
-                    var link = item.Link.StartsWith("http") ? item.Link : feed.Link + item.Link;
+                    var link = item.Link;
                     if (item.SpecificItem is AtomFeedItem)
                     {
                         var atomFeedItem = item.SpecificItem as AtomFeedItem;
                         link = atomFeedItem.Links.LastOrDefault().Href;
                     }
+
+                    link = link.StartsWith("http") ? link : feed.Link + link;
 
                     var feedData = new FeedData
                     {

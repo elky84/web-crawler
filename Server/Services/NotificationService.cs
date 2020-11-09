@@ -304,6 +304,11 @@ namespace Server.Services
                 foreach (var webHook in group.Select(x => x))
                 {
                     var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
+                    if (response == null || response.Headers == null)
+                    {
+                        continue;
+                    }
+
                     var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
                     var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
                     if (response.IsSuccessStatusCode)

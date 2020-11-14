@@ -306,6 +306,7 @@ namespace Server.Services
                     var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
                     if (response == null || response.Headers == null)
                     {
+                        Thread.Sleep(1000);
                         continue;
                     }
 

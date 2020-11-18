@@ -767,9 +767,13 @@ Content-Type: application/json
 	    "Name": "로토의 블로그"
 	},
 	{
-            "Url": "https://highfence.tistory.com/feed",
-            "Name": "근원님"
-    	}
+        "Url": "https://highfence.tistory.com/feed",
+        "Name": "근원님"
+    },
+    {
+        "Url": "https://medium.com/feed/@zmag",
+        "Name": "황의윤"
+    }
 	]
 }
 
@@ -793,8 +797,8 @@ Content-Type: application/json
 
 {
     "Data": {
-        "Url": "http://elky84.github.io/feed.xml",
-        "Name": "Elky Essay"
+        "Url": "https://medium.com/feed/@zmag",
+        "Name": "황의윤"
     }
 }
 

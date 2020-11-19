@@ -303,44 +303,47 @@ namespace Server.Services
             {
                 foreach (var webHook in group.Select(x => x))
                 {
-                    var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
-                    if (response == null || response.Headers == null)
+                    try
                     {
+                        var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
+                        if (response == null || response.Headers == null)
+                        {
+                            Thread.Sleep(1000);
+                            continue;
+                        }
+
+                        var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
+                        var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            processList.Add(webHook);
+                        }
+
+                        if (rateLimitRemaining <= 1 || rateLimitAfter > 0)
+                        {
+                            Thread.Sleep((rateLimitAfter + 1) * 1000);
+                            continue;
+                        }
+
+                        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                        {
+                            Log.Logger.Error($"Too Many Requests [{group.Key}] [{rateLimitRemaining}, {rateLimitAfter}]");
+                            break;
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        e.ExceptionLog();
                         Thread.Sleep(1000);
                         continue;
-                    }
-
-                    var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
-                    var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        processList.Add(webHook);
-                    }
-
-                    if (rateLimitRemaining <= 1 || rateLimitAfter > 0)
-                    {
-                        Thread.Sleep((rateLimitAfter + 1) * 1000);
-                        continue;
-                    }
-
-                    if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-                    {
-                        Log.Logger.Error($"Too Many Requests [{group.Key}] [{rateLimitRemaining}, {rateLimitAfter}]");
-                        break;
                     }
                 }
             });
 
-            foreach (var process in processList)
+            public void HttpTaskRun()
             {
-                _discordWebHooks.Remove(process);
+                ProcessDiscordWebHooks();
+                ProcessSlackWebHooks();
             }
         }
-
-        public void HttpTaskRun()
-        {
-            ProcessDiscordWebHooks();
-            ProcessSlackWebHooks();
-        }
     }
-}

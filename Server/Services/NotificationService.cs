@@ -339,11 +339,12 @@ namespace Server.Services
                     }
                 }
             });
+        }
 
-            public void HttpTaskRun()
-            {
-                ProcessDiscordWebHooks();
-                ProcessSlackWebHooks();
-            }
+        public void HttpTaskRun()
+        {
+            ProcessDiscordWebHooks();
+            ProcessSlackWebHooks();
         }
     }
+}

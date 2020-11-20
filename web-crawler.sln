@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCrawlerCli", "WebCrawler
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedCrawlerCli", "FeedCrawlerCli\FeedCrawlerCli.csproj", "{6786DD28-4A4B-48B6-9AE1-D8F44B50E386}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{4F67F7DB-B3C6-4716-8BA7-C466C84872B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cli", "Cli", "{583BEDFA-070B-4B5D-A9B2-A74A51FCB9DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10E80C77-1D3C-497E-8F58-87D20A929FB0} = {4F67F7DB-B3C6-4716-8BA7-C466C84872B8}
+		{F9759E3F-5BFE-4CED-82A4-89F097E01D62} = {4F67F7DB-B3C6-4716-8BA7-C466C84872B8}
+		{B6AAE327-2D32-4EF8-B5C8-6A9AF59DA7DF} = {4F67F7DB-B3C6-4716-8BA7-C466C84872B8}
+		{B765732D-0E1C-4986-A89B-F3176628E00D} = {583BEDFA-070B-4B5D-A9B2-A74A51FCB9DA}
+		{6786DD28-4A4B-48B6-9AE1-D8F44B50E386} = {583BEDFA-070B-4B5D-A9B2-A74A51FCB9DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B77D2EA3-80ED-4BD2-B5D1-4343DE6C4F57}

@@ -1,5 +1,7 @@
 [![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
 <img src="https://img.shields.io/badge/made%20with-JavaScript-brightgreen.svg" alt="made with JavaScript">
+<img src="https://img.shields.io/badge/made%20with-.NET5-blue.svg" alt="made with .NET5">
+<img src="https://img.shields.io/badge/made%20with-MongoDB-red.svg" alt="made with MongoDB">
 
 ![GitHub forks](https://img.shields.io/github/forks/elky84/web-crawler.svg?style=social&label=Fork)
 ![GitHub stars](https://img.shields.io/github/stars/elky84/web-crawler.svg?style=social&label=Stars)
@@ -12,11 +14,30 @@
 
 # web-crawler
 
+* .NET 5, ASP NET CORE 3를 기반으로 작성되었습니다.
 * 웹 크롤러로는 [abot2](https://github.com/sjdirect/abot) 를 사용했습니다.
 * Feed (RSS) 크롤러로는 [NuGet Gallery | CodeHollow.FeedReader 1.2.1](https://www.nuget.org/packages/CodeHollow.FeedReader/) 사용했습니다.
 * 크롤링 대상은 Source로 등록되어야 합니다. [예시](https://github.com/elky84/web-crawler/blob/master/Http/source.http)
   * Source로 등록된 게시판들은 테스트를 거쳐 크롤링 됨을 확인한 사이트와 게시판 들이지만, 규격이 달라져 추가적인 예외처리가 필요할 수 있습니다.
 * 알림은 Discord, Slack을 지원합니다. Notification 데이터를, Source와 매핑 시켜서 해당 Source에 새 데이터가 갱신되면 알림이 날라오게 되어있습니다.
+* DB로는 mongoDB를 사용합니다.
+* API는 swagger를 통해 확인하셔도 좋지만, http 폴더 안에 예제가 포함되어있습니다.
+* RSS 알림을 Discord나 Slack으로 전달해주는 기능도 작업이 되어있습니다.
+	* Feedly Pro 기능에서만 연동이 가능해서, 직접 RSS 크롤링 & Notification 기능을 만들었습니다.
+
+## 현재 지원중인 크롤링 대상 (사이트)
+* Clien
+* FmKorea
+* 웃긴대학 (HumorUniv)
+* Itcm
+* 인벤 뉴스 (InvenNews)
+* Ppomppu
+* Ruliweb
+* Slrclub
+* 오유 (TodayHumor)
+
+## Notification.http 예시
+
 ```
 ### VS Code의 RestClient Plugin의 .http 파일용 서식입니다
 
@@ -146,10 +167,6 @@ Content-Type: application/json
 	]
 }
 ```
-
-* API는 swagger를 통해 확인하셔도 좋지만, http 폴더 안에 예제가 포함되어있습니다.
-* RSS 알림을 Discord나 Slack으로 전달해주는 기능도 작업이 되어있습니다.
-	* Feedly Pro 기능에서만 연동이 가능해서, 직접 RSS 크롤링 & Notification 기능을 만들었습니다.
 
 ## Discord Alert Sample
 

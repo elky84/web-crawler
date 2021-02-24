@@ -367,10 +367,6 @@ Content-Type: application/json
             "Name": "강성훈"
         },
         {
-            "Url": "http://wookje.github.io/rss/",
-            "Name": "권욱제"
-        },
-        {
             "Url": "http://blog.hatemogi.com/rss",
             "Name": "김대현"
         },
@@ -407,7 +403,7 @@ Content-Type: application/json
             "Name": "권민재"
         },
         {
-            "Url": "https://taetaetae.github.io/atom.xml",
+            "Url": "https://taetaetae.github.io/index.xml",
             "Name": "권태관"
         },
         {
@@ -481,10 +477,6 @@ Content-Type: application/json
         {
             "Url": "http://blog.leekyoungil.com/?feed=rss2",
             "Name": "Kyoungil's Blog"
-        },
-        {
-            "Url": "http://mygony.com/feed",
-            "Name": "코드쓰는사람"
         },
         {
             "Url": "http://blog.rss.naver.com/laster40.xml",
@@ -623,10 +615,6 @@ Content-Type: application/json
             "Name": "RSS feed for hurinmon Blog"
         },
         {
-            "Url": "http://mgun.tistory.com/rss",
-            "Name": "꽃 피는 봄이 오면..."
-        },
-        {
             "Url": "http://jojoldu.tistory.com/rss",
             "Name": "기억보단 기록을"
         },
@@ -643,10 +631,6 @@ Content-Type: application/json
             "Name": "Wolf Loves Fox :: 일상"
         },
         {
-            "Url": "http://lunapiece.net/Article/rss",
-            "Name": "Moon with C++ Programmer"
-        },
-        {
             "Url": "http://kindtis.tistory.com/rss",
             "Name": "Game Programmer Life"
         },
@@ -655,7 +639,7 @@ Content-Type: application/json
             "Name": "IT 프리랜서 이야기"
         },
         {
-            "Url": "http://whiteship.me/?feed=rss2",
+            "Url": "https://www.whiteship.me/rss/",
             "Name": "Whiteship's Epril"
         },
         {
@@ -711,7 +695,7 @@ Content-Type: application/json
             "Name": "TOAST Meetup"
         },
         {
-            "Url": "http://we.weirdmeetup.com/feed/",
+            "Url": "https://blog.weirdx.io/feed",
             "Name": "이상한모임"
         },
         {
@@ -735,7 +719,7 @@ Content-Type: application/json
             "Name": "README"
         },
         {
-            "Url": "http://spoqa.github.com/atom.xml",
+            "Url": "https://spoqa.github.io/atom.xml",
             "Name": "Spoqa tech blog"
         },
         {

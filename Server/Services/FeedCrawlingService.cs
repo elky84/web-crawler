@@ -11,6 +11,7 @@ using WebCrawler.Models;
 using FeedCrawler.Models;
 using FeedCrawler;
 using FeedCrawler.Crawler;
+using System;
 
 namespace Server.Services
 {
@@ -87,6 +88,11 @@ namespace Server.Services
 
         public async Task OnNewCrawlData(FeedData feedData)
         {
+            if(DateTime.Now.Subtract(feedData.DateTime).TotalDays > 7)
+            {
+                return;
+            }
+
             await _notificationService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss), feedData);
         }
     }

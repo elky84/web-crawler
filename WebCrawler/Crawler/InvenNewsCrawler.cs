@@ -1,9 +1,7 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Models;
 using WebUtil.Util;
@@ -50,7 +48,7 @@ namespace WebCrawler.Crawler
 
                 var infos = stringTuples.FindValue("info").Split("|");
                 var title = string.IsNullOrEmpty(cmtnum) ? originTitle : originTitle.Substring(cmtnum);
-                var category = infos[0];
+                var category = infos[0].Substring("\n");
                 var author = infos[1];
                 var date = DateTime.Parse(infos[2]);
                 var recommend = string.IsNullOrEmpty(cmtnum) ? 0 : cmtnum.ToIntRegx();

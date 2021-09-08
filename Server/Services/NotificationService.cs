@@ -299,13 +299,13 @@ namespace Server.Services
         private void ProcessDiscordWebHooks()
         {
             var processList = new ConcurrentBag<Protocols.Notification.Request.DiscordWebHook>();
-            Parallel.ForEach(_discordWebHooks.GroupBy(x => x.HookUrl), group =>
+            Parallel.ForEach(_discordWebHooks.GroupBy(x => x.HookUrl).Select(x => x.Select(y => y.Clone())).ToList(), group =>
             {
-                foreach (var webHook in group.Select(x => x))
+                foreach (var webHook in group)
                 {
                     try
                     {
-                        var response = _httpClientFactory.RequestJson(HttpMethod.Post, group.Key, webHook).Result;
+                        var response = _httpClientFactory.RequestJson(HttpMethod.Post, webHook.HookUrl, webHook).Result;
                         if (response == null || response.Headers == null)
                         {
                             Thread.Sleep(1000);
@@ -327,7 +327,7 @@ namespace Server.Services
 
                         if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
                         {
-                            Log.Logger.Error($"Too Many Requests [{group.Key}] [{rateLimitRemaining}, {rateLimitAfter}]");
+                            Log.Logger.Error($"Too Many Requests [{webHook.HookUrl}] [{rateLimitRemaining}, {rateLimitAfter}]");
                             break;
                         }
                     }
@@ -335,7 +335,7 @@ namespace Server.Services
                     {
                         e.ExceptionLog();
                         Thread.Sleep(1000);
-                        continue;
+                        break;
                     }
                 }
             });

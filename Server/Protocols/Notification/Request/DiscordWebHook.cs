@@ -56,5 +56,23 @@ namespace Server.Protocols.Notification.Request
                 username = username
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as DiscordWebHook);
+        }
+
+        public bool Equals(DiscordWebHook other)
+        {
+            return other != null &&
+                   content == other.content &&
+                   username == other.username &&
+                   HookUrl == other.HookUrl;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(content, username, HookUrl);
+        }
     }
 }

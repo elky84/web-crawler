@@ -21,10 +21,7 @@ namespace Server.Services
         {
             try
             {
-                _ = _crawlingService.Execute(new Protocols.Request.Feed
-                {
-                    All = true
-                });
+                _crawlingService.Execute(new Protocols.Request.Feed { All = true }).Wait();
             }
             catch (System.Exception e)
             {

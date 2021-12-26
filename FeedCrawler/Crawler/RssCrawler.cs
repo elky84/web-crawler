@@ -3,7 +3,7 @@ using Serilog;
 using System;
 using System.Threading.Tasks;
 using FeedCrawler.Models;
-using WebUtil.Util;
+using MongoDbWebUtil.Util;
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using System.Linq;

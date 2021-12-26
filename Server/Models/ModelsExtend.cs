@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebUtil.Models;
+using MongoDbWebUtil.Models;
 
 namespace Server.Models
 {

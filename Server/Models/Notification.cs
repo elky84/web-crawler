@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebCrawler.Code;
-using WebUtil.Models;
+using MongoDbWebUtil.Models;
 
 namespace Server.Models
 {

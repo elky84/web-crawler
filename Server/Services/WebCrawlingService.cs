@@ -1,6 +1,6 @@
-﻿using WebUtil.Util;
+﻿using MongoDbWebUtil.Util;
 using System.Threading.Tasks;
-using WebUtil.Services;
+using MongoDbWebUtil.Services;
 using WebCrawler;
 using MongoDB.Driver;
 using WebCrawler.Code;

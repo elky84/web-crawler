@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Server.Exception;
 using Server.Services;
-using WebUtil.Services;
+using MongoDbWebUtil.Services;
 
 namespace Server
 {

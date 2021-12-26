@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["Server/Server.csproj", "Server/"]
 COPY ["WebCrawler/WebCrawler.csproj", "WebCrawler/"]
-COPY ["WebUtil/WebUtil.csproj", "WebUtil/"]
+COPY ["MongoDbWebUtil/MongoDbWebUtil.csproj", "MongoDbWebUtil/"]
 COPY ["FeedCrawler/FeedCrawler.csproj", "FeedCrawler/"]
 RUN dotnet restore "Server/Server.csproj"
 COPY . .

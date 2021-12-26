@@ -1,6 +1,6 @@
 [![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
 <img src="https://img.shields.io/badge/made%20with-JavaScript-brightgreen.svg" alt="made with JavaScript">
-<img src="https://img.shields.io/badge/made%20with-.NET5-blue.svg" alt="made with .NET5">
+<img src="https://img.shields.io/badge/made%20with-.NET6-blue.svg" alt="made with .NET6">
 <img src="https://img.shields.io/badge/made%20with-MongoDB-red.svg" alt="made with MongoDB">
 
 ![GitHub forks](https://img.shields.io/github/forks/elky84/web-crawler.svg?style=social&label=Fork)
@@ -14,7 +14,7 @@
 
 # web-crawler
 
-* .NET 5, ASP NET CORE 3를 기반으로 작성되었습니다.
+* .NET 6, ASP NET CORE 3를 기반으로 작성되었습니다.
 * 웹 크롤러로는 [abot2](https://github.com/sjdirect/abot) 를 사용했습니다.
 * Feed (RSS) 크롤러로는 [NuGet Gallery | CodeHollow.FeedReader 1.2.1](https://www.nuget.org/packages/CodeHollow.FeedReader/) 사용했습니다.
 * 크롤링 대상은 Source로 등록되어야 합니다. [예시](https://github.com/elky84/web-crawler/blob/master/Http/source.http)

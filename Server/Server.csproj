@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>7749a532-372b-44f3-a33f-0e77b2aee56a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FeedCrawler\FeedCrawler.csproj" />
     <ProjectReference Include="..\WebCrawler\WebCrawler.csproj" />
-    <ProjectReference Include="..\WebUtil\WebUtil.csproj" />
   </ItemGroup>
 
   <ItemGroup>

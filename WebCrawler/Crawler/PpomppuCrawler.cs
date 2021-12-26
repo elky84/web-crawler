@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Models;
-using WebUtil.Util;
+using MongoDbWebUtil.Util;
 
 namespace WebCrawler.Crawler
 {

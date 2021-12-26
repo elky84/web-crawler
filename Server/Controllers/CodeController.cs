@@ -4,7 +4,7 @@ using Server.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Code;
-using WebUtil.Util;
+using MongoDbWebUtil.Util;
 
 namespace Server.Controllers
 {

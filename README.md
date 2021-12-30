@@ -36,6 +36,16 @@
 * Slrclub
 * 오유 (TodayHumor)
 
+## 각종 API 예시
+* VS Code의 RestClient Plugin의 .http 파일용으로 작성
+  * <https://marketplace.visualstudio.com/items?itemName=humao.rest-client>
+* .http 파일 경로
+  * <https://github.com/elky84/web-crawler/tree/master/Http>
+* 해당 경로 아래에 .vscode 폴더에 settings.json.sample을 복사해, settings.json으로 변경하면, VSCode로 해당 기능 오픈시 환경에 맞는 URI로 호출 가능하게 됨
+  * <https://github.com/elky84/web-crawler/blob/master/Http/.vscode/settings.json.sample>
+* Swagger로 확인해도 무방함
+  * <http://localhost:5000/swagger/index.html>
+
 ## Notification.http 예시
 
 ```

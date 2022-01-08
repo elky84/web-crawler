@@ -4,17 +4,12 @@ using MongoDbWebUtil.Services;
 using MongoDB.Driver;
 using Server.Models;
 using System.Collections.Generic;
-using Server.Exception;
 using System.Net.Http;
-using WebCrawler.Models;
-using FeedCrawler.Models;
-using System.Linq;
-using System;
-using System.Collections.Concurrent;
 using Server.Code;
-using System.Threading;
-using Serilog;
 using WebCrawler.Code;
+using EzAspDotNet.Notification.Models;
+using EzAspDotNet.Exception;
+using EzAspDotNet.Notification.Types;
 
 namespace Server.Services
 {
@@ -26,13 +21,6 @@ namespace Server.Services
         private readonly IHttpClientFactory _httpClientFactory;
 
         private readonly SourceService _sourceService;
-
-
-        private readonly List<Protocols.Notification.Request.DiscordWebHook> _discordWebHooks =
-            new List<Protocols.Notification.Request.DiscordWebHook>();
-
-        private readonly List<Protocols.Notification.Request.SlackWebHook> _slackWebHooks =
-            new List<Protocols.Notification.Request.SlackWebHook>();
 
         public NotificationService(MongoDbService mongoDbService,
             IHttpClientFactory httpClientFactory,
@@ -82,7 +70,7 @@ namespace Server.Services
             return source.Id;
         }
 
-        private FilterDefinition<Notification> GetFilterDefinition(string sourceId, CrawlingType crawlingType, NotificationType notificationType)
+        private FilterDefinition<Notification> GetFilterDefinition(string sourceId, string crawlingType, NotificationType notificationType)
         {
             return Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
                     Builders<Notification>.Filter.Eq(x => x.CrawlingType, crawlingType) &
@@ -94,7 +82,7 @@ namespace Server.Services
             try
             {
                 var sourceId = await GetSourceId(notification.CrawlingType, notification.BoardName);
-                return await _mongoDbNotification.UpsertAsync(GetFilterDefinition(sourceId, notification.CrawlingType, notification.Type),
+                return await _mongoDbNotification.UpsertAsync(GetFilterDefinition(sourceId, notification.CrawlingType.ToString(), notification.Type),
                     notification.ToModel(sourceId));
             }
             catch (MongoWriteException)
@@ -163,193 +151,6 @@ namespace Server.Services
                 ResultCode = ResultCode.Success,
                 Data = (await _mongoDbNotification.RemoveGetAsync(id))?.ToProtocol()
             };
-        }
-
-        public async Task Execute(FilterDefinition<Notification> filter, CrawlingData crawlingData)
-        {
-            var notifications = await Get(filter);
-            foreach (var notification in notifications)
-            {
-                if (!notification.ContainsKeyword(crawlingData.Title))
-                {
-                    continue;
-                }
-
-                if (notification.FilteredTime(DateTime.Now))
-                {
-                    continue;
-                }
-
-                switch (notification.Type)
-                {
-                    case NotificationType.Discord:
-                        _discordWebHooks.Add(DiscordNotify(notification, crawlingData));
-                        break;
-                    case NotificationType.Slack:
-                        _slackWebHooks.Add(SlackNotify(notification, crawlingData));
-                        break;
-                    default:
-                        throw new DeveloperException(ResultCode.NotImplementedYet);
-                }
-            }
-        }
-
-
-        public async Task Execute(FilterDefinition<Notification> filter, FeedData feedData)
-        {
-            var notifications = await Get(filter);
-            foreach (var notification in notifications)
-            {
-                if (!notification.ContainsKeyword(feedData.FeedTitle) &&
-                    !notification.ContainsKeyword(feedData.ItemTitle))
-                {
-                    continue;
-                }
-
-                if (notification.FilteredTime(DateTime.Now))
-                {
-                    continue;
-                }
-
-                switch (notification.Type)
-                {
-                    case NotificationType.Discord:
-                        _discordWebHooks.Add(DiscordNotify(notification, feedData));
-                        break;
-                    case NotificationType.Slack:
-                        _slackWebHooks.Add(SlackNotify(notification, feedData));
-                        break;
-
-                    default:
-                        throw new DeveloperException(ResultCode.NotImplementedYet);
-                }
-            }
-        }
-
-
-        private Protocols.Notification.Request.SlackWebHook SlackNotify(Notification notification, CrawlingData crawlingData)
-        {
-            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
-            return new Protocols.Notification.Request.SlackWebHook
-            {
-                username = notification.Name,
-                channel = notification.Channel,
-                icon_url = notification.IconUrl,
-                text = $"<{crawlingData.Href}|{category}{crawlingData.Title}> [{crawlingData.DateTime}]",
-                HookUrl = notification.HookUrl
-            };
-        }
-
-        private Protocols.Notification.Request.DiscordWebHook DiscordNotify(Notification notification, CrawlingData crawlingData)
-        {
-            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"<{crawlingData.Category}>";
-            return new Protocols.Notification.Request.DiscordWebHook
-            {
-                username = notification.Name,
-                avatar_url = notification.IconUrl,
-                content = $"[{category}{crawlingData.Title}]({crawlingData.Href}) <{crawlingData.DateTime}>",
-                HookUrl = notification.HookUrl
-            };
-        }
-
-
-
-        private Protocols.Notification.Request.SlackWebHook SlackNotify(Notification notification, FeedData feedData)
-        {
-            return new Protocols.Notification.Request.SlackWebHook
-            {
-                username = notification.Name,
-                channel = notification.Channel,
-                icon_url = notification.IconUrl,
-                text = $"<{feedData.Href}|<{feedData.FeedTitle}>[{feedData.ItemTitle}]> [{feedData.DateTime}]",
-                HookUrl = notification.HookUrl
-            };
-        }
-
-        private Protocols.Notification.Request.DiscordWebHook DiscordNotify(Notification notification, FeedData feedData)
-        {
-            return new Protocols.Notification.Request.DiscordWebHook
-            {
-                username = notification.Name,
-                avatar_url = notification.IconUrl,
-                content = $"[<{feedData.FeedTitle}>{feedData.ItemTitle}]({feedData.Href}) <{feedData.DateTime}>",
-                HookUrl = notification.HookUrl
-            };
-        }
-
-        private void ProcessSlackWebHooks()
-        {
-            var processList = new ConcurrentBag<Protocols.Notification.Request.SlackWebHook>();
-            Parallel.ForEach(_slackWebHooks.GroupBy(x => x.channel), group =>
-            {
-                foreach (var webHook in group.Select(x => x))
-                {
-                    _ = _httpClientFactory.RequestJson(HttpMethod.Post, webHook.HookUrl, webHook);
-                    Thread.Sleep(1000); // 초당 한개...라고함.
-                    processList.Add(webHook);
-                }
-            });
-
-            foreach (var process in processList)
-            {
-                _slackWebHooks.Remove(process);
-            }
-        }
-
-        private void ProcessDiscordWebHooks()
-        {
-            var processList = new ConcurrentBag<Protocols.Notification.Request.DiscordWebHook>();
-            Parallel.ForEach(_discordWebHooks.GroupBy(x => x.HookUrl).Select(x => x.Select(y => y.Clone())).ToList(), group =>
-            {
-                foreach (var webHook in group)
-                {
-                    try
-                    {
-                        var response = _httpClientFactory.RequestJson(HttpMethod.Post, webHook.HookUrl, webHook).Result;
-                        if (response == null || response.Headers == null)
-                        {
-                            Thread.Sleep(1000);
-                            continue;
-                        }
-
-                        var rateLimitRemaining = response.Headers.GetValues("x-ratelimit-remaining").FirstOrDefault().ToInt();
-                        var rateLimitAfter = response.Headers.GetValues("x-ratelimit-reset-after").FirstOrDefault().ToInt();
-                        if (response.IsSuccessStatusCode)
-                        {
-                            processList.Add(webHook);
-                        }
-
-                        if (rateLimitRemaining <= 1 || rateLimitAfter > 0)
-                        {
-                            Thread.Sleep((rateLimitAfter + 1) * 1000);
-                            continue;
-                        }
-
-                        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-                        {
-                            Log.Logger.Error($"Too Many Requests [{webHook.HookUrl}] [{rateLimitRemaining}, {rateLimitAfter}]");
-                            break;
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        e.ExceptionLog();
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                }
-            });
-
-            foreach (var process in processList)
-            {
-                _discordWebHooks.Remove(process);
-            }
-        }
-
-        public void HttpTaskRun()
-        {
-            ProcessDiscordWebHooks();
-            ProcessSlackWebHooks();
         }
     }
 }

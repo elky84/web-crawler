@@ -1,7 +1,7 @@
 ﻿using MongoDbWebUtil.Services;
 using System;
 using Microsoft.Extensions.Logging;
-using Server.Exception;
+using EzAspDotNet.Exception;
 
 namespace Server.Services
 {

@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using MongoDbWebUtil.Services;
 using MongoDB.Driver;
 using WebCrawler.Models;
-using Server.Models;
 using System.Collections.Generic;
-using Server.Exception;
 using WebCrawler.Code;
+using Server.Models;
+using EzAspDotNet.Exception;
 
 namespace Server.Services
 {

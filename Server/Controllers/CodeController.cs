@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Server.Services;
 using System.Linq;
-using System.Threading.Tasks;
 using WebCrawler.Code;
 using MongoDbWebUtil.Util;
 

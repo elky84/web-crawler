@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EzAspDotNet.Notification.Models;
 using MongoDbWebUtil.Models;
 
 namespace Server.Models
@@ -92,7 +93,7 @@ namespace Server.Models
                 Channel = notification.Channel,
                 IconUrl = notification.IconUrl,
                 SourceId = sourceId,
-                CrawlingType = notification.CrawlingType,
+                CrawlingType = notification.CrawlingType.ToString(),
                 Keyword = notification.Keyword,
                 FilterDayOfWeeks = notification.FilterDayOfWeeks,
                 FilterStartTime = notification.FilterStartTime,

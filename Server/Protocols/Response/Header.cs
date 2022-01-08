@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Server.Code;
+using EzAspDotNet.Code;
 
 namespace Server.Protocols.Response
 {

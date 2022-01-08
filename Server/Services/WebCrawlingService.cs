@@ -4,10 +4,12 @@ using MongoDbWebUtil.Services;
 using WebCrawler;
 using MongoDB.Driver;
 using WebCrawler.Code;
-using Server.Exception;
-using Server.Models;
 using WebCrawler.Models;
 using WebCrawler.Crawler;
+using EzAspDotNet.Services;
+using Server.Models;
+using EzAspDotNet.Notification.Models;
+using EzAspDotNet.Exception;
 
 namespace Server.Services
 {
@@ -17,17 +19,17 @@ namespace Server.Services
 
         private readonly SourceService _sourceService;
 
-        private readonly NotificationService _notificationService;
+        private readonly WebHookService _webHookService;
 
         private readonly MongoDbUtil<CrawlingData> _mongoCrawlingData;
 
         public WebCrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
-            NotificationService notificationService)
+            WebHookService webHookService)
         {
             _mongoDbService = mongoDbService;
             _sourceService = sourceService;
-            _notificationService = notificationService;
+            _webHookService = webHookService;
             _mongoCrawlingData = new MongoDbUtil<CrawlingData>(mongoDbService.Database);
 
             _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
@@ -59,7 +61,7 @@ namespace Server.Services
 
             return new Protocols.Response.CrawlingList
             {
-                ResultCode = Code.ResultCode.Success,
+                ResultCode = EzAspDotNet.Code.ResultCode.Success,
                 Limit = crawlingList.Limit,
                 Offset = crawlingList.Offset,
                 Sort = crawlingList.Sort,
@@ -106,20 +108,24 @@ namespace Server.Services
                             await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         default:
-                            throw new DeveloperException(Code.ResultCode.NotImplementedYet);
+                            throw new DeveloperException(EzAspDotNet.Code.ResultCode.NotImplementedYet);
                     }
                 }
             );
 
             return new Protocols.Response.Crawling
             {
-                ResultCode = Code.ResultCode.Success
+                ResultCode = EzAspDotNet.Code.ResultCode.Success
             };
         }
 
         public async Task OnNewCrawlData(CrawlingData crawlingData)
         {
-            await _notificationService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId), crawlingData);
+            var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}]";
+
+            await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId), 
+                crawlingData.Title,
+                $"<{crawlingData.Href}|{category}{crawlingData.Title}> [{crawlingData.DateTime}]");
         }
     }
 }

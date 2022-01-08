@@ -6,9 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Server.Exception;
-using Server.Services;
+using EzAspDotNet.Exception;
+using EzAspDotNet.Services;
 using MongoDbWebUtil.Services;
+using Server.Services;
 
 namespace Server
 {
@@ -56,16 +57,19 @@ namespace Server
 
             services.AddTransient<MongoDbService>();
 
-            services.AddSingleton<IHostedService, NotificationLoopingService>();
             services.AddSingleton<IHostedService, WebCrawlingRepeatedService>();
-            services.AddSingleton<IHostedService, FeedCrawlingRepeatedService>();
-
             services.AddSingleton<WebCrawlingService>();
+
+            services.AddSingleton<IHostedService, FeedCrawlingRepeatedService>();
+            services.AddSingleton<FeedCrawlingService>();
+
             services.AddSingleton<SourceService>();
 
             services.AddSingleton<NotificationService>();
 
-            services.AddSingleton<FeedCrawlingService>();
+            services.AddSingleton<IHostedService, WebHookLoopingService>();
+            services.AddSingleton<WebHookService>();
+
             services.AddSingleton<RssService>();
         }
 

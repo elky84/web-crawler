@@ -1,17 +1,14 @@
 ﻿using MongoDbWebUtil.Util;
-using System.Linq;
 using System.Threading.Tasks;
 using MongoDbWebUtil.Services;
-using WebCrawler;
 using MongoDB.Driver;
 using WebCrawler.Code;
-using Server.Exception;
-using Server.Models;
-using WebCrawler.Models;
 using FeedCrawler.Models;
-using FeedCrawler;
 using FeedCrawler.Crawler;
 using System;
+using EzAspDotNet.Services;
+using EzAspDotNet.Notification.Models;
+using Server.Models;
 
 namespace Server.Services
 {
@@ -21,17 +18,17 @@ namespace Server.Services
 
         private readonly RssService _rssService;
 
-        private readonly NotificationService _notificationService;
+        private readonly WebHookService _webHookService;
 
         private readonly MongoDbUtil<FeedData> _mongoFeedData;
 
         public FeedCrawlingService(MongoDbService mongoDbService,
             RssService rssService,
-            NotificationService notificationService)
+            WebHookService webHookService)
         {
             _mongoDbService = mongoDbService;
             _rssService = rssService;
-            _notificationService = notificationService;
+            _webHookService = webHookService;
             _mongoFeedData = new MongoDbUtil<FeedData>(mongoDbService.Database);
 
             _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
@@ -93,7 +90,9 @@ namespace Server.Services
                 return;
             }
 
-            await _notificationService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss), feedData);
+            await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
+                feedData.FeedTitle,
+                $"<{feedData.Href}|<{feedData.FeedTitle}>[{feedData.ItemTitle}]> [{feedData.DateTime}]");
         }
     }
 }

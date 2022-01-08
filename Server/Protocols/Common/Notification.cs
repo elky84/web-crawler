@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Server.Code;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebCrawler.Code;
+using Server.Code;
+using EzAspDotNet.Notification.Types;
 
 namespace Server.Protocols.Common
 {
@@ -24,10 +22,9 @@ namespace Server.Protocols.Common
 
         public string SourceId { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public CrawlingType CrawlingType { get; set; }
-
         public string Keyword { get; set; }
+
+        public string CrawlingType { get; set; }
 
         [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
         public List<DayOfWeek> FilterDayOfWeeks { get; set; } = new List<DayOfWeek>();

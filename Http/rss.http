@@ -757,6 +757,14 @@ Content-Type: application/json
     {
         "Url": "https://medium.com/feed/@zmag",
         "Name": "황의윤"
+    },
+    {
+        "Url": "https://hodolman.com/rss",
+        "Name": "호돌맨"
+    },
+    {
+        "Url": "https://wbluke.tistory.com/rss",
+        "Name": "박우빈"
     }
 	]
 }
@@ -781,8 +789,8 @@ Content-Type: application/json
 
 {
     "Data": {
-        "Url": "https://medium.com/feed/@zmag",
-        "Name": "황의윤"
+        "Url": "https://wbluke.tistory.com/rss",
+        "Name": "박우빈"
     }
 }
 

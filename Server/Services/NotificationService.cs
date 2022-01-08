@@ -4,7 +4,6 @@ using MongoDbWebUtil.Services;
 using MongoDB.Driver;
 using Server.Models;
 using System.Collections.Generic;
-using System.Net.Http;
 using Server.Code;
 using WebCrawler.Code;
 using EzAspDotNet.Notification.Models;
@@ -17,20 +16,13 @@ namespace Server.Services
     {
         private readonly MongoDbUtil<Notification> _mongoDbNotification;
 
-
-        private readonly IHttpClientFactory _httpClientFactory;
-
         private readonly SourceService _sourceService;
 
         public NotificationService(MongoDbService mongoDbService,
-            IHttpClientFactory httpClientFactory,
             SourceService sourceService)
         {
             _mongoDbNotification = new MongoDbUtil<Notification>(mongoDbService.Database);
-            _httpClientFactory = httpClientFactory;
-
             _sourceService = sourceService;
-
             _mongoDbNotification.Collection.Indexes.CreateOne(new CreateIndexModel<Notification>(
                 Builders<Notification>.IndexKeys.Ascending(x => x.SourceId)
                 .Ascending(x => x.CrawlingType)

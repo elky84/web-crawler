@@ -92,7 +92,7 @@ namespace Server.Services
 
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
                 feedData.FeedTitle,
-                $"<{feedData.Href}|<{feedData.FeedTitle}>[{feedData.ItemTitle}]> [{feedData.DateTime}]");
+                $"<{feedData.Href}|{feedData.ItemTitle} - {feedData.FeedTitle}> [{feedData.DateTime}]");
         }
     }
 }

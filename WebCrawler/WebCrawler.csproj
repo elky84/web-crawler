@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Abot" Version="2.0.64" />
-    <PackageReference Include="EzAspDotNet" Version="1.0.14" />
+    <PackageReference Include="EzAspDotnet" Version="1.0.15" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using MongoDbWebUtil.Util;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MongoDbWebUtil.Services;
 using MongoDB.Driver;
 using WebCrawler.Code;
@@ -9,6 +8,7 @@ using System;
 using EzAspDotNet.Services;
 using EzAspDotNet.Notification.Models;
 using Server.Models;
+using MongoDbWebUtil.Util;
 
 namespace Server.Services
 {
@@ -90,9 +90,12 @@ namespace Server.Services
                 return;
             }
 
+            // : 이 들어가면 slack desktop alarm 에서 표기 오류가 발생한다. 그래서 치환
+
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
                 feedData.FeedTitle,
-                $"<{feedData.Href}|{feedData.ItemTitle} - {feedData.FeedTitle}> [{feedData.DateTime}]");
+                $"<{feedData.Href}|[{feedData.ItemTitle.Replace(":", ".")}]{feedData.FeedTitle.Replace(":", ".")}>" +
+                $" - {feedData.DateTime:yyyy.MM.dd HH.mm.dd}");
         }
     }
 }

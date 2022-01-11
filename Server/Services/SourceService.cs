@@ -1,5 +1,4 @@
-﻿using MongoDbWebUtil.Util;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MongoDbWebUtil.Services;
 using MongoDB.Driver;
 using WebCrawler.Models;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using WebCrawler.Code;
 using Server.Models;
 using EzAspDotNet.Exception;
+using MongoDbWebUtil.Util;
 
 namespace Server.Services
 {

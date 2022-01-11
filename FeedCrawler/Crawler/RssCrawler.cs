@@ -1,12 +1,11 @@
 ﻿using MongoDB.Driver;
-using Serilog;
 using System;
 using System.Threading.Tasks;
 using FeedCrawler.Models;
-using MongoDbWebUtil.Util;
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using System.Linq;
+using MongoDbWebUtil.Util;
 
 namespace FeedCrawler.Crawler
 {

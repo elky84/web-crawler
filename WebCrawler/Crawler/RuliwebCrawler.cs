@@ -79,7 +79,7 @@ namespace WebCrawler.Crawler
                     date = DateTime.Parse(dateTimeStr);
                 }
 
-                var href = tdHref[n];
+                var href = tdHref[n].Split("?")[0];
 
                 _ = OnCrawlData(new CrawlingData
                 {

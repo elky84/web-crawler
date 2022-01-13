@@ -11,6 +11,7 @@ using Server.Models;
 using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Exception;
 using MongoDbWebUtil.Util;
+using System.Collections.Generic;
 
 namespace Server.Services
 {
@@ -33,17 +34,18 @@ namespace Server.Services
             _webHookService = webHookService;
             _mongoCrawlingData = new MongoDbUtil<CrawlingData>(mongoDbService.Database);
 
-            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
-                Builders<CrawlingData>.IndexKeys.Ascending(x => x.DateTime)));
-
-            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
-                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Title)));
-
-            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
-                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)));
-
-            _mongoCrawlingData.Collection.Indexes.CreateOne(new CreateIndexModel<CrawlingData>(
-                Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type).Ascending(x => x.BoardId)));
+            _mongoCrawlingData.Collection.Indexes.CreateMany(new List<CreateIndexModel<CrawlingData>>
+            {
+                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.DateTime)),
+                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Title)),
+                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)),
+                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
+                                                                                   .Ascending(x => x.BoardId)),
+                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
+                                                                                   .Ascending(x => x.BoardId)
+                                                                                   .Ascending(x => x.Href),
+                                                   new CreateIndexOptions { Unique = true})
+            });
         }
 
         public async Task<Protocols.Response.CrawlingList> Get(Protocols.Request.CrawlingList crawlingList)

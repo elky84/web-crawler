@@ -9,6 +9,7 @@ using EzAspDotNet.Services;
 using EzAspDotNet.Notification.Models;
 using Server.Models;
 using MongoDbWebUtil.Util;
+using System.Collections.Generic;
 
 namespace Server.Services
 {
@@ -31,14 +32,14 @@ namespace Server.Services
             _webHookService = webHookService;
             _mongoFeedData = new MongoDbUtil<FeedData>(mongoDbService.Database);
 
-            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
-                Builders<FeedData>.IndexKeys.Ascending(x => x.DateTime)));
-
-            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
-                Builders<FeedData>.IndexKeys.Ascending(x => x.ItemTitle)));
-
-            _mongoFeedData.Collection.Indexes.CreateOne(new CreateIndexModel<FeedData>(
-                Builders<FeedData>.IndexKeys.Ascending(x => x.FeedTitle)));
+            _mongoFeedData.Collection.Indexes.CreateMany(new List<CreateIndexModel<FeedData>>
+            {
+                new CreateIndexModel<FeedData>(Builders<FeedData>.IndexKeys.Ascending(x => x.DateTime)),
+                new CreateIndexModel<FeedData>(Builders<FeedData>.IndexKeys.Ascending(x => x.ItemTitle)),
+                new CreateIndexModel<FeedData>(Builders<FeedData>.IndexKeys.Ascending(x => x.FeedTitle)),
+                new CreateIndexModel<FeedData>(Builders<FeedData>.IndexKeys.Ascending(x => x.Url).Ascending(x => x.Href), 
+                                               new CreateIndexOptions { Unique = true})
+            });
         }
 
         public async Task<Protocols.Response.FeedList> Get(Protocols.Request.FeedList feedList)
@@ -52,7 +53,7 @@ namespace Server.Services
 
             return new Protocols.Response.FeedList
             {
-                ResultCode = Code.ResultCode.Success,
+                ResultCode = EzAspDotNet.Code.ResultCode.Success,
                 Limit = feedList.Limit,
                 Offset = feedList.Offset,
                 Sort = feedList.Sort,
@@ -79,7 +80,7 @@ namespace Server.Services
 
             return new Protocols.Response.Feed
             {
-                ResultCode = Code.ResultCode.Success
+                ResultCode = EzAspDotNet.Code.ResultCode.Success
             };
         }
 

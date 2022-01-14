@@ -10,6 +10,7 @@ using EzAspDotNet.Notification.Models;
 using Server.Models;
 using MongoDbWebUtil.Util;
 using System.Collections.Generic;
+using WebCrawler.Util;
 
 namespace Server.Services
 {
@@ -95,7 +96,7 @@ namespace Server.Services
 
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
                 feedData.FeedTitle,
-                $"<{feedData.Href}|[{feedData.ItemTitle.Replace(":", ".")}]{feedData.FeedTitle.Replace(":", ".")}>" +
+                $"<{feedData.Href}|[{feedData.ItemTitle.ToWebHookText()}]{feedData.FeedTitle.ToWebHookText()}>" +
                 $" - {feedData.DateTime:yyyy.MM.dd HH.mm.dd}");
         }
     }

@@ -63,6 +63,11 @@ namespace WebCrawler.Crawler
                 var category = stringTuples.FindValue("cate");
                 var author = stringTuples.FindValue("author");
                 var date = DateTime.Parse(stringTuples.FindValue("time"));
+                if (date > DateTime.Now) // 12월 표기가 12-15라서 파싱되서 연초에는 꼬여서 예외처리
+                {
+                    date = date.AddYears(-1);
+                }
+
                 var count = stringTuples[7].Item2.ToInt();
                 var recommend = stringTuples[8].Item2.ToInt();
 

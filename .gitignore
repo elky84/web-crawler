@@ -355,3 +355,6 @@ appsettings.Development.json
 
 # local config
 deploy_*.bat
+
+# properties
+Properties/

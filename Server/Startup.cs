@@ -10,22 +10,30 @@ using EzAspDotNet.Exception;
 using EzAspDotNet.Services;
 using MongoDbWebUtil.Services;
 using Server.Services;
+using System.Diagnostics;
+using System;
 
 namespace Server
 {
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            System.Text.EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
+            EncodingProvider provider = CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(provider);
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
+                .MinimumLevel.Warning()
                 .WriteTo.Console()
                 .CreateLogger();
 
             Configuration = configuration;
+
+            using (var log = new LoggerConfiguration().WriteTo.Console().CreateLogger())
+            {
+                log.Information($"Local TimeZone:{TimeZoneInfo.Local}");
+            }
         }
 
         public IConfiguration Configuration { get; }

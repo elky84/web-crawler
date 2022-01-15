@@ -12,7 +12,6 @@ using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Exception;
 using MongoDbWebUtil.Util;
 using System.Collections.Generic;
-using WebCrawler.Util;
 
 namespace Server.Services
 {
@@ -126,12 +125,12 @@ namespace Server.Services
         public async Task OnNewCrawlData(CrawlingData crawlingData)
         {
             var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}] ";
-
-            // : 이 들어가면 slack desktop alarm 에서 표기 오류가 발생한다. 그래서 치환
-            await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId), 
-                crawlingData.Title,
-                $"<{crawlingData.Href}|{category}{crawlingData.Title.ToWebHookText()}>" +
-                $" - {crawlingData.DateTime:yyyy.MM.dd HH.mm.dd}");
+            await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId),
+                $"{category}{crawlingData.Title}",
+                $"{crawlingData.Title} <{crawlingData.Recommend}/{crawlingData.Count}>",
+                crawlingData.Author,
+                crawlingData.Href,
+                crawlingData.DateTime);
         }
     }
 }

@@ -10,7 +10,6 @@ using EzAspDotNet.Notification.Models;
 using Server.Models;
 using MongoDbWebUtil.Util;
 using System.Collections.Generic;
-using WebCrawler.Util;
 
 namespace Server.Services
 {
@@ -92,12 +91,12 @@ namespace Server.Services
                 return;
             }
 
-            // : 이 들어가면 slack desktop alarm 에서 표기 오류가 발생한다. 그래서 치환
-
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
+                feedData.ItemTitle,
                 feedData.FeedTitle,
-                $"<{feedData.Href}|[{feedData.ItemTitle.ToWebHookText()}]{feedData.FeedTitle.ToWebHookText()}>" +
-                $" - {feedData.DateTime:yyyy.MM.dd HH.mm.dd}");
+                feedData.ItemAuthor,
+                feedData.Href,
+                feedData.DateTime);
         }
     }
 }

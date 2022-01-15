@@ -11,7 +11,7 @@ namespace WebCrawlerCli
     {
         static async Task Main(string[] args)
         {
-            System.Text.EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
+            EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(provider);
 
             Log.Logger = new LoggerConfiguration()

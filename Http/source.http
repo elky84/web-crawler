@@ -13,90 +13,107 @@ Content-Type: application/json
 		{
 			"Type": "Ruliweb",
 			"BoardId": "best",
-			"Name": "유머 베스트"
+			"Name": "유머 베스트",
+			"Switch": true
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "market/board/1020",
-			"Name": "핫딜게시판"
+			"Name": "핫딜게시판",
+			"Switch": true
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "market/board/1001",
-			"Name": "콘솔뉴스"
+			"Name": "콘솔뉴스",
+			"Switch": true
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "market/board/1003",
-			"Name": "PC뉴스"
+			"Name": "PC뉴스",
+			"Switch": true
 		},
         {
 			"Type": "Ruliweb",
 			"BoardId": "best/selection",
-			"Name": "많이 본 글"
+			"Name": "많이 본 글",
+			"Switch": true
 		},
 		{
 			"Type": "Ppomppu",
 			"BoardId": "freeboard",
-			"Name": "자유게시판"
+			"Name": "자유게시판",
+			"Switch": true
 		},
 		{
 			"Type": "TodayHumor",
 			"BoardId": "bestofbest",
-			"Name": "베오베"
+			"Name": "베오베",
+			"Switch": true
 		},
 		{
 			"Type": "SlrClub",
 			"BoardId": "free",
-			"Name": "자유게시판"
+			"Name": "자유게시판",
+			"Switch": true
 		},
 		{
 			"Type": "FmKorea",
 			"BoardId": "football_news",
 			"Name": "축구 뉴스",
-			"Interval": 60000
+			"Interval": 60000,
+			"Switch": true
 		},
 		{
 			"Type": "Clien",
 			"BoardId": "sold",
-			"Name": "회원중고장터"
+			"Name": "회원중고장터",
+			"Switch": true
 		},
 		{
 			"Type": "Clien",
 			"BoardId": "park",
-			"Name": "모두의공원"
+			"Name": "모두의공원",
+			"Switch": true
 		},
 		{
 			"Type": "InvenNews",
 			"BoardId": "site=lol",
-			"Name": "인벤 LOL 뉴스"
+			"Name": "인벤 LOL 뉴스",
+			"Switch": true
 		},
 		{
 			"Type": "FmKorea",
 			"BoardId": "best",
 			"Name": "포텐터짐",
-			"Interval": 60000
+			"Interval": 60000,
+			"Switch": true
 		},
 		{
 			"Type": "FmKorea",
 			"BoardId": "hotdeal",
 			"Name": "핫딜",
-			"Interval": 60000
+			"Interval": 60000,
+			"Switch": true
 		},
 		{
 			"Type": "HumorUniv",
 			"BoardId": "pick",
-			"Name": "인기자료"
+			"Name": "인기자료",
+			"Switch": true
 		},
 		{
 			"Type": "Clien",
 			"BoardId": "jirum",
-			"Name": "알뜰구매"
+			"Name": "알뜰구매",
+			"Switch": true
 		},
 		{
 			"Type": "Itcm",
 			"BoardId": "game_news",
-			"Name": "핫딜"
+			"Name": "핫딜",
+			"Switch": true
 		}
 	]
 }
@@ -109,7 +126,8 @@ Content-Type: application/json
 	"Data": {
 		"Type": "Itcm",
 		"BoardId": "game_news",
-		"Name": "핫딜"
+		"Name": "핫딜",
+		"Switch": true
 	}
 }
 

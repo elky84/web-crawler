@@ -27,7 +27,7 @@ namespace Server.Services
 
         public async Task<List<Source>> All()
         {
-            return await _mongoDbSource.All();
+            return await _mongoDbSource.FindAsync(Builders<Source>.Filter.Eq(x => x.Switch, true));
         }
 
         public async Task<Protocols.Response.Source> Create(Protocols.Request.Source source)

@@ -41,7 +41,8 @@ namespace Server.Models
                 Name = source.Name,
                 PageMin = source.PageMin,
                 PageMax = source.PageMax,
-                Interval = source.Interval
+                Interval = source.Interval,
+                Switch = source.Switch,
             };
         }
 

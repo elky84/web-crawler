@@ -54,7 +54,7 @@ Content-Type: application/json
 			"Type": "FmKorea",
 			"BoardId": "football_news",
 			"Name": "축구 뉴스",
-			"Interval": 1000
+			"Interval": 60000
 		},
 		{
 			"Type": "Clien",
@@ -74,12 +74,14 @@ Content-Type: application/json
 		{
 			"Type": "FmKorea",
 			"BoardId": "best",
-			"Name": "포텐터짐"
+			"Name": "포텐터짐",
+			"Interval": 60000
 		},
 		{
 			"Type": "FmKorea",
 			"BoardId": "hotdeal",
-			"Name": "핫딜"
+			"Name": "핫딜",
+			"Interval": 60000
 		},
 		{
 			"Type": "HumorUniv",

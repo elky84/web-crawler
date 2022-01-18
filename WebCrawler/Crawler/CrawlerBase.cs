@@ -27,6 +27,8 @@ namespace WebCrawler
 
         public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
 
+        protected static int Executing;
+
         public CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
         {
             if (mongoDb != null)
@@ -73,13 +75,19 @@ namespace WebCrawler
             }
         }
 
+        protected virtual bool CanTwice() => true;
+
         protected async Task<bool> ExecuteAsync(int page)
         {
-            var builder = new UriBuilder(UrlComposite(page));
+            if ( CanTwice() || 0 == Interlocked.Exchange(ref Executing, 1))
+            {
+                var builder = new UriBuilder(UrlComposite(page));
+                var crawlResult = await CrawlerInstance.CrawlAsync(builder.Uri);
+                Interlocked.Exchange(ref Executing, 0);
+                return crawlResult.ErrorOccurred;
+            }
 
-            var crawlResult = await CrawlerInstance.CrawlAsync(builder.Uri);
-
-            return crawlResult.ErrorOccurred;
+            return false;
         }
 
         protected abstract string UrlComposite(int page);

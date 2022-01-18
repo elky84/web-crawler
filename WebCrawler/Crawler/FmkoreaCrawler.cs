@@ -33,6 +33,8 @@ namespace WebCrawler.Crawler
             }
         }
 
+        protected override bool CanTwice() => false;
+
         private void OnPageCrawlTable(AngleSharp.Html.Dom.IHtmlDocument document, string[] thContent)
         {
             var tdContent = document.QuerySelectorAll("tbody tr td").Select(x => x.TextContent.Trim()).ToArray();

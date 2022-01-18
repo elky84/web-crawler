@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Models;
 using EzAspDotNet.Util;
+using System.Text.RegularExpressions;
 
 namespace WebCrawler.Crawler
 {
@@ -125,7 +126,7 @@ namespace WebCrawler.Crawler
 
                 var author = stringTuples.FindValue("author").Replace("/ ", string.Empty);
                 var date = DateTime.Now;
-                var recommend = stringTuples.FindValue("count").ToInt();
+                var recommend = stringTuples.FindValue("count").ToIntRegex();
 
                 var href = UrlCompositeHref(hrefs[0]);
 

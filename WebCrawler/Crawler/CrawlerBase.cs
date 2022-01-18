@@ -148,17 +148,9 @@ namespace WebCrawler
             }
 
             var builder = Builders<CrawlingData>.Filter;
-            var filter = builder.Eq(x => x.Type, crawlingData.Type);
-            filter &= builder.Eq(x => x.BoardId, crawlingData.BoardId);
-
-            if (crawlingData.RowId.HasValue)
-            {
-                filter &= builder.Eq(x => x.RowId, crawlingData.RowId.Value);
-            }
-            else
-            {
-                filter &= Builders<CrawlingData>.Filter.Eq(x => x.Href, crawlingData.Href);
-            }
+            var filter = builder.Eq(x => x.Type, crawlingData.Type) &
+                builder.Eq(x => x.BoardId, crawlingData.BoardId) & 
+                builder.Eq(x => x.Href, crawlingData.Href);
 
             await MongoDbCrawlingData.UpsertAsync(filter, crawlingData,
                 async (crawlingData) =>

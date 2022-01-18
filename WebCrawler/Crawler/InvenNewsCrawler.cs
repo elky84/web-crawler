@@ -51,7 +51,7 @@ namespace WebCrawler.Crawler
                 var category = infos[0].Substring("\n");
                 var author = infos[1];
                 var date = DateTime.Parse(infos[2]);
-                var recommend = string.IsNullOrEmpty(cmtnum) ? 0 : cmtnum.ToIntRegx();
+                var recommend = string.IsNullOrEmpty(cmtnum) ? 0 : cmtnum.ToIntRegex();
 
                 var href = hrefs[0];
 

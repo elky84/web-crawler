@@ -28,7 +28,7 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "view list_tr_humordata")
+                .Where(x => x.ClassName != null && x.ClassName.StartsWith("view list_tr_"))
                 .Select(x => x.QuerySelectorAll("td"))
                 .SelectMany(x => x.Select(y =>
                 {

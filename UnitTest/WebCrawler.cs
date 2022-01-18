@@ -109,9 +109,8 @@ namespace UnitTest
         }
 
         [Test]
-        public void ClientBestOfBest()
+        public void TodayHumorBestOfBest()
         {
-
             new TodayhumorCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.TodayHumor,

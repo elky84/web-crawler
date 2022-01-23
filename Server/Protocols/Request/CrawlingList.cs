@@ -2,7 +2,7 @@
 
 namespace Server.Protocols.Request
 {
-    public class CrawlingList : Pagable
+    public class CrawlingList : EzAspDotNet.Protocols.Page.Pageable
     {
         public string Keyword { get; set; }
 

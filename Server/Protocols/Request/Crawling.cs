@@ -1,13 +1,8 @@
-﻿using EzAspDotNet.Protocols.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebCrawler.Code;
+﻿using System.Collections.Generic;
 
 namespace Server.Protocols.Request
 {
-    public class Crawling
+    public class Crawling : EzAspDotNet.Protocols.RequestHeader
     {
         public List<Common.Source> Sources { get; set; }
 

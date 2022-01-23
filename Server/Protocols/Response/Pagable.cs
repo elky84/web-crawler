@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Server.Protocols.Response
 {
-    public class Pagable : Header
+    public class Pagable : EzAspDotNet.Protocols.ResponseHeader
     {
         public long Total { get; set; }
 

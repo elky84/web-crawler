@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Server.Protocols.Response
 {
-    public class RssMulti : Header
+    public class RssMulti : EzAspDotNet.Protocols.ResponseHeader
     {
         public List<Common.Rss> Datas { get; set; }
     }

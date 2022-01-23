@@ -1,13 +1,8 @@
-﻿using EzAspDotNet.Protocols.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebCrawler.Code;
+﻿using System.Collections.Generic;
 
 namespace Server.Protocols.Request
 {
-    public class Feed
+    public class Feed : EzAspDotNet.Protocols.RequestHeader
     {
         public List<Common.Rss> RssList { get; set; } = new List<Common.Rss>();
 

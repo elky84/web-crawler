@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Server.Protocols.Response
 {
-    public class NotificationMulti : Header
+    public class NotificationMulti : EzAspDotNet.Protocols.ResponseHeader
     {
         public List<Common.Notification> Datas { get; set; }
     }

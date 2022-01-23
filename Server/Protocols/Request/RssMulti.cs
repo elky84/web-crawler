@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebCrawler.Code;
+﻿using System.Collections.Generic;
 
 namespace Server.Protocols.Request
 {
-    public class RssMulti
+    public class RssMulti : EzAspDotNet.Protocols.RequestHeader
     {
         public List<Common.Rss> Datas { get; set; }
     }

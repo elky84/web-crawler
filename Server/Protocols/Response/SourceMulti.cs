@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Server.Protocols.Response
 {
-    public class SourceMulti : Header
+    public class SourceMulti : EzAspDotNet.Protocols.ResponseHeader
     {
         public List<Common.Source> Datas { get; set; }
     }

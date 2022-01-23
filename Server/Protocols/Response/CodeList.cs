@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Server.Protocols.Response
 {
-    public class CodeList : Header
+    public class CodeList : EzAspDotNet.Protocols.ResponseHeader
     {
-        public List<string> Datas = new List<string>();
+        public List<string> Datas = new();
     }
 }

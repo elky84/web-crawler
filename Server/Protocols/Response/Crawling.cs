@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Server.Protocols.Common;
 
 namespace Server.Protocols.Response
 {
-    public class Crawling : Header
+    public class Crawling : EzAspDotNet.Protocols.ResponseHeader
     {
     }
 }

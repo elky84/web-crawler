@@ -127,7 +127,7 @@ namespace Server.Services
             var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}] ";
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId),
                 $"{category}{crawlingData.Title}",
-                $"{crawlingData.Title} [{crawlingData.Recommend}/{crawlingData.Count}]",
+                $"{crawlingData.Title} '{crawlingData.Recommend}/{crawlingData.Count}'",
                 crawlingData.Author,
                 crawlingData.Href,
                 crawlingData.DateTime);

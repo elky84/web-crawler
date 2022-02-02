@@ -130,7 +130,7 @@ namespace Server.Services
                 {
                     Title = $"{category}{crawlingData.Title}",
                     Text = $"{crawlingData.Title} '{crawlingData.Recommend}/{crawlingData.Count}'",
-                    Author = crawlingData.Author,
+                    Footer = crawlingData.Author,
                     TitleLink = crawlingData.Href,
                     TimeStamp = crawlingData.DateTime.ToTimeStamp()
                 });

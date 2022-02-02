@@ -97,7 +97,7 @@ namespace Server.Services
                 {
                     Title = feedData.ItemTitle,
                     Text = $"{feedData.ItemTitle} - {feedData.FeedTitle}",
-                    Author = feedData.ItemAuthor,
+                    Footer = feedData.ItemAuthor,
                     TitleLink = feedData.Href,
                     TimeStamp = feedData.DateTime.ToTimeStamp()
                 });

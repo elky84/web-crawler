@@ -10,6 +10,7 @@ using EzAspDotNet.Notification.Models;
 using Server.Models;
 using MongoDbWebUtil.Util;
 using System.Collections.Generic;
+using EzAspDotNet.Util;
 
 namespace Server.Services
 {
@@ -92,11 +93,14 @@ namespace Server.Services
             }
 
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
-                feedData.ItemTitle,
-                $"{feedData.ItemTitle} - {feedData.FeedTitle}",
-                feedData.ItemAuthor,
-                feedData.Href,
-                feedData.DateTime);
+                new EzAspDotNet.Notification.Data.WebHook
+                {
+                    Title = feedData.ItemTitle,
+                    Text = $"{feedData.ItemTitle} - {feedData.FeedTitle}",
+                    Author = feedData.ItemAuthor,
+                    TitleLink = feedData.Href,
+                    TimeStamp = feedData.DateTime.ToTimeStamp()
+                });
         }
     }
 }

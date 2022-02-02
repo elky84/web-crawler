@@ -126,11 +126,14 @@ namespace Server.Services
         {
             var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}] ";
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId),
-                $"{category}{crawlingData.Title}",
-                $"{crawlingData.Title} '{crawlingData.Recommend}/{crawlingData.Count}'",
-                crawlingData.Author,
-                crawlingData.Href,
-                crawlingData.DateTime);
+                new EzAspDotNet.Notification.Data.WebHook
+                {
+                    Title = $"{category}{crawlingData.Title}",
+                    Text = $"{crawlingData.Title} '{crawlingData.Recommend}/{crawlingData.Count}'",
+                    Author = crawlingData.Author,
+                    TitleLink = crawlingData.Href,
+                    TimeStamp = crawlingData.DateTime.ToTimeStamp()
+                });
         }
     }
 }

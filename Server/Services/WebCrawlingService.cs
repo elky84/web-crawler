@@ -129,7 +129,6 @@ namespace Server.Services
                 new EzAspDotNet.Notification.Data.WebHook
                 {
                     Title = $"{category}{crawlingData.Title}",
-                    Text = $"추천:{crawlingData.Recommend} 조회수:{crawlingData.Count}",
                     Footer = crawlingData.Author,
                     TitleLink = crawlingData.Href,
                     TimeStamp = crawlingData.DateTime.ToTimeStamp()

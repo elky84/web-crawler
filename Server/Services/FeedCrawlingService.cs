@@ -95,8 +95,7 @@ namespace Server.Services
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.CrawlingType, CrawlingType.Rss.ToString()),
                 new EzAspDotNet.Notification.Data.WebHook
                 {
-                    Title = feedData.ItemTitle,
-                    Text = feedData.FeedTitle,
+                    Title = $"{feedData.ItemTitle} - {feedData.FeedTitle}",
                     Footer = feedData.ItemAuthor,
                     TitleLink = feedData.Href,
                     TimeStamp = feedData.DateTime.ToTimeStamp()

@@ -10,7 +10,6 @@ using EzAspDotNet.Exception;
 using EzAspDotNet.Services;
 using MongoDbWebUtil.Services;
 using Server.Services;
-using System.Diagnostics;
 using System;
 
 namespace Server
@@ -20,8 +19,7 @@ namespace Server
     {
         public Startup(IConfiguration configuration)
         {
-            EncodingProvider provider = CodePagesEncodingProvider.Instance;
-            Encoding.RegisterProvider(provider);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Warning()

@@ -96,7 +96,7 @@ namespace Server.Services
                 new EzAspDotNet.Notification.Data.WebHook
                 {
                     Title = feedData.ItemTitle,
-                    Text = $"{feedData.ItemTitle} - {feedData.FeedTitle}",
+                    Text = feedData.FeedTitle,
                     Footer = feedData.ItemAuthor,
                     TitleLink = feedData.Href,
                     TimeStamp = feedData.DateTime.ToTimeStamp()

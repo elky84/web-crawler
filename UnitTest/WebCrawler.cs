@@ -171,11 +171,21 @@ namespace UnitTest
             new RuliwebCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,
-                BoardId = "market/board/1003",
+                BoardId = "news/board/1001",
                 Name = "콘솔뉴스"
             }).RunAsync().Wait();
         }
 
+        [Test]
+        public void RuliwebPcNews()
+        {
+            new RuliwebCrawler(null, Database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "news/board/1003",
+                Name = "PC뉴스"
+            }).RunAsync().Wait();
+        }
         [Test]
         public void RuliwebBest()
         {

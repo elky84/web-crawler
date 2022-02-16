@@ -1,16 +1,14 @@
 ﻿using EzAspDotNet.Util;
 using System.Threading.Tasks;
-using MongoDbWebUtil.Services;
+using EzAspDotNet.Services;
 using WebCrawler;
 using MongoDB.Driver;
 using WebCrawler.Code;
 using WebCrawler.Models;
 using WebCrawler.Crawler;
-using EzAspDotNet.Services;
 using Server.Models;
 using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Exception;
-using MongoDbWebUtil.Util;
 using System.Collections.Generic;
 
 namespace Server.Services

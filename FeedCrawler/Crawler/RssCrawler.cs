@@ -5,7 +5,7 @@ using FeedCrawler.Models;
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using System.Linq;
-using MongoDbWebUtil.Util;
+using EzAspDotNet.Util;
 
 namespace FeedCrawler.Crawler
 {

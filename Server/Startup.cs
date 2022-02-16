@@ -8,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using EzAspDotNet.Exception;
 using EzAspDotNet.Services;
-using MongoDbWebUtil.Services;
 using Server.Services;
 using System;
 

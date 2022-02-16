@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using MongoDbWebUtil.Services;
+using EzAspDotNet.Services;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using EzAspDotNet.Exception;
 using FeedCrawler.Models;
 using Server.Models;
-using MongoDbWebUtil.Util;
+using EzAspDotNet.Util;
 
 namespace Server.Services
 {

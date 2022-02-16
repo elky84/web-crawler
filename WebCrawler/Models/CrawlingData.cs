@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Code;
-using MongoDbWebUtil.Models;
+using EzAspDotNet.Models;
 
 namespace WebCrawler.Models
 {

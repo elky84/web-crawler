@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Models;
 using EzAspDotNet.Util;
-using MongoDbWebUtil.Util;
 
 namespace WebCrawler
 {

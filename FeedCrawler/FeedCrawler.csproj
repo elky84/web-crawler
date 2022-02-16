@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.2" />
-    <PackageReference Include="MongoDbWebUtil" Version="1.0.0" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="EzAspDotNet" Version="1.0.31" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿using EzAspDotNet.Util;
 using System.Threading.Tasks;
-using MongoDbWebUtil.Services;
+using EzAspDotNet.Services;
 using MongoDB.Driver;
 using Server.Models;
 using System.Collections.Generic;
@@ -9,7 +9,6 @@ using WebCrawler.Code;
 using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Exception;
 using EzAspDotNet.Notification.Types;
-using MongoDbWebUtil.Util;
 
 namespace Server.Services
 {

@@ -3,6 +3,8 @@
 ![Made with](https://img.shields.io/badge/made%20with-JavaScript-blue.svg)
 ![Made with](https://img.shields.io/badge/made%20with-MongoDB-red.svg)
 
+[![Publish Docker image](https://github.com/elky84/web-crawler/actions/workflows/publish_docker.yml/badge.svg)](https://github.com/elky84/web-crawler/actions/workflows/publish_docker.yml)
+
 ![GitHub forks](https://img.shields.io/github/forks/elky84/web-crawler.svg?style=social&label=Fork)
 ![GitHub stars](https://img.shields.io/github/stars/elky84/web-crawler.svg?style=social&label=Stars)
 ![GitHub watchers](https://img.shields.io/github/watchers/elky84/web-crawler.svg?style=social&label=Watch)

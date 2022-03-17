@@ -62,7 +62,7 @@ namespace Server.Services
 
             return new Protocols.Response.CrawlingList
             {
-                ResultCode = EzAspDotNet.Code.ResultCode.Success,
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success,
                 Limit = crawlingList.Limit,
                 Offset = crawlingList.Offset,
                 Sort = crawlingList.Sort,
@@ -109,14 +109,14 @@ namespace Server.Services
                             await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, source.ToModel()).RunAsync();
                             break;
                         default:
-                            throw new DeveloperException(EzAspDotNet.Code.ResultCode.NotImplementedYet);
+                            throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet);
                     }
                 }
             );
 
             return new Protocols.Response.Crawling
             {
-                ResultCode = EzAspDotNet.Code.ResultCode.Success
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success
             };
         }
 

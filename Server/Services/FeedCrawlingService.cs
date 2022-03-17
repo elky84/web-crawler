@@ -52,7 +52,7 @@ namespace Server.Services
 
             return new Protocols.Response.FeedList
             {
-                ResultCode = EzAspDotNet.Code.ResultCode.Success,
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success,
                 Limit = feedList.Limit,
                 Offset = feedList.Offset,
                 Sort = feedList.Sort,
@@ -79,7 +79,7 @@ namespace Server.Services
 
             return new Protocols.Response.Feed
             {
-                ResultCode = EzAspDotNet.Code.ResultCode.Success
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success
             };
         }
 

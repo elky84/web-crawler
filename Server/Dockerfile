@@ -7,9 +7,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
+COPY ["nuget.config", "."]
 COPY ["Server/Server.csproj", "Server/"]
 COPY ["WebCrawler/WebCrawler.csproj", "WebCrawler/"]
-COPY ["FeedCrawler/FeedCrawler.csproj", "FeedCrawler/"]
 RUN dotnet restore "Server/Server.csproj"
 COPY . .
 WORKDIR "/src/Server"

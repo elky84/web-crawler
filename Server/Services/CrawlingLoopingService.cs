@@ -1,27 +1,27 @@
 ﻿using EzAspDotNet.Exception;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using EzAspDotNet.Services;
 using System;
 
 namespace Server.Services
 {
-    public class FeedCrawlingLoopingService : LoopingService
+    public class CrawlingLoopingService : LoopingService
     {
-        private readonly FeedCrawlingService _crawlingService;
+        private readonly CrawlingService _crawlingService;
 
-        public FeedCrawlingLoopingService(FeedCrawlingService crawlingService)
+        public CrawlingLoopingService(CrawlingService crawlingService)
         {
             _crawlingService = crawlingService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
+        { 
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    await _crawlingService.Execute(new Protocols.Request.Feed { All = true });
+                    await _crawlingService.Execute(new Protocols.Request.Crawling { All = true });
                 }
                 catch (Exception e)
                 {

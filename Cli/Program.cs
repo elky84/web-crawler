@@ -5,7 +5,7 @@ using Serilog;
 using WebCrawler.Code;
 using WebCrawler.Crawler;
 
-namespace WebCrawlerCli
+namespace Cli
 {
     class Program
     {

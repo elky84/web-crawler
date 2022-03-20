@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace Server.Services
 {
-    public class WebCrawlingService
+    public class CrawlingService
     {
         private readonly MongoDbService _mongoDbService;
 
@@ -23,7 +23,7 @@ namespace Server.Services
 
         private readonly MongoDbUtil<CrawlingData> _mongoCrawlingData;
 
-        public WebCrawlingService(MongoDbService mongoDbService,
+        public CrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
             WebHookService webHookService)
         {

@@ -23,7 +23,6 @@ namespace Server.Controllers
             return new Protocols.Response.CodeList
             {
                 Datas = TypesUtil.ToEnumerable<CrawlingType>()
-                                 .Where(x => x != CrawlingType.Rss)
                                  .ToList()
                                  .ConvertAll(x => x.ToString())
             };

@@ -11,9 +11,9 @@ namespace Server.Controllers
     {
         private readonly ILogger<CrawlingController> _logger;
 
-        private readonly WebCrawlingService _crawlingService;
+        private readonly CrawlingService _crawlingService;
 
-        public CrawlingController(ILogger<CrawlingController> logger, WebCrawlingService crawlingService)
+        public CrawlingController(ILogger<CrawlingController> logger, CrawlingService crawlingService)
         {
             _logger = logger;
             _crawlingService = crawlingService;

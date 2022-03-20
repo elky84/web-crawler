@@ -48,12 +48,7 @@ namespace Server.Services
 
         private async Task<string> GetSourceId(CrawlingType crawlingType, string boardName)
         {
-            if (crawlingType == CrawlingType.Rss)
-            {
-                return string.Empty;
-            }
-
-            var source = await _sourceService.GetByName(crawlingType, boardName);
+           var source = await _sourceService.GetByName(crawlingType, boardName);
             if (source == null)
             {
                 throw new DeveloperException(ResultCode.NotFoundSource);

@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FeedCrawler\FeedCrawler.csproj" />
     <ProjectReference Include="..\WebCrawler\WebCrawler.csproj" />
   </ItemGroup>
 

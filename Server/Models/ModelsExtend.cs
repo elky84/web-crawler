@@ -143,60 +143,6 @@ namespace Server.Models
         }
 
 
-        public static Protocols.Common.Rss ToProtocol(this FeedCrawler.Models.Rss rss)
-        {
-            return new Protocols.Common.Rss
-            {
-                Url = rss.Url,
-                Name = rss.Name,
-                ErrorTime = rss.ErrorTime,
-                Error = rss.Error
-            }.ToProtocol(rss);
-        }
-
-        public static FeedCrawler.Models.Rss ToModel(this Protocols.Common.Rss rss)
-        {
-            return new FeedCrawler.Models.Rss
-            {
-                Id = rss.Id,
-                Url = rss.Url,
-                Name = rss.Name,
-                ErrorTime = rss.ErrorTime,
-                Error = rss.Error
-            };
-        }
-
-
-        public static Protocols.Common.FeedData ToProtocol(this FeedCrawler.Models.FeedData feed)
-        {
-            return new Protocols.Common.FeedData
-            {
-                FeedTitle = feed.FeedTitle,
-                Description = feed.Description,
-                Href = feed.Href,
-                DateTime = feed.DateTime,
-                Url = feed.Url,
-                ItemTitle = feed.ItemTitle,
-                ItemAuthor = feed.ItemAuthor,
-                ItemContent = feed.ItemContent
-            }.ToProtocol(feed);
-        }
-
-        public static FeedCrawler.Models.FeedData ToModel(this Protocols.Common.FeedData feed)
-        {
-            return new FeedCrawler.Models.FeedData
-            {
-                Id = feed.Id,
-                FeedTitle = feed.FeedTitle,
-                Description = feed.Description,
-                Href = feed.Href,
-                DateTime = feed.DateTime,
-                Url = feed.Url,
-                ItemTitle = feed.ItemTitle,
-                ItemAuthor = feed.ItemAuthor,
-                ItemContent = feed.ItemContent
-            };
-        }
 
     }
 }

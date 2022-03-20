@@ -62,11 +62,8 @@ namespace Server
 
             services.AddTransient<MongoDbService>();
 
-            services.AddSingleton<IHostedService, WebCrawlingLoopingService>();
-            services.AddSingleton<WebCrawlingService>();
-
-            services.AddSingleton<IHostedService, FeedCrawlingLoopingService>();
-            services.AddSingleton<FeedCrawlingService>();
+            services.AddSingleton<IHostedService, CrawlingLoopingService>();
+            services.AddSingleton<CrawlingService>();
 
             services.AddSingleton<SourceService>();
 
@@ -74,8 +71,6 @@ namespace Server
 
             services.AddSingleton<IHostedService, WebHookLoopingService>();
             services.AddSingleton<WebHookService>();
-
-            services.AddSingleton<RssService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

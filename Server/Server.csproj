@@ -10,9 +10,6 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Protocols\Response\dj3xrjap.5uy~" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebCrawler\WebCrawler.csproj" />

@@ -10,6 +10,7 @@ using EzAspDotNet.Exception;
 using EzAspDotNet.Services;
 using Server.Services;
 using System;
+using EzAspDotNet.StartUp;
 
 namespace Server
 {
@@ -26,11 +27,6 @@ namespace Server
                 .CreateLogger();
 
             Configuration = configuration;
-
-            using (var log = new LoggerConfiguration().WriteTo.Console().CreateLogger())
-            {
-                log.Information($"Local TimeZone:{TimeZoneInfo.Local}");
-            }
         }
 
         public IConfiguration Configuration { get; }
@@ -38,6 +34,8 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.CommonConfigureServices();
+
             services.AddHttpClient();
 
             services.AddControllers().AddNewtonsoftJson();
@@ -60,17 +58,16 @@ namespace Server
                 options.CustomSchemaIds(x => x.FullName);
             });
 
-            services.AddTransient<MongoDbService>();
-
             services.AddSingleton<IHostedService, CrawlingLoopingService>();
             services.AddSingleton<CrawlingService>();
-
             services.AddSingleton<SourceService>();
-
             services.AddSingleton<NotificationService>();
-
             services.AddSingleton<IHostedService, WebHookLoopingService>();
             services.AddSingleton<WebHookService>();
+
+            Log.Logger.Information($"Local TimeZone:{TimeZoneInfo.Local}");
+
+            Log.Logger.Debug("test");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

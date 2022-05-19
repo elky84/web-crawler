@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EzAspDotNet.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Server.Models;
 using Server.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Server.Controllers
@@ -26,7 +27,9 @@ namespace Server.Controllers
         {
             return new Protocols.Response.NotificationMulti
             {
-                Datas = (await _notificationService.All()).ConvertAll(x => x.ToProtocol())
+                Datas = MapperUtil.Map<List<EzAspDotNet.Notification.Models.Notification>,
+                                       List<Protocols.Common.Notification>>
+                                       (await _notificationService.All())
             };
         }
 

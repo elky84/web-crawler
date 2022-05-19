@@ -1,14 +1,14 @@
-﻿using EzAspDotNet.Util;
-using System.Threading.Tasks;
-using EzAspDotNet.Services;
-using MongoDB.Driver;
-using Server.Models;
-using System.Collections.Generic;
-using Server.Code;
-using WebCrawler.Code;
+﻿using EzAspDotNet.Exception;
+using EzAspDotNet.Models;
 using EzAspDotNet.Notification.Models;
-using EzAspDotNet.Exception;
 using EzAspDotNet.Notification.Types;
+using EzAspDotNet.Services;
+using EzAspDotNet.Util;
+using MongoDB.Driver;
+using Server.Code;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebCrawler.Code;
 
 namespace Server.Services
 {
@@ -37,18 +37,22 @@ namespace Server.Services
         public async Task<Protocols.Response.Notification> Create(Protocols.Request.NotificationCreate notification)
         {
             var created = await Create(notification.Data);
+            if (created == null)
+            {
+                throw new DeveloperException(Code.ResultCode.CreateFailedNotification);
+            }
 
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = created?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Notification>(created)
             };
 
         }
 
         private async Task<string> GetSourceId(CrawlingType crawlingType, string boardName)
         {
-           var source = await _sourceService.GetByName(crawlingType, boardName);
+            var source = await _sourceService.GetByName(crawlingType, boardName);
             if (source == null)
             {
                 throw new DeveloperException(ResultCode.NotFoundSource);
@@ -69,8 +73,11 @@ namespace Server.Services
             try
             {
                 var sourceId = await GetSourceId(notification.CrawlingType, notification.BoardName);
+                var notificationModel = MapperUtil.Map<Notification>(notification);
+                notificationModel.SourceId = sourceId;
+
                 return await _mongoDbNotification.UpsertAsync(GetFilterDefinition(sourceId, notification.CrawlingType.ToString(), notification.Type),
-                    notification.ToModel(sourceId));
+                                                              notificationModel);
             }
             catch (MongoWriteException)
             {
@@ -88,16 +95,22 @@ namespace Server.Services
 
             return new Protocols.Response.NotificationMulti
             {
-                Datas = notifications.ConvertAll(x => x.ToProtocol())
+                Datas = MapperUtil.Map<List<Notification>, List<Protocols.Common.Notification>>(notifications)
             };
         }
 
         public async Task<Protocols.Response.Notification> Get(string id)
         {
+            var notification = await _mongoDbNotification.FindOneAsyncById(id);
+            if (notification == null)
+            {
+                throw new DeveloperException(Code.ResultCode.NotFoundNotification);
+            }
+
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = (await _mongoDbNotification.FindOneAsyncById(id))?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Notification>(notification)
             };
         }
 
@@ -108,35 +121,49 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Notification> Update(Protocols.Request.NotificationUpdate notificationUpdate)
         {
-            var update = notificationUpdate.Data.ToModel();
+            var update = MapperUtil.Map<Notification>(notificationUpdate.Data);
+            if (update == null)
+            {
+                throw new DeveloperException(ResultCode.InvalidRequest);
+            }
 
             var filter = GetFilterDefinition(update.SourceId, update.CrawlingType, update.Type);
             var updated = await _mongoDbNotification.UpsertAsync(filter, update);
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = (updated ?? update).ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Notification>(updated)
             };
         }
 
         public async Task<Protocols.Response.Notification> Update(string id, Protocols.Request.NotificationUpdate notificationUpdate)
         {
-            var update = notificationUpdate.Data.ToModel();
+            var update = MapperUtil.Map<Notification>(notificationUpdate.Data);
+            if (update == null)
+            {
+                throw new DeveloperException(ResultCode.InvalidRequest);
+            }
 
             var updated = await _mongoDbNotification.UpdateAsync(id, update);
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = (updated ?? update).ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Notification>(updated)
             };
         }
 
         public async Task<Protocols.Response.Notification> Delete(string id)
         {
+            var deleted = await _mongoDbNotification.RemoveGetAsync(id);
+            if (deleted == null)
+            {
+                throw new DeveloperException(ResultCode.NotFoundNotification);
+            }
+
             return new Protocols.Response.Notification
             {
                 ResultCode = ResultCode.Success,
-                Data = (await _mongoDbNotification.RemoveGetAsync(id))?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Notification>(deleted)
             };
         }
     }

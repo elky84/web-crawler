@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EzAspDotNet.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Server.Models;
 using Server.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Server.Controllers
@@ -27,7 +28,9 @@ namespace Server.Controllers
         {
             return new Protocols.Response.SourceMulti
             {
-                Datas = (await _sourceService.All()).ConvertAll(x => x.ToProtocol())
+                Datas = MapperUtil.Map<List<WebCrawler.Models.Source>,
+                                       List<Protocols.Common.Source>>
+                                       (await _sourceService.All())
             };
         }
 

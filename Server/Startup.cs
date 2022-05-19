@@ -1,4 +1,7 @@
-using System.Text;
+using AutoMapper;
+using EzAspDotNet.Exception;
+using EzAspDotNet.Services;
+using EzAspDotNet.StartUp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,11 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using EzAspDotNet.Exception;
-using EzAspDotNet.Services;
 using Server.Services;
 using System;
-using EzAspDotNet.StartUp;
+using System.Text;
 
 namespace Server
 {
@@ -34,6 +35,20 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            EzAspDotNet.Models.MapperUtil.Initialize(
+                new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<EzAspDotNet.Notification.Models.Notification, Protocols.Common.Notification>();
+                    cfg.CreateMap<Protocols.Common.Notification, EzAspDotNet.Notification.Models.Notification>();
+
+                    cfg.CreateMap<WebCrawler.Models.Source, Protocols.Common.Source>();
+                    cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>();
+
+                    cfg.CreateMap<WebCrawler.Models.CrawlingData, Protocols.Common.CrawlingData>();
+                    cfg.CreateMap<Protocols.Common.CrawlingData, WebCrawler.Models.CrawlingData>();
+                })
+            );
+
             services.CommonConfigureServices();
 
             services.AddHttpClient();

@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using EzAspDotNet.Exception;
+using EzAspDotNet.Models;
 using EzAspDotNet.Services;
-using MongoDB.Driver;
-using WebCrawler.Models;
-using System.Collections.Generic;
-using WebCrawler.Code;
-using Server.Models;
-using EzAspDotNet.Exception;
 using EzAspDotNet.Util;
+using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebCrawler.Code;
+using WebCrawler.Models;
 
 namespace Server.Services
 {
@@ -33,11 +33,15 @@ namespace Server.Services
         public async Task<Protocols.Response.Source> Create(Protocols.Request.Source source)
         {
             var created = await Create(source.Data);
+            if (created == null)
+            {
+                throw new DeveloperException(Code.ResultCode.CreateFailedSource);
+            }
 
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                Data = created?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Source>(created),
             };
 
         }
@@ -46,7 +50,9 @@ namespace Server.Services
         {
             try
             {
-                return await _mongoDbSource.UpsertAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) & Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId), source.ToModel());
+                return await _mongoDbSource.UpsertAsync(Builders<Source>.Filter.Eq(x => x.Type, source.Type) &
+                                                        Builders<Source>.Filter.Eq(x => x.BoardId, source.BoardId),
+                                                        MapperUtil.Map<Source>(source));
             }
             catch (MongoWriteException)
             {
@@ -64,16 +70,24 @@ namespace Server.Services
 
             return new Protocols.Response.SourceMulti
             {
-                Datas = sources.ConvertAll(x => x.ToProtocol())
+                Datas = MapperUtil.Map<List<Source>,
+                                       List<Protocols.Common.Source>>
+                                       (sources)
             };
         }
 
         public async Task<Protocols.Response.Source> GetById(string id)
         {
+            var source = await _mongoDbSource.FindOneAsyncById(id);
+            if (source == null)
+            {
+                throw new DeveloperException(Code.ResultCode.CreateFailedSource);
+            }
+
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                Data = (await _mongoDbSource.FindOneAsyncById(id))?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Source>(source)
             };
         }
 
@@ -91,22 +105,32 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Source> Update(string id, Protocols.Request.Source source)
         {
-            var update = source.Data.ToModel();
-
+            var update = MapperUtil.Map<Source>(source.Data);
             var updated = await _mongoDbSource.UpdateAsync(id, update);
+            if (updated == null)
+            {
+                throw new DeveloperException(Code.ResultCode.NotFoundSource);
+            }
+
             return new Protocols.Response.Source
             {
-                ResultCode = Code.ResultCode.Success,
-                Data = (updated ?? update).ToProtocol()
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success,
+                Data = MapperUtil.Map<Protocols.Common.Source>(updated)
             };
         }
 
         public async Task<Protocols.Response.Source> Delete(string id)
         {
+            var deleted = await _mongoDbSource.RemoveGetAsync(id);
+            if (deleted == null)
+            {
+                throw new DeveloperException(Code.ResultCode.NotFoundSource);
+            }
+
             return new Protocols.Response.Source
             {
                 ResultCode = Code.ResultCode.Success,
-                Data = (await _mongoDbSource.RemoveGetAsync(id))?.ToProtocol()
+                Data = MapperUtil.Map<Protocols.Common.Source>(deleted)
             };
         }
     }

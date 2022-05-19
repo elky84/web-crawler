@@ -1,8 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using EzAspDotNet.Util;
+using MongoDB.Driver;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Models;
-using EzAspDotNet.Util;
 
 namespace WebCrawler.Crawler
 {

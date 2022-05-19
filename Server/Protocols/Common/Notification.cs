@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using EzAspDotNet.Notification.Types;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using Server.Code;
-using EzAspDotNet.Notification.Types;
 
 namespace Server.Protocols.Common
 {

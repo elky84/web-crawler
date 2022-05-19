@@ -3,7 +3,7 @@ using EzAspDotNet.Models;
 using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Notification.Types;
 using EzAspDotNet.Services;
-using EzAspDotNet.Util;
+using EzMongoDb.Util;
 using MongoDB.Driver;
 using Server.Code;
 using System.Collections.Generic;
@@ -104,7 +104,7 @@ namespace Server.Services
             var notification = await _mongoDbNotification.FindOneAsyncById(id);
             if (notification == null)
             {
-                throw new DeveloperException(Code.ResultCode.NotFoundNotification);
+                throw new DeveloperException(Code.ResultCode.NotFoundData);
             }
 
             return new Protocols.Response.Notification
@@ -157,7 +157,7 @@ namespace Server.Services
             var deleted = await _mongoDbNotification.RemoveGetAsync(id);
             if (deleted == null)
             {
-                throw new DeveloperException(ResultCode.NotFoundNotification);
+                throw new DeveloperException(ResultCode.NotFoundData);
             }
 
             return new Protocols.Response.Notification

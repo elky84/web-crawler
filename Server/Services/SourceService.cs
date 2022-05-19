@@ -2,6 +2,7 @@
 using EzAspDotNet.Models;
 using EzAspDotNet.Services;
 using EzAspDotNet.Util;
+using EzMongoDb.Util;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;

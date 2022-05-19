@@ -3,6 +3,7 @@ using EzAspDotNet.Models;
 using EzAspDotNet.Notification.Models;
 using EzAspDotNet.Services;
 using EzAspDotNet.Util;
+using EzMongoDb.Util;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -75,13 +76,9 @@ namespace Server.Services
         public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
         {
             var onCrawlDataDelegate = new CrawlerBase.CrawlDataDelegate(OnNewCrawlData);
-            var sources = crawling.Sources;
-
-            if (crawling.All)
-            {
-                var allSources = await _sourceService.All();
-                sources = MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(allSources);
-            }
+            var sources = crawling.All ?
+                          MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(await _sourceService.All()) :
+                          crawling.Sources;
 
             Parallel.ForEach(sources, new ParallelOptions { MaxDegreeOfParallelism = 16 },
                 async source =>

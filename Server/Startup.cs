@@ -38,14 +38,16 @@ namespace Server
             EzAspDotNet.Models.MapperUtil.Initialize(
                 new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<EzAspDotNet.Notification.Models.Notification, Protocols.Common.Notification>();
-                    cfg.CreateMap<Protocols.Common.Notification, EzAspDotNet.Notification.Models.Notification>();
+                    cfg.AllowNullDestinationValues = true;
 
-                    cfg.CreateMap<WebCrawler.Models.Source, Protocols.Common.Source>();
-                    cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>();
+                    cfg.CreateMap<EzAspDotNet.Notification.Models.Notification, Protocols.Common.Notification>(MemberList.None);
+                    cfg.CreateMap<Protocols.Common.Notification, EzAspDotNet.Notification.Models.Notification>(MemberList.None);
 
-                    cfg.CreateMap<WebCrawler.Models.CrawlingData, Protocols.Common.CrawlingData>();
-                    cfg.CreateMap<Protocols.Common.CrawlingData, WebCrawler.Models.CrawlingData>();
+                    cfg.CreateMap<WebCrawler.Models.Source, Protocols.Common.Source>(MemberList.None);
+                    cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>(MemberList.None);
+
+                    cfg.CreateMap<WebCrawler.Models.CrawlingData, Protocols.Common.CrawlingData>(MemberList.None);
+                    cfg.CreateMap<Protocols.Common.CrawlingData, WebCrawler.Models.CrawlingData>(MemberList.None);
                 })
             );
 

@@ -23,6 +23,12 @@ namespace Server.Protocols.Common
 
         public string Keyword { get; set; }
 
+        public string Prefix { get; set; }
+
+        public string Postfix { get; set; }
+
+        public string FilterKeyword { get; set; }
+
         public string CrawlingType { get; set; }
 
         [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]

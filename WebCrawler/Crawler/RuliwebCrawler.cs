@@ -28,7 +28,7 @@ namespace WebCrawler.Crawler
                 .ToList();
 
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "table_body")
+                .Where(x => x.ClassName.Contains("table_body"))
                 .Select(x => x.QuerySelectorAll("td"))
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();

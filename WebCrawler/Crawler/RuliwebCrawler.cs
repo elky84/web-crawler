@@ -27,14 +27,17 @@ namespace WebCrawler.Crawler
                 .Select(x => x.TextContent.Trim())
                 .ToList();
 
+            var tdContent1 = document.QuerySelectorAll("tbody tr")
+                .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget")).ToList();
+
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName.Contains("table_body"))
+                .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
                 .Select(x => x.QuerySelectorAll("td"))
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "table_body")
+                .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
                 .Select(x => x.QuerySelectorAll("td"))
                 .SelectMany(x => x.Where(y => y.ClassName == "subject" && y.QuerySelector("a") != null)
                                   .Select(y => y.QuerySelector("a").GetAttribute("href")))

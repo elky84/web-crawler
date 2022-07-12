@@ -41,7 +41,7 @@ namespace UnitTest
 
         [Test]
         public void ClientJirum()
-        { 
+        {
             new ClienCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Clien,
@@ -156,7 +156,6 @@ namespace UnitTest
         [Test]
         public void RuliwebHotdeal()
         {
-
             new RuliwebCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,

@@ -358,6 +358,3 @@ deploy_*.bat
 
 # properties
 Properties/
-
-# vscode
-.vscode/

@@ -6,7 +6,7 @@
             "host": "http://localhost:5000"
         },
         "production": {
-            "host": "##PRODUCTION-URL##"
+            "host": "http://192.168.219.108:20082"
         }
     }
 }

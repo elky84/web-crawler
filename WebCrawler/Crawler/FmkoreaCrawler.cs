@@ -37,8 +37,14 @@ namespace WebCrawler.Crawler
 
         private void OnPageCrawlTable(AngleSharp.Html.Dom.IHtmlDocument document, string[] thContent)
         {
-            var tdContent = document.QuerySelectorAll("tbody tr td").Select(x => x.TextContent.Trim()).ToArray();
-            var tdHref = document.QuerySelectorAll("tbody tr td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("title")).Select(x => x.QuerySelector("a").GetAttribute("href")).ToArray();
+            var tdAll = document.QuerySelectorAll("tbody tr td")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("notice"));
+
+            var tdContent = tdAll.Select(x => x.TextContent.Trim()).ToArray();
+
+            var tdHref = tdAll.Where(x => x.ClassName.Contains("title"))
+                .Select(x => x.QuerySelector("a").GetAttribute("href")).ToArray();
+
             if (!thContent.Any() || !tdContent.Any())
             {
                 return;

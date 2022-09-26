@@ -1,6 +1,6 @@
 ﻿{
   "MongoDb": {
-    "ConnectionString": "mongodb://{아이디}:{비밀번호}@{호스트}:{포트}/?maxPoolSize={풀 사이즈}",
+    "ConnectionString": "mongodb://{아이디}:{비밀번호}@{호스트}:{포트}/?maxPoolSize={풀 사이즈}&waitQueueSize={큐 사이즈, 풀 사이즈x4 권장}",
     "DatabaseName": "web-crawler"
   }
 }

@@ -1,22 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <UserSecretsId>7749a532-372b-44f3-a33f-0e77b2aee56a</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>.</DockerfileContext>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<UserSecretsId>7749a532-372b-44f3-a33f-0e77b2aee56a</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>.</DockerfileContext>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
-    <ExternalConsole>true</ExternalConsole>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+		<ExternalConsole>true</ExternalConsole>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebCrawler\WebCrawler.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="serilog.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WebCrawler\WebCrawler.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+	</ItemGroup>
 
 </Project>

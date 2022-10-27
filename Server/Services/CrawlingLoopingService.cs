@@ -1,8 +1,8 @@
 ﻿using EzAspDotNet.Exception;
-using System.Threading;
-using System.Threading.Tasks;
 using EzAspDotNet.Services;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Server.Services
 {
@@ -16,7 +16,7 @@ namespace Server.Services
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        { 
+        {
             while (!stoppingToken.IsCancellationRequested)
             {
                 try

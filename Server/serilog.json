@@ -1,0 +1,34 @@
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console" ],
+    "MinimumLevel": "Information",
+    "WriteTo": [
+      { "Name": "Console" },
+      {
+        "Name": "File",
+        "Args": {
+          "path": "Logs\\web-crawler-.log",
+          "rollingInterval": "Day"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+    "Destructure": [
+      {
+        "Name": "ToMaximumDepth",
+        "Args": { "maximumDestructuringDepth": 4 }
+      },
+      {
+        "Name": "ToMaximumStringLength",
+        "Args": { "maximumStringLength": 100 }
+      },
+      {
+        "Name": "ToMaximumCollectionCount",
+        "Args": { "maximumCollectionCount": 10 }
+      }
+    ],
+    "Properties": {
+      "Application": "web-crawler"
+    }
+  }
+}

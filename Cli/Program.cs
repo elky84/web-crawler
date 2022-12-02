@@ -1,7 +1,7 @@
-﻿using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Serilog;
+using System.Text;
+using System.Threading.Tasks;
 using WebCrawler.Code;
 using WebCrawler.Crawler;
 
@@ -23,6 +23,13 @@ namespace Cli
 
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");
+
+            await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.FmKorea,
+                BoardId = "lol&sort_index=pop",
+                Name = "펨코 롤"
+            }).RunAsync();
 
             await new ItcmCrawler(null, database, new WebCrawler.Models.Source
             {

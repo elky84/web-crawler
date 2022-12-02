@@ -43,10 +43,12 @@ namespace Server
                     cfg.CreateMap<EzAspDotNet.Notification.Models.Notification, Protocols.Common.Notification>(MemberList.None);
                     cfg.CreateMap<Protocols.Common.Notification, EzAspDotNet.Notification.Models.Notification>(MemberList.None);
 
-                    cfg.CreateMap<Protocols.Common.NotificationCreate, EzAspDotNet.Notification.Models.Notification>(MemberList.None);
+                    cfg.CreateMap<Protocols.Common.NotificationCreate, EzAspDotNet.Notification.Models.Notification>(MemberList.None)
+                        .ForMember(d => d.Created, o => o.MapFrom(s => DateTime.Now));
 
                     cfg.CreateMap<WebCrawler.Models.Source, Protocols.Common.Source>(MemberList.None);
-                    cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>(MemberList.None);
+                    cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>(MemberList.None)
+                        .ForMember(d => d.Created, o => o.MapFrom(s => DateTime.Now));
 
                     cfg.CreateMap<WebCrawler.Models.CrawlingData, Protocols.Common.CrawlingData>(MemberList.None);
                     cfg.CreateMap<Protocols.Common.CrawlingData, WebCrawler.Models.CrawlingData>(MemberList.None);

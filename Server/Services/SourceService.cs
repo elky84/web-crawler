@@ -1,7 +1,6 @@
 ﻿using EzAspDotNet.Exception;
 using EzAspDotNet.Models;
 using EzAspDotNet.Services;
-using EzAspDotNet.Util;
 using EzMongoDb.Util;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -41,7 +40,7 @@ namespace Server.Services
 
             return new Protocols.Response.Source
             {
-                ResultCode = Code.ResultCode.Success,
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Source>(created),
             };
 
@@ -107,6 +106,8 @@ namespace Server.Services
         public async Task<Protocols.Response.Source> Update(string id, Protocols.Request.Source source)
         {
             var update = MapperUtil.Map<Source>(source.Data);
+            update.Created = source.Data.Created;
+
             var updated = await _mongoDbSource.UpdateAsync(id, update);
             if (updated == null)
             {

@@ -1,6 +1,8 @@
 ﻿using Abot2.Core;
 using Abot2.Crawler;
 using Abot2.Poco;
+using EzAspDotNet.Util;
+using EzMongoDb.Util;
 using MongoDB.Driver;
 using Serilog;
 using System;
@@ -8,8 +10,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Models;
-using EzAspDotNet.Util;
-using EzMongoDb.Util;
 
 namespace WebCrawler
 {
@@ -79,7 +79,7 @@ namespace WebCrawler
 
         protected async Task<bool> ExecuteAsync(int page)
         {
-            if ( CanTwice() || 0 == Interlocked.Exchange(ref Executing, 1))
+            if (CanTwice() || 0 == Interlocked.Exchange(ref Executing, 1))
             {
                 var builder = new UriBuilder(UrlComposite(page));
                 var crawlResult = await CrawlerInstance.CrawlAsync(builder.Uri);
@@ -104,7 +104,7 @@ namespace WebCrawler
             if (crawledPage.HttpRequestException != null || crawledPage.HttpResponseMessage.StatusCode != HttpStatusCode.OK)
                 Log.Logger.Error($"Crawl of page failed {crawledPage.Uri.AbsoluteUri}");
             else
-                Log.Logger.Information($"Crawl of page succeeded {crawledPage.Uri.AbsoluteUri}");
+                Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri.AbsoluteUri}");
 
             if (string.IsNullOrEmpty(crawledPage.Content.Text))
                 Log.Logger.Debug($"Page had no content {crawledPage.Uri.AbsoluteUri}");
@@ -149,7 +149,7 @@ namespace WebCrawler
 
             var builder = Builders<CrawlingData>.Filter;
             var filter = builder.Eq(x => x.Type, crawlingData.Type) &
-                builder.Eq(x => x.BoardId, crawlingData.BoardId) & 
+                builder.Eq(x => x.BoardId, crawlingData.BoardId) &
                 builder.Eq(x => x.Href, crawlingData.Href);
 
             await MongoDbCrawlingData.UpsertAsync(filter, crawlingData,

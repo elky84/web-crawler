@@ -114,6 +114,12 @@ Content-Type: application/json
 			"BoardId": "game_news",
 			"Name": "핫딜",
 			"Switch": true
+		},
+		{
+			"Type": "FmKorea",
+			"BoardId": "lol&sort_index=pop",
+			"Name": "펨코 롤",
+			"Switch": true
 		}
 	]
 }
@@ -124,9 +130,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "Itcm",
-		"BoardId": "game_news",
-		"Name": "핫딜",
+		"Type": "FmKorea",
+		"BoardId": "lol&sort_index=pop",
+		"Name": "펨코 롤",
 		"Switch": true
 	}
 }

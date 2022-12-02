@@ -43,6 +43,8 @@ namespace Server
                     cfg.CreateMap<EzAspDotNet.Notification.Models.Notification, Protocols.Common.Notification>(MemberList.None);
                     cfg.CreateMap<Protocols.Common.Notification, EzAspDotNet.Notification.Models.Notification>(MemberList.None);
 
+                    cfg.CreateMap<Protocols.Common.NotificationCreate, EzAspDotNet.Notification.Models.Notification>(MemberList.None);
+
                     cfg.CreateMap<WebCrawler.Models.Source, Protocols.Common.Source>(MemberList.None);
                     cfg.CreateMap<Protocols.Common.Source, WebCrawler.Models.Source>(MemberList.None);
 
@@ -67,7 +69,7 @@ namespace Server
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "API", Version = "v2" });
             });
 
             services.ConfigureSwaggerGen(options =>

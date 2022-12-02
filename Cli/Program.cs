@@ -15,11 +15,11 @@ namespace Cli
             Encoding.RegisterProvider(provider);
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
+                .MinimumLevel.Warning()
                 .WriteTo.Console()
                 .CreateLogger();
 
-            Log.Logger.Information("starting up!");
+            Log.Warning("starting up!");
 
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");

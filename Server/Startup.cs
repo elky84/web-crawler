@@ -22,9 +22,12 @@ namespace Server
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+            var serilogConfig = new ConfigurationBuilder()
+                .AddJsonFile("serilog.json")
+                .Build();
+
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Warning()
-                .WriteTo.Console()
+                .ReadFrom.Configuration(serilogConfig)
                 .CreateLogger();
 
             Configuration = configuration;
@@ -86,7 +89,7 @@ namespace Server
             services.AddSingleton<IHostedService, WebHookLoopingService>();
             services.AddSingleton<WebHookService>();
 
-            Log.Logger.Information($"Local TimeZone:{TimeZoneInfo.Local}");
+            Log.Logger.Warning($"Local TimeZone:{TimeZoneInfo.Local}");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

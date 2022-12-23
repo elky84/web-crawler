@@ -82,7 +82,7 @@ namespace WebCrawler.Crawler
                     Count = count,
                     Recommend = recommend,
                     DateTime = date,
-                    Href = UrlCompositeHref(href),
+                    Href = href,
                     SourceId = Source.Id
                 });
             });

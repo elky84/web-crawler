@@ -134,7 +134,7 @@ Content-Type: application/json
 			"BoardId": "lol&sort_index=pop",
 			"Name": "펨코 롤",
 			"Switch": true,
-			"Interval": 1000
+			"Interval": 60000
 		}
 	]
 }
@@ -149,7 +149,7 @@ Content-Type: application/json
 		"BoardId": "lol&sort_index=pop",
 		"Name": "펨코 롤",
 		"Switch": true,
-		"Interval": 1000
+		"Interval": 60000
 	}
 }
 

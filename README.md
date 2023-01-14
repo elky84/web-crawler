@@ -24,6 +24,14 @@
 * DB로는 mongoDB를 사용합니다.
 * API는 swagger를 통해 확인하셔도 좋지만, http 폴더 안에 예제가 포함되어있습니다.
 
+## 사용법
+* MongoDB 설정 (Server 프로젝트)
+  * `MONGODB_CONNECTION` 환경 변수에 `MONGODB 커넥션 문자열` 입력
+* 선택적 MongoDB 데이터베이스
+  * 기본 값은 `rss-feed-crawler`
+  * `MONGODB_DATABASE` 환경 변수 사용시 override
+* 환경 변수 미사용시, appSettings.[환경].json 파일에 있는 값을 사용합니다. (환경에 맞는 파일 미제공시, appSettings.json 의 값을 그대로 이용)
+
 ## 현재 지원중인 크롤링 대상 (사이트)
 * Clien
 * FmKorea

@@ -80,44 +80,42 @@ namespace Server.Services
                           MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(await _sourceService.All()) :
                           crawling.Sources;
 
-            Parallel.ForEach(sources, new ParallelOptions { MaxDegreeOfParallelism = 16 },
-                async source =>
+            foreach (var source in sources)
+            {
+                var model = MapperUtil.Map<Source>(source);
+                switch (source.Type)
                 {
-                    var model = MapperUtil.Map<Source>(source);
-                    switch (source.Type)
-                    {
-                        case CrawlingType.Ruliweb:
-                            await new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.Clien:
-                            await new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.SlrClub:
-                            await new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.Ppomppu:
-                            await new PpomppuCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.TodayHumor:
-                            await new TodayhumorCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.FmKorea:
-                            await new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.InvenNews:
-                            await new InvenNewsCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.HumorUniv:
-                            await new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        case CrawlingType.Itcm:
-                            await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                            break;
-                        default:
-                            throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet);
-                    }
+                    case CrawlingType.Ruliweb:
+                        await new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.Clien:
+                        await new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.SlrClub:
+                        await new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.Ppomppu:
+                        await new PpomppuCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.TodayHumor:
+                        await new TodayhumorCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.FmKorea:
+                        await new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.InvenNews:
+                        await new InvenNewsCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.HumorUniv:
+                        await new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    case CrawlingType.Itcm:
+                        await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
+                        break;
+                    default:
+                        throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet);
                 }
-            );
+            }
 
             return new Protocols.Response.Crawling
             {

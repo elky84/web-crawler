@@ -15,9 +15,9 @@ namespace Server.Protocols.Common
 
         public int PageMin { get; set; } = 1;
 
-        public int PageMax { get; set; } = 5;
+        public int PageMax { get; set; } = 1;
 
-        public int Interval { get; set; } = 100;
+        public int Interval { get; set; } = 1000;
 
         public bool Switch { get; set; } = true;
     }

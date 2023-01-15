@@ -5,8 +5,8 @@
         "local": {
             "host": "http://localhost:5000"
         },
-        "production": {
-            "host": "http://192.168.0.60:20082"
+        "cloudtype": {
+            "host": ""
         }
     }
 }

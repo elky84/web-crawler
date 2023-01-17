@@ -49,8 +49,8 @@ namespace WebCrawler.Crawler
                 var infos = stringTuples.FindValue("info").Split("|");
                 var title = string.IsNullOrEmpty(cmtnum) ? originTitle : originTitle.Substring(cmtnum);
                 var category = infos[0].Substring("\n");
-                var author = infos[1];
-                var date = DateTime.Parse(infos[2]);
+                var author = infos.Count() <= 2 ? "" : infos[1];
+                var date = infos.Count() <= 2 ? DateTime.Parse(infos[1]) : DateTime.Parse(infos[2]);
                 var recommend = string.IsNullOrEmpty(cmtnum) ? 0 : cmtnum.ToIntRegex();
 
                 var href = hrefs[0];

@@ -5,7 +5,9 @@ using EzAspDotNet.Services;
 using EzAspDotNet.Util;
 using EzMongoDb.Util;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler;
 using WebCrawler.Code;
@@ -80,41 +82,43 @@ namespace Server.Services
                           MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(await _sourceService.All()) :
                           crawling.Sources;
 
-            foreach (var source in sources)
+            var crawlerGroup = sources.Select(source =>
             {
                 var model = MapperUtil.Map<Source>(source);
-                switch (source.Type)
+                return source.Type switch
                 {
-                    case CrawlingType.Ruliweb:
-                        await new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.Clien:
-                        await new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.SlrClub:
-                        await new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.Ppomppu:
-                        await new PpomppuCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.TodayHumor:
-                        await new TodayhumorCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.FmKorea:
-                        await new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.InvenNews:
-                        await new InvenNewsCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.HumorUniv:
-                        await new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    case CrawlingType.Itcm:
-                        await new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model).RunAsync();
-                        break;
-                    default:
-                        throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet);
-                }
+                    CrawlingType.Ruliweb => new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.Clien => new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.SlrClub => new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.Ppomppu => new PpomppuCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.TodayHumor => new TodayhumorCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.FmKorea => new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.InvenNews => new InvenNewsCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.HumorUniv => new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.Itcm => (CrawlerBase)new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    _ => throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet),
+                };
+            }).GroupBy(x => x.GetType());
+
+            if (Environment.GetEnvironmentVariable("LOW_SPEC_MODE").ToLower() == "true")
+            {
+                Parallel.ForEach(crawlerGroup, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (group) =>
+                {
+                    foreach (var crawler in group)
+                    {
+                        crawler.RunAsync().Wait();
+                    }
+                });
+            }
+            else
+            {
+                Parallel.ForEach(crawlerGroup, group =>
+                {
+                    Parallel.ForEach(group, async (crawler) =>
+                    {
+                        await crawler.RunAsync();
+                    });
+                });
             }
 
             return new Protocols.Response.Crawling

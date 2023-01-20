@@ -9,8 +9,6 @@ namespace WebCrawler.Crawler
 {
     public class HumorUnivCrawler : CrawlerBase
     {
-        protected int? LatestPage { get; set; }
-
         public HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)
         {

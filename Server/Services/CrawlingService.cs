@@ -100,7 +100,7 @@ namespace Server.Services
                 };
             }).GroupBy(x => x.GetType());
 
-            if (Environment.GetEnvironmentVariable("LOW_SPEC_MODE").ToLower() == "true")
+            if (Environment.GetEnvironmentVariable("LOW_SPEC_MODE")?.ToLower() == "true")
             {
                 Parallel.ForEach(crawlerGroup, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (group) =>
                 {

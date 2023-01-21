@@ -39,8 +39,8 @@ namespace WebCrawler.Crawler
 
                 var tdContent = document.QuerySelectorAll("div")
                     .Where(x => x.ClassName != null && x.ClassName.Contains("article_info"))
-                    .SelectMany(x => new[] { x.QuerySelectorAll("a"), x.QuerySelectorAll("span") })
-                    .SelectMany(x => x.Where(y => !y.TextContent.Contains("|")).Select(y => y.TextContent.Trim()))
+                    .SelectMany(x => new[] { x.QuerySelectorAll("a"), x.QuerySelectorAll("span").Where(x => !string.IsNullOrEmpty(x.ClassName)) })
+                    .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                     .ToArray();
 
                 var tdHref = document.QuerySelectorAll("a")

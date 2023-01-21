@@ -61,7 +61,7 @@ namespace Server.Services
             return source.Id;
         }
 
-        private FilterDefinition<Notification> GetFilterDefinition(string sourceId, string crawlingType, NotificationType notificationType)
+        private static FilterDefinition<Notification> GetFilterDefinition(string sourceId, string crawlingType, NotificationType notificationType)
         {
             return Builders<Notification>.Filter.Eq(x => x.SourceId, sourceId) &
                     Builders<Notification>.Filter.Eq(x => x.CrawlingType, crawlingType) &
@@ -76,8 +76,7 @@ namespace Server.Services
                 var notificationModel = MapperUtil.Map<Notification>(notification);
                 notificationModel.SourceId = sourceId;
 
-                return await _mongoDbNotification.UpsertAsync(GetFilterDefinition(sourceId, notification.CrawlingType.ToString(), notification.Type),
-                                                              notificationModel);
+                return await _mongoDbNotification.CreateAsync(notificationModel);
             }
             catch (MongoWriteException)
             {

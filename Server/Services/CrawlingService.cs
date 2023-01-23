@@ -100,15 +100,19 @@ namespace Server.Services
                 };
             }).GroupBy(x => x.GetType());
 
-            if (Environment.GetEnvironmentVariable("LOW_SPEC_MODE")?.ToLower() == "true")
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("THREAD_LIMIT")))
             {
-                Parallel.ForEach(crawlerGroup, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (group) =>
-                {
-                    foreach (var crawler in group)
+                var threadLimit = Environment.GetEnvironmentVariable("THREAD_LIMIT").ToIntNullable().GetValueOrDefault(2);
+                Parallel.ForEach(crawlerGroup,
+                    new ParallelOptions { MaxDegreeOfParallelism = threadLimit },
+                    (group) =>
                     {
-                        crawler.RunAsync().Wait();
+                        foreach (var crawler in group)
+                        {
+                            crawler.RunAsync().Wait();
+                        }
                     }
-                });
+                );
             }
             else
             {

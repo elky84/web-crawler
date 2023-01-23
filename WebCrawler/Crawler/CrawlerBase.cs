@@ -27,7 +27,7 @@ namespace WebCrawler
 
         public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
 
-        protected static int Executing;
+        protected int Executing;
 
         public CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
         {
@@ -101,13 +101,20 @@ namespace WebCrawler
         void ProcessPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
         {
             CrawledPage crawledPage = e.CrawledPage;
-            if (crawledPage.HttpRequestException != null || crawledPage.HttpResponseMessage.StatusCode != HttpStatusCode.OK)
-                Log.Logger.Error($"Crawl of page failed {crawledPage.Uri.AbsoluteUri}");
+            if (crawledPage.HttpRequestException != null ||
+                crawledPage.HttpResponseMessage.StatusCode != HttpStatusCode.OK ||
+                string.IsNullOrEmpty(crawledPage.Content.Text))
+            {
+                Log.Logger.Error($"Crawl of page failed. <Url:{crawledPage.Uri.AbsoluteUri}> " +
+                    $"<StatusCode:{crawledPage.HttpResponseMessage.StatusCode}> " +
+                    $"<Exception:{crawledPage.HttpRequestException}>" +
+                    $"<Content:{crawledPage.HttpResponseMessage.Content}>");
+                return;
+            }
             else
+            {
                 Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri.AbsoluteUri}");
-
-            if (string.IsNullOrEmpty(crawledPage.Content.Text))
-                Log.Logger.Debug($"Page had no content {crawledPage.Uri.AbsoluteUri}");
+            }
 
             OnPageCrawl(crawledPage.AngleSharpHtmlDocument);
         }

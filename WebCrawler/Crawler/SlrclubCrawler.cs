@@ -20,7 +20,7 @@ namespace WebCrawler.Crawler
 
         protected override string UrlComposite(int page)
         {
-            return $"{UrlBase}?id={Source.BoardId}&page={ LatestPage - page - 1}";
+            return $"{UrlBase}?id={Source.BoardId}&page={LatestPage - page - 1}";
         }
 
         public override async Task RunAsync()
@@ -67,6 +67,7 @@ namespace WebCrawler.Crawler
 
             if (!thContent.Any() || !tdContent.Any())
             {
+                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
                 return;
             }
 

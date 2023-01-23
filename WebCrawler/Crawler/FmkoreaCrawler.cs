@@ -1,5 +1,6 @@
 ﻿using EzAspDotNet.Util;
 using MongoDB.Driver;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,7 @@ namespace WebCrawler.Crawler
 
             if (!thContent.Any() || !tdContent.Any())
             {
+                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
                 return;
             }
 

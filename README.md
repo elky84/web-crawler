@@ -31,6 +31,8 @@
   * 기본 값은 `rss-feed-crawler`
   * `MONGODB_DATABASE` 환경 변수 사용시 override
 * 환경 변수 미사용시, appSettings.[환경].json 파일에 있는 값을 사용합니다. (환경에 맞는 파일 미제공시, appSettings.json 의 값을 그대로 이용)
+* Crawling 처리를 하는 스레드에 제한 기능
+	* `THREAD_LIMIT` 환경 변수에 제한 스레드 수를 입력
 
 ## 현재 지원중인 크롤링 대상 (사이트)
 * Clien

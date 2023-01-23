@@ -80,6 +80,13 @@ namespace Cli
                 Name = "자유게시판"
             }).RunAsync();
 
+            await new PpomppuCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ppomppu,
+                BoardId = "ppomppu",
+                Name = "뽐뿌핫딜"
+            }).RunAsync();
+
             await new TodayhumorCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.TodayHumor,

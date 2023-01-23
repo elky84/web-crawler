@@ -27,15 +27,15 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
-            var tdContent = document.QuerySelectorAll("tbody tr td")
-                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName != "g6")
+            var tdContent = document.QuerySelectorAll("tr td")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName != "g6" && x.ClassName != "pd_t3")
                 .Select(x =>
                 {
                     return x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim();
                 })
                 .ToArray();
 
-            var tdHref = document.QuerySelectorAll("tbody tr td a")
+            var tdHref = document.QuerySelectorAll("tr td a")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName))
                 .Select(x => x.GetAttribute("href"))
                 .ToArray();

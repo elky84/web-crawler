@@ -1,4 +1,5 @@
-﻿using EzAspDotNet.Util;
+﻿using AngleSharp;
+using EzAspDotNet.Util;
 using MongoDB.Driver;
 using Serilog;
 using System;
@@ -27,8 +28,7 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
-            var td = document.QuerySelectorAll("tr td").ToList();
-            var tdContent = td
+            var tdContent = document.QuerySelectorAll("tr td")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("li_"))
                 .Select(x =>
                 {
@@ -41,10 +41,9 @@ namespace WebCrawler.Crawler
                 .Select(x => x.GetAttribute("href"))
                 .ToArray();
 
-
             if (!tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}. <tdCount:{td.Count}>");
+                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}. <html:{document.ToHtml()}>");
                 return;
             }
 

@@ -11,7 +11,7 @@ namespace WebCrawler.Crawler
     public class PpomppuCrawler : CrawlerBase
     {
         public PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://www.ppomppu.co.kr/zboard/zboard.php", source)
+            base(onCrawlDataDelegate, mongoDb, $"https://www.ppomppu.co.kr/zboard/zboard.php", source)
         {
         }
 
@@ -34,7 +34,7 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "list0" || x.ClassName == "list1")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("list_notice"))
                 .Select(x => x.QuerySelectorAll("td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_vspace")))
                 .SelectMany(x => x.Select(y =>
                 {
@@ -49,11 +49,10 @@ namespace WebCrawler.Crawler
                     }
 
                     return text;
-                })
-                ).ToArray();
+                }))
+                .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "list0" || x.ClassName == "list1")
                 .Select(x => x.QuerySelectorAll("td a"))
                 .SelectMany(x => x.Select(y => y.GetAttribute("href")))
                 .Where(x => x != "#")
@@ -68,7 +67,9 @@ namespace WebCrawler.Crawler
             Parallel.For(0, tdContent.Length / thContent.Length, n =>
             {
                 var cursor = n * thContent.Length;
-                var id = tdContent[cursor + 0].ToInt();
+
+                int.TryParse(tdContent[cursor + 0], out var id);
+
                 var author = tdContent[cursor + 1];
                 var title = tdContent[cursor + 2];
                 var date = DateTime.Parse(tdContent[cursor + 3]);

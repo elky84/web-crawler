@@ -56,8 +56,10 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("list_notice"))
                 .Select(x => x.QuerySelectorAll("td a"))
-                .SelectMany(x => x.Select(y => y.GetAttribute("href")))
+                .SelectMany(x => x.Where(y => y.QuerySelector("font") != null)
+                    .Select(y => y.GetAttribute("href")))
                 .Where(x => x != "#")
                 .ToArray();
 

@@ -87,7 +87,6 @@ namespace UnitTest
         [Test]
         public void InvenLOL()
         {
-
             new InvenNewsCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.InvenNews,
@@ -99,12 +98,22 @@ namespace UnitTest
         [Test]
         public void PpomppuFree()
         {
-
             new PpomppuCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ppomppu,
                 BoardId = "freeboard",
                 Name = "ÀÚÀ¯°Ô½ÃÆÇ"
+            }).RunAsync().Wait();
+        }
+
+        [Test]
+        public void PpomppuHotdeal()
+        {
+            new PpomppuCrawler(null, Database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ppomppu,
+                BoardId = "ppomppu",
+                Name = "ÇÖµô"
             }).RunAsync().Wait();
         }
 

@@ -47,8 +47,15 @@ Content-Type: application/json
 		},
 		{
 			"Type": "Ppomppu",
+			"BoardId": "ppomppu",
+			"Name": "뽐뿌핫딜",
+			"Switch": true,
+			"Interval": 1000
+		},
+		{
+			"Type": "Ppomppu",
 			"BoardId": "freeboard",
-			"Name": "자유게시판",
+			"Name": "뽐뿌자게",
 			"Switch": true,
 			"Interval": 1000
 		},
@@ -138,6 +145,7 @@ Content-Type: application/json
 		}
 	]
 }
+
 ### Source Create
 
 POST {{host}}/Source
@@ -145,11 +153,11 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "FmKorea",
-		"BoardId": "lol&sort_index=pop",
-		"Name": "펨코 롤",
+		"Type": "Ppomppu",
+		"BoardId": "freeboard",
+		"Name": "뽐뿌자게",
 		"Switch": true,
-		"Interval": 60000
+		"Interval": 1000
 	}
 }
 

@@ -27,8 +27,9 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
-            var tdContent = document.QuerySelectorAll("tr td")
-                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName != "g6" && x.ClassName != "pd_t3")
+            var td = document.QuerySelectorAll("tr td").ToList();
+            var tdContent = td
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("li_"))
                 .Select(x =>
                 {
                     return x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim();
@@ -43,7 +44,7 @@ namespace WebCrawler.Crawler
 
             if (!tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}");
+                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}. <tdCount:{td.Count}>");
                 return;
             }
 

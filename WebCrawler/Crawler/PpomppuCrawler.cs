@@ -2,7 +2,9 @@
 using MongoDB.Driver;
 using Serilog;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebCrawler.Models;
 
@@ -27,6 +29,11 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
+            var cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            var calendar = cultureInfo.Calendar;
+            calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
+            cultureInfo.DateTimeFormat.Calendar = calendar;
+
             var thContent = document.QuerySelectorAll("tbody tr")
                 .Where(x => x.ClassName == "title_bg")
                 .Select(x => x.QuerySelectorAll("td").Where(x => x.ClassName == "list_tspace"))
@@ -42,10 +49,6 @@ namespace WebCrawler.Crawler
                     if (string.IsNullOrEmpty(text))
                     {
                         text = y.QuerySelector("img")?.GetAttribute("alt");
-                    }
-                    else if (y.QuerySelector("a") != null)
-                    {
-                        text = y.QuerySelector("a").TextContent;
                     }
 
                     return text;
@@ -72,7 +75,17 @@ namespace WebCrawler.Crawler
 
                 var author = tdContent[cursor + 1];
                 var title = tdContent[cursor + 2];
-                var date = DateTime.Parse(tdContent[cursor + 3]);
+                var dateTimeStr = tdContent[cursor + 3];
+                DateTime date;
+                if (dateTimeStr.Contains('/'))
+                {
+                    date = DateTime.ParseExact(dateTimeStr, "yy/MM/dd", cultureInfo);
+                }
+                else
+                {
+                    date = DateTime.Parse(dateTimeStr);
+                }
+
 
                 var str = tdContent[cursor + 4];
                 var recommend = string.IsNullOrEmpty(str) ? 0 : str.Split(" - ")[0].ToInt();

@@ -8,7 +8,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class ClienCrawler : CrawlerBase<ClienCrawler>
+    public class ClienCrawler : CrawlerBase
     {
         public ClienCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)

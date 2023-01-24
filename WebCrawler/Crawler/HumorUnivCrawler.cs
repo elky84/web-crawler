@@ -9,7 +9,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class HumorUnivCrawler : CrawlerBase<HumorUnivCrawler>
+    public class HumorUnivCrawler : CrawlerBase
     {
         public HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)

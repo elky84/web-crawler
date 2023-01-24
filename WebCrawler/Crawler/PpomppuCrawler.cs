@@ -10,7 +10,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class PpomppuCrawler : CrawlerBase<PpomppuCrawler>
+    public class PpomppuCrawler : CrawlerBase
     {
         public PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://www.ppomppu.co.kr/zboard/zboard.php", source)

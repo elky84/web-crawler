@@ -8,7 +8,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class ItcmCrawler : CrawlerBase<ItcmCrawler>
+    public class ItcmCrawler : CrawlerBase
     {
         public ItcmCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://itcm.co.kr/index.php?mid=", source)

@@ -10,7 +10,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class TodayhumorCrawler : CrawlerBase<TodayhumorCrawler>
+    public class TodayhumorCrawler : CrawlerBase
     {
         public TodayhumorCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://www.todayhumor.co.kr/board/list.php", source)

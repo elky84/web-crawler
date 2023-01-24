@@ -10,7 +10,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class FmkoreaCrawler : CrawlerBase<FmkoreaCrawler>
+    public class FmkoreaCrawler : CrawlerBase
     {
         public FmkoreaCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://www.fmkorea.com/index.php", source)

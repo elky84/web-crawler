@@ -108,7 +108,7 @@ namespace Server.Services
                     {
                         foreach (var crawler in group)
                         {
-                            await crawler.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+                            await crawler.RunAsync();
                         }
                     }
                 );

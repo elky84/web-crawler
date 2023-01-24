@@ -1,13 +1,12 @@
 ﻿using EzAspDotNet.Util;
 using MongoDB.Driver;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class SlrclubPageInfoCrawler : CrawlerBase<SlrclubPageInfoCrawler>
+    public class SlrclubPageInfoCrawler : CrawlerBase
     {
         public static int? LatestPage { get; set; }
 
@@ -26,7 +25,7 @@ namespace WebCrawler.Crawler
             Create();
 
             // 전체 페이지를 알아오기 위한 SlrClub용 우회이므로, 그냥 1페이지를 호출한다.
-            await ExecuteAsync(1).WaitAsync(TimeSpan.FromMinutes(1));
+            await ExecuteAsync(1);
         }
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)

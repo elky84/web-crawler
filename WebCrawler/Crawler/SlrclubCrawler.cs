@@ -9,7 +9,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class SlrclubCrawler : CrawlerBase<SlrclubCrawler>
+    public class SlrclubCrawler : CrawlerBase
     {
         protected static int? LatestPage { get; set; }
 
@@ -28,7 +28,7 @@ namespace WebCrawler.Crawler
             Create();
 
             var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
-            await pageInfoCrawler.RunAsync().WaitAsync(TimeSpan.FromMinutes(1));
+            await pageInfoCrawler.RunAsync();
 
             if (SlrclubPageInfoCrawler.LatestPage.HasValue)
             {

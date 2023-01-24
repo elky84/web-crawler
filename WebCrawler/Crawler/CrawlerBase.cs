@@ -15,11 +15,11 @@ namespace WebCrawler
 {
     public delegate Task CrawlDataDelegate(CrawlingData data);
 
-    public abstract class CrawlerBase<T> where T : class
+    public abstract class CrawlerBase
     {
         protected string UrlBase { get; set; }
 
-        protected static PoliteWebCrawler CrawlerInstance { get; set; }
+        protected PoliteWebCrawler CrawlerInstance { get; set; }
 
         protected Source Source { get; set; }
 

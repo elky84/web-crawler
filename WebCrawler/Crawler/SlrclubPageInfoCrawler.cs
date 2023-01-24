@@ -23,10 +23,7 @@ namespace WebCrawler.Crawler
 
         public override async Task RunAsync()
         {
-            if (CrawlerInstance == null)
-            {
-                Create();
-            }
+            Create();
 
             // 전체 페이지를 알아오기 위한 SlrClub용 우회이므로, 그냥 1페이지를 호출한다.
             await ExecuteAsync(1).WaitAsync(TimeSpan.FromSeconds(10));

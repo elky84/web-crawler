@@ -52,6 +52,7 @@ namespace WebCrawler
                 MinCrawlDelayPerDomainMilliSeconds = 1000,
                 IsSendingCookiesEnabled = true,
                 UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+                RobotsDotTextUserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
             };
         }
 
@@ -72,10 +73,7 @@ namespace WebCrawler
 
         public virtual async Task RunAsync()
         {
-            if (CrawlerInstance == null)
-            {
-                Create();
-            }
+            Create();
 
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {

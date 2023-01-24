@@ -50,6 +50,10 @@ namespace WebCrawler.Crawler
                     {
                         text = y.QuerySelector("img")?.GetAttribute("alt");
                     }
+                    if (y.QuerySelector("font") != null)
+                    {
+                        text = y.QuerySelector("font").TextContent.Trim();
+                    }
 
                     return text;
                 }))

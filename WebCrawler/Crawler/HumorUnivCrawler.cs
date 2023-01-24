@@ -32,6 +32,11 @@ namespace WebCrawler.Crawler
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
+            if (document.Head.QuerySelector("meta")?.GetAttribute("http-equiv") == "refresh")
+            {
+                return;
+            }
+
             var tdContent = document.QuerySelectorAll("tr td")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("li_"))
                 .Select(x =>
@@ -47,7 +52,7 @@ namespace WebCrawler.Crawler
 
             if (!tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}. <html:{document.ToHtml()}>");
+                Log.Error($"Parsing Failed DOM. Not has tdContent {UrlComposite(1)}.\n<html:{document.ToHtml()}>");
                 return;
             }
 

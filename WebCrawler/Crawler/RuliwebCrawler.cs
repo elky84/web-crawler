@@ -12,7 +12,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class RuliwebCrawler : CrawlerBase
+    public class RuliwebCrawler : CrawlerBase<RuliwebCrawler>
     {
         public RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)

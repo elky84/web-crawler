@@ -13,17 +13,17 @@ using WebCrawler.Models;
 
 namespace WebCrawler
 {
-    public abstract class CrawlerBase
+    public delegate Task CrawlDataDelegate(CrawlingData data);
+
+    public abstract class CrawlerBase<T> where T : class
     {
         protected string UrlBase { get; set; }
 
-        protected PoliteWebCrawler CrawlerInstance { get; set; }
+        protected static PoliteWebCrawler CrawlerInstance { get; set; }
 
         protected Source Source { get; set; }
 
         protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
-
-        public delegate Task CrawlDataDelegate(CrawlingData data);
 
         public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
 
@@ -41,19 +41,28 @@ namespace WebCrawler
             Source = source;
         }
 
-        public PoliteWebCrawler Create()
+        protected virtual CrawlConfiguration Config()
         {
-            var config = new CrawlConfiguration
+            return new CrawlConfiguration
             {
                 MaxConcurrentThreads = 10,
                 MaxPagesToCrawl = 1,
                 MaxPagesToCrawlPerDomain = 10,
                 MinRetryDelayInMilliseconds = 1000,
                 MinCrawlDelayPerDomainMilliSeconds = 1000,
-                IsSendingCookiesEnabled = true
+                IsSendingCookiesEnabled = true,
+                UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
             };
+        }
 
-            CrawlerInstance = new PoliteWebCrawler(config, null, null, null, new PageRequester(config, new WebContentExtractor()), null, null, null, null);
+        public PoliteWebCrawler Create()
+        {
+            if (CrawlerInstance != null)
+            {
+                return CrawlerInstance;
+            }
+
+            CrawlerInstance = new PoliteWebCrawler(Config(), null, null, null, new PageRequester(Config(), new WebContentExtractor()), null, null, null, null);
             CrawlerInstance.PageCrawlStarting += ProcessPageCrawlStarting;
             CrawlerInstance.PageCrawlCompleted += ProcessPageCrawlCompleted;
             CrawlerInstance.PageCrawlDisallowed += PageCrawlDisallowed;

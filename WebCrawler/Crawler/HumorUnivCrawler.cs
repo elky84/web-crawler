@@ -9,7 +9,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class HumorUnivCrawler : CrawlerBase
+    public class HumorUnivCrawler : CrawlerBase<HumorUnivCrawler>
     {
         public HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)
@@ -18,6 +18,10 @@ namespace WebCrawler.Crawler
 
         protected override string UrlComposite(int page)
         {
+            if (page <= 1)
+            {
+                return $"{UrlBase}{Source.BoardId}";
+            }
             return $"{UrlBase}{Source.BoardId}&pg={page - 1}";
         }
 

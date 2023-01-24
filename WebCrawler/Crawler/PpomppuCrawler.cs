@@ -10,7 +10,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class PpomppuCrawler : CrawlerBase
+    public class PpomppuCrawler : CrawlerBase<PpomppuCrawler>
     {
         public PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://www.ppomppu.co.kr/zboard/zboard.php", source)
@@ -73,7 +73,10 @@ namespace WebCrawler.Crawler
             {
                 var cursor = n * thContent.Length;
 
-                int.TryParse(tdContent[cursor + 0], out var id);
+                if (!int.TryParse(tdContent[cursor + 0], out var id))
+                {
+                    return;
+                }
 
                 var author = tdContent[cursor + 1];
                 var title = tdContent[cursor + 2];

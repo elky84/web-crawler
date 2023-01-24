@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler;
 using WebCrawler.Code;
 using WebCrawler.Crawler;
 using WebCrawler.Models;
@@ -77,7 +76,7 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
         {
-            var onCrawlDataDelegate = new CrawlerBase.CrawlDataDelegate(OnNewCrawlData);
+            var onCrawlDataDelegate = new WebCrawler.CrawlDataDelegate(OnNewCrawlData);
             var sources = crawling.All ?
                           MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(await _sourceService.All()) :
                           crawling.Sources;
@@ -95,7 +94,7 @@ namespace Server.Services
                     CrawlingType.FmKorea => new FmkoreaCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     CrawlingType.InvenNews => new InvenNewsCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     CrawlingType.HumorUniv => new HumorUnivCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
-                    CrawlingType.Itcm => (CrawlerBase)new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
+                    CrawlingType.Itcm => (dynamic)new ItcmCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     _ => throw new DeveloperException(EzAspDotNet.Protocols.Code.ResultCode.NotImplementedYet),
                 };
             }).GroupBy(x => x.GetType());

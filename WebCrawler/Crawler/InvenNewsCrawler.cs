@@ -8,7 +8,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class InvenNewsCrawler : CrawlerBase
+    public class InvenNewsCrawler : CrawlerBase<InvenNewsCrawler>
     {
         public InvenNewsCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://www.inven.co.kr/webzine/news/", source)

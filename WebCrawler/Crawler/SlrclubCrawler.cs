@@ -11,7 +11,7 @@ namespace WebCrawler.Crawler
 {
     public class SlrclubCrawler : CrawlerBase<SlrclubCrawler>
     {
-        protected int? LatestPage { get; set; }
+        protected static int? LatestPage { get; set; }
 
         public SlrclubCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
@@ -28,8 +28,12 @@ namespace WebCrawler.Crawler
             Create();
 
             var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
-            await pageInfoCrawler.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
-            LatestPage = pageInfoCrawler.LatestPage;
+            await pageInfoCrawler.RunAsync().WaitAsync(TimeSpan.FromMinutes(1));
+
+            if (SlrclubPageInfoCrawler.LatestPage.HasValue)
+            {
+                LatestPage = SlrclubPageInfoCrawler.LatestPage;
+            }
 
             if (!LatestPage.HasValue)
             {

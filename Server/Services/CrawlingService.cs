@@ -104,11 +104,11 @@ namespace Server.Services
                 var threadLimit = Environment.GetEnvironmentVariable("THREAD_LIMIT").ToIntNullable().GetValueOrDefault(2);
                 Parallel.ForEach(crawlerGroup,
                     new ParallelOptions { MaxDegreeOfParallelism = threadLimit },
-                    (group) =>
+                    async (group) =>
                     {
                         foreach (var crawler in group)
                         {
-                            crawler.RunAsync().Wait();
+                            await crawler.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
                         }
                     }
                 );

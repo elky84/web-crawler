@@ -25,7 +25,7 @@ namespace WebCrawler.Crawler
 
         public override async Task RunAsync()
         {
-            Create();
+            CrawlerInstance = Create();
 
             var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
             await pageInfoCrawler.RunAsync();

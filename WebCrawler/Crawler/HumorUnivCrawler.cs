@@ -1,8 +1,10 @@
-﻿using AngleSharp;
+﻿using Abot2.Crawler;
+using AngleSharp;
 using EzAspDotNet.Util;
 using MongoDB.Driver;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebCrawler.Models;
@@ -11,9 +13,13 @@ namespace WebCrawler.Crawler
 {
     public class HumorUnivCrawler : CrawlerBase
     {
+        private static readonly Queue<PoliteWebCrawler> CrawlerQueue = new();
+
         public HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)
         {
+            foreach (var _ in Enumerable.Range(0, 5))
+                CrawlerQueue.Enqueue(base.Create());
         }
 
         protected override string UrlComposite(int page)
@@ -28,6 +34,13 @@ namespace WebCrawler.Crawler
         protected override string UrlCompositeHref(string href)
         {
             return UrlBase.CutAndComposite("/", 0, 5, "/" + href);
+        }
+
+        public override PoliteWebCrawler Create()
+        {
+            var crawler = CrawlerQueue.Dequeue();
+            CrawlerQueue.Enqueue(crawler);
+            return crawler;
         }
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)

@@ -1,4 +1,5 @@
-﻿using Abot2.Poco;
+﻿using Abot2.Crawler;
+using Abot2.Poco;
 using EzAspDotNet.Util;
 using MongoDB.Driver;
 using Serilog;
@@ -12,9 +13,13 @@ namespace WebCrawler.Crawler
 {
     public class FmkoreaCrawler : CrawlerBase
     {
+        private static readonly Queue<PoliteWebCrawler> CrawlerQueue = new();
+
         public FmkoreaCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://www.fmkorea.com/index.php", source)
         {
+            foreach (var _ in Enumerable.Range(0, 5))
+                CrawlerQueue.Enqueue(base.Create());
         }
 
         protected override CrawlConfiguration Config()
@@ -25,6 +30,13 @@ namespace WebCrawler.Crawler
             config.MinRetryDelayInMilliseconds = 60000;
             config.MinCrawlDelayPerDomainMilliSeconds = 60000;
             return config;
+        }
+
+        public override PoliteWebCrawler Create()
+        {
+            var crawler = CrawlerQueue.Dequeue();
+            CrawlerQueue.Enqueue(crawler);
+            return crawler;
         }
 
         protected override string UrlComposite(int page)

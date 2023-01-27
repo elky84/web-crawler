@@ -56,24 +56,19 @@ namespace WebCrawler
             };
         }
 
-        public PoliteWebCrawler Create()
+        public virtual PoliteWebCrawler Create()
         {
-            if (CrawlerInstance != null)
-            {
-                return CrawlerInstance;
-            }
-
-            CrawlerInstance = new PoliteWebCrawler(Config(), null, null, null, new PageRequester(Config(), new WebContentExtractor()), null, null, null, null);
-            CrawlerInstance.PageCrawlStarting += ProcessPageCrawlStarting;
-            CrawlerInstance.PageCrawlCompleted += ProcessPageCrawlCompleted;
-            CrawlerInstance.PageCrawlDisallowed += PageCrawlDisallowed;
-            CrawlerInstance.PageLinksCrawlDisallowed += PageLinksCrawlDisallowed;
-            return CrawlerInstance;
+            var crawlerInstance = new PoliteWebCrawler(Config(), null, null, null, new PageRequester(Config(), new WebContentExtractor()), null, null, null, null);
+            crawlerInstance.PageCrawlStarting += ProcessPageCrawlStarting;
+            crawlerInstance.PageCrawlCompleted += ProcessPageCrawlCompleted;
+            crawlerInstance.PageCrawlDisallowed += PageCrawlDisallowed;
+            crawlerInstance.PageLinksCrawlDisallowed += PageLinksCrawlDisallowed;
+            return crawlerInstance;
         }
 
         public virtual async Task RunAsync()
         {
-            Create();
+            CrawlerInstance = Create();
 
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {
@@ -109,18 +104,18 @@ namespace WebCrawler
         {
             CrawledPage crawledPage = e.CrawledPage;
             if (crawledPage.HttpRequestException != null ||
-                crawledPage.HttpResponseMessage.StatusCode != HttpStatusCode.OK ||
-                string.IsNullOrEmpty(crawledPage.Content.Text))
+                crawledPage.HttpResponseMessage?.StatusCode != HttpStatusCode.OK ||
+                string.IsNullOrEmpty(crawledPage.Content?.Text))
             {
-                Log.Logger.Error($"Crawl of page failed. <Url:{crawledPage.Uri.AbsoluteUri}> " +
-                    $"<StatusCode:{crawledPage.HttpResponseMessage.StatusCode}> " +
+                Log.Logger.Error($"Crawl of page failed. <Url:{crawledPage.Uri?.AbsoluteUri}> " +
+                    $"<StatusCode:{crawledPage.HttpResponseMessage?.StatusCode}> " +
                     $"<Exception:{crawledPage.HttpRequestException}>" +
-                    $"<Content:{crawledPage.HttpResponseMessage.Content}>");
+                    $"<Content:{crawledPage.HttpResponseMessage?.Content}>");
                 return;
             }
             else
             {
-                Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri.AbsoluteUri}");
+                Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri?.AbsoluteUri}");
             }
 
             OnPageCrawl(crawledPage.AngleSharpHtmlDocument);

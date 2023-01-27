@@ -40,6 +40,13 @@ Content-Type: application/json
 		},
         {
 			"Type": "Ruliweb",
+			"BoardId": "sports/board/300276",
+			"Name": "스포츠",
+			"Switch": true,
+			"Interval": 1000
+		},
+        {
+			"Type": "Ruliweb",
 			"BoardId": "best/selection",
 			"Name": "많이 본 글",
 			"Switch": true,
@@ -153,9 +160,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "Ppomppu",
-		"BoardId": "freeboard",
-		"Name": "뽐뿌자게",
+		"Type": "Ruliweb",
+		"BoardId": "sports/board/300276",
+		"Name": "스포츠",
 		"Switch": true,
 		"Interval": 1000
 	}

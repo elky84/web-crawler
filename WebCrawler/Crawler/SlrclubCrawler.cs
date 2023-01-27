@@ -25,7 +25,7 @@ namespace WebCrawler.Crawler
 
         public override async Task RunAsync()
         {
-            CrawlerInstance = Create();
+            var crawlerInstance = Create();
 
             var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
             await pageInfoCrawler.RunAsync();
@@ -41,10 +41,9 @@ namespace WebCrawler.Crawler
                 return;
             }
 
-
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {
-                await ExecuteAsync(page);
+                await ExecuteAsync(crawlerInstance, page);
                 Thread.Sleep(Source.Interval);
             }
         }

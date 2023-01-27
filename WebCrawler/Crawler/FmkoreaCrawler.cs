@@ -25,6 +25,7 @@ namespace WebCrawler.Crawler
         protected override CrawlConfiguration Config()
         {
             var config = base.Config();
+            config.MaxPagesToCrawlPerDomain = 1;
             config.MaxRobotsDotTextCrawlDelayInSeconds = 60;
             config.MaxConcurrentThreads = 1;
             config.MinRetryDelayInMilliseconds = 60000;

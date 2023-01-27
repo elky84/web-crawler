@@ -19,8 +19,6 @@ namespace WebCrawler
     {
         protected string UrlBase { get; set; }
 
-        protected PoliteWebCrawler CrawlerInstance { get; set; }
-
         protected Source Source { get; set; }
 
         protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
@@ -52,7 +50,7 @@ namespace WebCrawler
                 MinCrawlDelayPerDomainMilliSeconds = 1000,
                 IsSendingCookiesEnabled = true,
                 UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
-                RobotsDotTextUserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+                RobotsDotTextUserAgentString = "github.com/elky84/web-crawler",
             };
         }
 
@@ -68,23 +66,23 @@ namespace WebCrawler
 
         public virtual async Task RunAsync()
         {
-            CrawlerInstance = Create();
+            var crawlerInstance = Create();
 
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {
-                await ExecuteAsync(page);
+                await ExecuteAsync(crawlerInstance, page);
                 Thread.Sleep(Source.Interval);
             }
         }
 
         protected virtual bool CanTwice() => true;
 
-        protected async Task<bool> ExecuteAsync(int page)
+        protected async Task<bool> ExecuteAsync(PoliteWebCrawler crawler, int page)
         {
             if (CanTwice() || 0 == Interlocked.Exchange(ref Executing, 1))
             {
                 var builder = new UriBuilder(UrlComposite(page));
-                var crawlResult = await CrawlerInstance.CrawlAsync(builder.Uri);
+                var crawlResult = await crawler.CrawlAsync(builder.Uri);
                 Interlocked.Exchange(ref Executing, 0);
                 return crawlResult.ErrorOccurred;
             }

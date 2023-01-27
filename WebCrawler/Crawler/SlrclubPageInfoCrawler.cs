@@ -22,10 +22,10 @@ namespace WebCrawler.Crawler
 
         public override async Task RunAsync()
         {
-            CrawlerInstance = Create();
+            var crawlerInstance = Create();
 
             // 전체 페이지를 알아오기 위한 SlrClub용 우회이므로, 그냥 1페이지를 호출한다.
-            await ExecuteAsync(1);
+            await ExecuteAsync(crawlerInstance, 1);
         }
 
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)

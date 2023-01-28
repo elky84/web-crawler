@@ -47,6 +47,7 @@ namespace WebCrawler.Crawler
         {
             if (document.Head.QuerySelector("meta")?.GetAttribute("http-equiv") == "refresh")
             {
+                Log.Error($"http-equip refresh. {UrlComposite(1)}.\n<html:{document.ToHtml()}>");
                 return;
             }
 

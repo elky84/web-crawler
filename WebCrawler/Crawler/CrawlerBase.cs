@@ -49,8 +49,9 @@ namespace WebCrawler
                 MinRetryDelayInMilliseconds = 1000,
                 MinCrawlDelayPerDomainMilliSeconds = 1000,
                 IsSendingCookiesEnabled = true,
-                UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
-                RobotsDotTextUserAgentString = "github.com/elky84/web-crawler",
+                HttpProtocolVersion = HttpProtocolVersion.Version11,
+                IsUriRecrawlingEnabled = true,
+                UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
             };
         }
 

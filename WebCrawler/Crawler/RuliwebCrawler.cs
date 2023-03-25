@@ -131,7 +131,7 @@ namespace WebCrawler.Crawler
                 Parallel.For(0, tdContent.Length / thContent.Count, n =>
                 {
                     var cursor = n * thContent.Count;
-                    var id = tdContent.GetValue(thContent, "ID", cursor).ToIntNullable();
+                    var id = tdContent.GetValue(thContent, "ID", cursor).ToIntRegex();
                     var category = tdContent.GetValue(thContent, "구분", cursor);
                     if (string.IsNullOrEmpty(category))
                     {

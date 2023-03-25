@@ -9,12 +9,12 @@ namespace UnitTest
 {
     public class WebCrawlerTests
     {
-        public IMongoDatabase? Database { get; set; }
+        private IMongoDatabase? Database { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            EncodingProvider provider = CodePagesEncodingProvider.Instance;
+            var provider = CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(provider);
 
             Log.Logger = new LoggerConfiguration()
@@ -131,7 +131,6 @@ namespace UnitTest
         [Test]
         public void SlrClubFree()
         {
-
             new SlrclubCrawler(null, Database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.SlrClub,

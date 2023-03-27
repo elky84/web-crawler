@@ -53,15 +53,6 @@ namespace WebCrawler.Crawler
 
             var tdContent = document.QuerySelectorAll("tr td")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("li_"))
-                .Select(x =>
-                {
-                    return x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim();
-                })
-                .ToArray();
-
-            var tdHref = document.QuerySelectorAll("tr td a")
-                .Where(x => !string.IsNullOrEmpty(x.ClassName))
-                .Select(x => x.GetAttribute("href"))
                 .ToArray();
 
             if (!tdContent.Any())
@@ -78,16 +69,16 @@ namespace WebCrawler.Crawler
             {
                 var cursor = n * thLength;
 
-                var originTitle = tdContent[cursor + 1];
+                var originTitle = tdContent[cursor + 1].QuerySelector("a").TextContent.Trim();
 
                 var title = originTitle.Substring("\n");
-                var author = tdContent[cursor + 2];
-                var date = DateTime.Parse(tdContent[cursor + 3]);
-                var count = tdContent[cursor + 4].ToInt();
-                var recommend = tdContent[cursor + 5].ToInt();
-                var notRecommend = tdContent[cursor + 6].ToInt();
+                var author = tdContent[cursor + 2].TextContent.Trim();
+                var date = DateTime.Parse(tdContent[cursor + 3].TextContent.Trim());
+                var count = tdContent[cursor + 4].TextContent.Trim().ToInt();
+                var recommend = tdContent[cursor + 5].TextContent.Trim().ToInt();
+                var notRecommend = tdContent[cursor + 6].TextContent.Trim().ToInt();
 
-                var href = UrlCompositeHref(tdHref[n]);
+                var href = UrlCompositeHref(tdContent[cursor + 1].QuerySelector("a").GetAttribute("href"));
 
                 _ = OnCrawlData(new CrawlingData
                 {

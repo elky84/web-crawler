@@ -1,5 +1,5 @@
 [![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
-![Made with](https://img.shields.io/badge/made%20with-.NET6-brightgreen.svg)
+![Made with](https://img.shields.io/badge/made%20with-.NET7-brightgreen.svg)
 ![Made with](https://img.shields.io/badge/made%20with-JavaScript-blue.svg)
 ![Made with](https://img.shields.io/badge/made%20with-MongoDB-red.svg)
 
@@ -16,7 +16,7 @@
 
 # web-crawler
 
-* .NET 6, ASP NET CORE 3를 기반으로 작성되었습니다.
+* .NET 7, ASP NET CORE 3를 기반으로 작성되었습니다.
 * 웹 크롤러로는 [abot2](https://github.com/sjdirect/abot) 를 사용했습니다.
 * 크롤링 대상은 Source로 등록되어야 합니다. [예시](https://github.com/elky84/web-crawler/blob/master/Http/source.http)
   * Source로 등록된 게시판들은 테스트를 거쳐 크롤링 됨을 확인한 사이트와 게시판 들이지만, 규격이 달라져 추가적인 예외처리가 필요할 수 있습니다.

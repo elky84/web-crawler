@@ -31,10 +31,7 @@ namespace WebCrawler.Crawler
             var tdContent = document.QuerySelectorAll("tbody tr")
                 .Where(x => x.ClassName != null && x.ClassName.StartsWith("view list_tr_"))
                 .Select(x => x.QuerySelectorAll("td"))
-                .SelectMany(x => x.Select(y =>
-                {
-                    return y.QuerySelector("a") != null ? y.QuerySelector("a").TextContent.Trim() : y.TextContent.Trim();
-                }))
+                .SelectMany(x => x.Select(y => y.QuerySelector("a") != null ? y.QuerySelector("a").TextContent.Trim() : y.TextContent.Trim()))
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr td")
@@ -44,7 +41,7 @@ namespace WebCrawler.Crawler
 
             if (!thContent.Any() || !tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
+                Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                 return;
             }
 

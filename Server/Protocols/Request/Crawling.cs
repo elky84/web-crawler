@@ -6,6 +6,6 @@ namespace Server.Protocols.Request
     {
         public List<Common.Source> Sources { get; set; }
 
-        public bool All { get; set; }
+        public bool All { get; init; }
     }
 }

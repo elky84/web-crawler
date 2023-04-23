@@ -39,12 +39,11 @@ namespace Server.Services
             var created = await Create(notification.Data);
             if (created == null)
             {
-                throw new DeveloperException(Code.ResultCode.CreateFailedNotification);
+                throw new DeveloperException(ResultCode.CreateFailedNotification);
             }
 
             return new Protocols.Response.Notification
             {
-                ResultCode = ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Notification>(created)
             };
 
@@ -108,7 +107,6 @@ namespace Server.Services
 
             return new Protocols.Response.Notification
             {
-                ResultCode = ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Notification>(notification)
             };
         }
@@ -130,7 +128,6 @@ namespace Server.Services
             var updated = await _mongoDbNotification.UpsertAsync(filter, update);
             return new Protocols.Response.Notification
             {
-                ResultCode = ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Notification>(updated)
             };
         }
@@ -146,7 +143,6 @@ namespace Server.Services
             var updated = await _mongoDbNotification.UpdateAsync(id, update);
             return new Protocols.Response.Notification
             {
-                ResultCode = ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Notification>(updated)
             };
         }
@@ -161,7 +157,6 @@ namespace Server.Services
 
             return new Protocols.Response.Notification
             {
-                ResultCode = ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Notification>(deleted)
             };
         }

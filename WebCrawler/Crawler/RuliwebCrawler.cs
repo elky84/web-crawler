@@ -12,7 +12,7 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class RuliwebCrawler : CrawlerBase
+    public partial class RuliwebCrawler : CrawlerBase
     {
         public RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
             base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)
@@ -50,19 +50,19 @@ namespace WebCrawler.Crawler
 
                 if (!rows.Any() || !tdContent.Any())
                 {
-                    Log.Error($"Parsing Failed DOM. Not has rows or tdContent {UrlComposite(1)}");
+                    Log.Error("Parsing Failed DOM. Not has rows or tdContent {UrlComposite}", UrlComposite(1));
                     return;
                 }
 
-                var colCount = tdContent.Count() / rows.Count();
+                var colCount = tdContent.Length / rows.Count;
 
-                Parallel.For(0, rows.Count(), n =>
+                Parallel.For(0, rows.Count, n =>
                 {
                     var cursor = n * colCount;
                     var category = tdContent[cursor];
 
                     var title = tdHref[n].TextContent;
-                    title = Regex.Replace(title, @"\(([^)]*)\)", string.Empty).Trim();
+                    title = MyRegex().Replace(title, string.Empty).Trim();
 
                     var author = tdContent[cursor + 1];
                     var recommend = tdContent[cursor + 2].ToIntRegex();
@@ -124,7 +124,7 @@ namespace WebCrawler.Crawler
 
                 if (!thContent.Any() || !tdContent.Any())
                 {
-                    Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
+                    Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                     return;
                 }
 
@@ -176,5 +176,8 @@ namespace WebCrawler.Crawler
                 });
             }
         }
+
+        [GeneratedRegex("\\(([^)]*)\\)")]
+        private static partial Regex MyRegex();
     }
 }

@@ -69,7 +69,7 @@ namespace WebCrawler.Crawler
 
             if (!thContent.Any() || !tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
+                Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                 return;
             }
 

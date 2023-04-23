@@ -86,7 +86,6 @@ namespace Server.Services
 
             return new Protocols.Response.Source
             {
-                ResultCode = Code.ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Source>(source)
             };
         }
@@ -116,7 +115,6 @@ namespace Server.Services
 
             return new Protocols.Response.Source
             {
-                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Source>(updated)
             };
         }
@@ -131,7 +129,6 @@ namespace Server.Services
 
             return new Protocols.Response.Source
             {
-                ResultCode = Code.ResultCode.Success,
                 Data = MapperUtil.Map<Protocols.Common.Source>(deleted)
             };
         }

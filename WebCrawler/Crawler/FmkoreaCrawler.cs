@@ -33,7 +33,7 @@ namespace WebCrawler.Crawler
             return config;
         }
 
-        public override PoliteWebCrawler Create()
+        protected override PoliteWebCrawler Create()
         {
             var crawler = CrawlerQueue.Dequeue();
             CrawlerQueue.Enqueue(crawler);

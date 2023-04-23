@@ -32,7 +32,7 @@ namespace Server.Protocols.Common
         public string CrawlingType { get; set; }
 
         [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
-        public List<DayOfWeek> FilterDayOfWeeks { get; set; } = new List<DayOfWeek>();
+        public List<DayOfWeek> FilterDayOfWeeks { get; set; } = new();
 
         public string FilterStartTime { get; set; }
 

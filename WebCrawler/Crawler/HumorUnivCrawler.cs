@@ -36,7 +36,7 @@ namespace WebCrawler.Crawler
             return UrlBase.CutAndComposite("/", 0, 5, "/" + href);
         }
 
-        public override PoliteWebCrawler Create()
+        protected override PoliteWebCrawler Create()
         {
             var crawler = CrawlerQueue.Dequeue();
             CrawlerQueue.Enqueue(crawler);

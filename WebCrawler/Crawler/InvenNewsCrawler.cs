@@ -42,16 +42,16 @@ namespace WebCrawler.Crawler
                 var stringTuples = row.Item1;
                 var hrefs = row.Item2;
 
-                var cmtnum = stringTuples.FindValue("cmtnum");
+                var count = stringTuples.FindValue("cmtnum");
 
                 var originTitle = stringTuples.FindValue("title");
 
                 var infos = stringTuples.FindValue("info").Split("|");
-                var title = string.IsNullOrEmpty(cmtnum) ? originTitle : originTitle.Substring(cmtnum);
+                var title = string.IsNullOrEmpty(count) ? originTitle : originTitle.Substring(count);
                 var category = infos[0].Substring("\n");
                 var author = infos.Count() <= 2 ? "" : infos[1];
                 var date = infos.Count() <= 2 ? DateTime.Parse(infos[1]) : DateTime.Parse(infos[2]);
-                var recommend = string.IsNullOrEmpty(cmtnum) ? 0 : cmtnum.ToIntRegex();
+                var recommend = string.IsNullOrEmpty(count) ? 0 : count.ToIntRegex();
 
                 var href = hrefs[0];
 

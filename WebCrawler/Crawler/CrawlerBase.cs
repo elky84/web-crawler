@@ -1,17 +1,17 @@
-﻿using Abot2.Core;
+﻿using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using Abot2.Core;
 using Abot2.Crawler;
 using Abot2.Poco;
 using EzAspDotNet.Util;
 using EzMongoDb.Util;
 using MongoDB.Driver;
 using Serilog;
-using System;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using WebCrawler.Models;
 
-namespace WebCrawler
+namespace WebCrawler.Crawler
 {
     public delegate Task CrawlDataDelegate(CrawlingData data);
 
@@ -21,17 +21,17 @@ namespace WebCrawler
 
         protected Source Source { get; set; }
 
-        protected MongoDbUtil<CrawlingData> MongoDbCrawlingData;
+        private readonly MongoDbUtil<CrawlingData> _mongoDbCrawlingData;
 
-        public CrawlDataDelegate OnCrawlDataDelegate { get; set; }
+        private CrawlDataDelegate OnCrawlDataDelegate { get; set; }
 
-        protected int Executing;
+        private int _executing;
 
-        public CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
+        protected CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
         {
             if (mongoDb != null)
             {
-                MongoDbCrawlingData = new MongoDbUtil<CrawlingData>(mongoDb);
+                _mongoDbCrawlingData = new MongoDbUtil<CrawlingData>(mongoDb);
             }
 
             OnCrawlDataDelegate = onCrawlDataDelegate;
@@ -55,7 +55,7 @@ namespace WebCrawler
             };
         }
 
-        public virtual PoliteWebCrawler Create()
+        protected virtual PoliteWebCrawler Create()
         {
             var crawlerInstance = new PoliteWebCrawler(Config(), null, null, null, new PageRequester(Config(), new WebContentExtractor()), null, null, null, null);
             crawlerInstance.PageCrawlStarting += ProcessPageCrawlStarting;
@@ -80,41 +80,39 @@ namespace WebCrawler
 
         protected async Task<bool> ExecuteAsync(PoliteWebCrawler crawler, int page)
         {
-            if (CanTwice() || 0 == Interlocked.Exchange(ref Executing, 1))
-            {
-                var builder = new UriBuilder(UrlComposite(page));
-                var crawlResult = await crawler.CrawlAsync(builder.Uri);
-                Interlocked.Exchange(ref Executing, 0);
-                return crawlResult.ErrorOccurred;
-            }
+            if (!CanTwice() && 0 != Interlocked.Exchange(ref _executing, 1)) return false;
+            var builder = new UriBuilder(UrlComposite(page));
+            var crawlResult = await crawler.CrawlAsync(builder.Uri);
+            Interlocked.Exchange(ref _executing, 0);
+            return crawlResult.ErrorOccurred;
 
-            return false;
         }
 
         protected abstract string UrlComposite(int page);
 
-        void ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
+        private static void ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
         {
-            PageToCrawl pageToCrawl = e.PageToCrawl;
-            Log.Logger.Debug($"About to crawl link {pageToCrawl.Uri.AbsoluteUri} which was found on page {pageToCrawl.ParentUri.AbsoluteUri}");
+            var pageToCrawl = e.PageToCrawl;
+            Log.Logger.Debug("About to crawl link {UriAbsoluteUri} which was found on page {ParentUriAbsoluteUri}",
+                pageToCrawl.Uri.AbsoluteUri, pageToCrawl.ParentUri.AbsoluteUri);
         }
 
-        void ProcessPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
+        private void ProcessPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
         {
-            CrawledPage crawledPage = e.CrawledPage;
+            var crawledPage = e.CrawledPage;
             if (crawledPage.HttpRequestException != null ||
                 crawledPage.HttpResponseMessage?.StatusCode != HttpStatusCode.OK ||
                 string.IsNullOrEmpty(crawledPage.Content?.Text))
             {
-                Log.Logger.Error($"Crawl of page failed. <Url:{crawledPage.Uri?.AbsoluteUri}> " +
-                    $"<StatusCode:{crawledPage.HttpResponseMessage?.StatusCode}> " +
-                    $"<Exception:{crawledPage.HttpRequestException}>" +
-                    $"<Content:{crawledPage.HttpResponseMessage?.Content}>");
+                Log.Logger.Error(
+                    "Crawl of page failed. <Url:{UriAbsoluteUri}> <StatusCode:{StatusCode}> <Exception:{CrawledPageHttpRequestException}> <Content:{@Content}>",
+                    crawledPage.Uri?.AbsoluteUri, crawledPage.HttpResponseMessage?.StatusCode,
+                    crawledPage.HttpRequestException?.Message, crawledPage.HttpResponseMessage?.Content);
                 return;
             }
             else
             {
-                Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri?.AbsoluteUri}");
+                Log.Logger.Debug("Crawl of page succeeded {UriAbsoluteUri}", crawledPage.Uri?.AbsoluteUri);
             }
 
             OnPageCrawl(crawledPage.AngleSharpHtmlDocument);
@@ -127,21 +125,23 @@ namespace WebCrawler
             return UrlBase.CutAndComposite("/", 0, 3, href);
         }
 
-        void PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisallowedArgs e)
+        private static void PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisallowedArgs e)
         {
-            CrawledPage crawledPage = e.CrawledPage;
-            Log.Logger.Error($"Did not crawl the links on page {crawledPage.Uri.AbsoluteUri} due to {e.DisallowedReason}");
+            var crawledPage = e.CrawledPage;
+            Log.Logger.Error("Did not crawl the links on page {UriAbsoluteUri} due to {EDisallowedReason}", 
+                crawledPage.Uri.AbsoluteUri, e.DisallowedReason);
         }
 
-        void PageCrawlDisallowed(object sender, PageCrawlDisallowedArgs e)
+        private static void PageCrawlDisallowed(object sender, PageCrawlDisallowedArgs e)
         {
-            PageToCrawl pageToCrawl = e.PageToCrawl;
-            Log.Logger.Error($"Did not crawl page {pageToCrawl.Uri.AbsoluteUri} due to {e.DisallowedReason}");
+            var pageToCrawl = e.PageToCrawl;
+            Log.Logger.Error("Did not crawl page {UriAbsoluteUri} due to {EDisallowedReason}",
+                pageToCrawl.Uri.AbsoluteUri, e.DisallowedReason);
         }
 
         protected async Task OnCrawlData(CrawlingData crawlingData)
         {
-            if (MongoDbCrawlingData == null)
+            if (_mongoDbCrawlingData == null)
             {
                 return;
             }
@@ -160,7 +160,7 @@ namespace WebCrawler
                 builder.Eq(x => x.BoardId, crawlingData.BoardId) &
                 builder.Eq(x => x.Href, crawlingData.Href);
 
-            await MongoDbCrawlingData.UpsertAsync(filter, crawlingData,
+            await _mongoDbCrawlingData.UpsertAsync(filter, crawlingData,
                 async (crawlingData) =>
                 {
                     if (OnCrawlDataDelegate != null)

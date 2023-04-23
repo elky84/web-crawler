@@ -37,7 +37,7 @@ namespace WebCrawler.Crawler
 
             if (!LatestPage.HasValue)
             {
-                Log.Logger.Error($"Not Found PageInfo Data {UrlBase}");
+                Log.Logger.Error("Not Found PageInfo Data {UrlBase}", UrlBase);
                 return;
             }
 
@@ -54,10 +54,7 @@ namespace WebCrawler.Crawler
                 .Select(x => x.TextContent.Trim()).ToArray();
 
             var tdContent = document.QuerySelectorAll("tbody tr td")
-                .Select(x =>
-                {
-                    return x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim();
-                })
+                .Select(x => x.QuerySelector("a") != null ? x.QuerySelector("a").TextContent.Trim() : x.TextContent.Trim())
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr td")
@@ -67,7 +64,7 @@ namespace WebCrawler.Crawler
 
             if (!thContent.Any() || !tdContent.Any())
             {
-                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
+                Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                 return;
             }
 

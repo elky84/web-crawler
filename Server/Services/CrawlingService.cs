@@ -77,7 +77,7 @@ namespace Server.Services
 
         public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
         {
-            var onCrawlDataDelegate = new WebCrawler.CrawlDataDelegate(OnNewCrawlData);
+            var onCrawlDataDelegate = new CrawlDataDelegate(OnNewCrawlData);
             var sources = crawling.All ?
                           MapperUtil.Map<List<Source>, List<Protocols.Common.Source>>(await _sourceService.All()) :
                           crawling.Sources;
@@ -131,7 +131,7 @@ namespace Server.Services
             };
         }
 
-        public async Task OnNewCrawlData(CrawlingData crawlingData)
+        private async Task OnNewCrawlData(CrawlingData crawlingData)
         {
             var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}] ";
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId),

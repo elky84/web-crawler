@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using System.Linq;
+using MongoDB.Driver;
 using Serilog;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,11 +8,11 @@ using WebCrawler.Crawler;
 
 namespace Cli
 {
-    class Program
+    internal static class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            EncodingProvider provider = System.Text.CodePagesEncodingProvider.Instance;
+            var provider = System.Text.CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(provider);
 
             Log.Logger = new LoggerConfiguration()

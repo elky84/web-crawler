@@ -37,12 +37,12 @@ namespace Server.Services
 
             _mongoCrawlingData.Collection.Indexes.CreateMany(new List<CreateIndexModel<CrawlingData>>
             {
-                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.DateTime)),
-                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Title)),
-                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)),
-                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
+                new(Builders<CrawlingData>.IndexKeys.Ascending(x => x.DateTime)),
+                new(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Title)),
+                new(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)),
+                new(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
                                                                                    .Ascending(x => x.BoardId)),
-                new CreateIndexModel<CrawlingData>(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
+                new(Builders<CrawlingData>.IndexKeys.Ascending(x => x.Type)
                                                                                    .Ascending(x => x.BoardId)
                                                                                    .Ascending(x => x.Href),
                                                    new CreateIndexOptions { Unique = true})

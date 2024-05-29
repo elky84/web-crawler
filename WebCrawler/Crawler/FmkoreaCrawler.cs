@@ -88,7 +88,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(tdHref[n]);
 
-                _ = OnCrawlData(new CrawlingData
+                ConcurrentBag.Add(OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -101,7 +101,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                });
+                }).Result);
             });
         }
 
@@ -161,7 +161,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(hrefs[0]);
 
-                _ = OnCrawlData(new CrawlingData
+                ConcurrentBag.Add(OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -173,7 +173,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                });
+                }).Result);
             });
         }
     }

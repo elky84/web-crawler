@@ -83,7 +83,7 @@ namespace WebCrawler.Crawler
 
                     var href = tdHref[n].GetAttribute("href");
 
-                    _ = OnCrawlData(new CrawlingData
+                    ConcurrentBag.Add(OnCrawlData(new CrawlingData
                     {
                         Type = Source.Type,
                         BoardId = Source.BoardId,
@@ -96,7 +96,7 @@ namespace WebCrawler.Crawler
                         DateTime = date.GetValueOrDefault(DateTime.Now),
                         Href = href,
                         SourceId = Source.Id
-                    });
+                    }).Result);
                 });
             }
             else

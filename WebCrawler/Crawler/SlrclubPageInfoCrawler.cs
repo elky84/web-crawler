@@ -31,7 +31,7 @@ namespace WebCrawler.Crawler
         protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
         {
             var tdContent = document.QuerySelectorAll("tbody tr td table tbody tr td span").Select(x => x.TextContent.Trim()).ToArray();
-            if (!tdContent.Any())
+            if (tdContent.Length == 0)
             {
                 return;
             }

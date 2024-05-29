@@ -35,13 +35,13 @@ namespace WebCrawler.Crawler
             cultureInfo.DateTimeFormat.Calendar = calendar;
 
             var thContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "title_bg")
+                .Where(x => x.ClassName == "headNotice")
                 .Select(x => x.QuerySelectorAll("td").Where(x => x.ClassName == "list_tspace"))
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
 
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("list_notice"))
+                .Where(x => x.ClassName == "baseList")
                 .Select(x => x.QuerySelectorAll("td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_vspace")))
                 .SelectMany(x => x.Select(y =>
                 {
@@ -60,16 +60,16 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
-                .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("list_notice"))
+                .Where(x => x.ClassName == "baseList")
                 .Select(x => x.QuerySelectorAll("td a"))
                 .SelectMany(x => x.Where(y => y.QuerySelector("font") != null)
                     .Select(y => y.GetAttribute("href")))
                 .Where(x => x != "#")
                 .ToArray();
 
-            if (!thContent.Any() || !tdContent.Any())
+            if (thContent.Length == 0 || tdContent.Length == 0)
             {
-                Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
+                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref("/" + tdHref[n]);
 
-                _ = OnCrawlData(new CrawlingData
+                ConcurrentBag.Add(OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -116,7 +116,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                });
+                }).Result);
             });
         }
     }

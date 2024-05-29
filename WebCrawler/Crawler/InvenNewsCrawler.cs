@@ -55,7 +55,7 @@ namespace WebCrawler.Crawler
 
                 var href = hrefs[0];
 
-                _ = OnCrawlData(new CrawlingData
+                ConcurrentBag.Add(OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -67,7 +67,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                });
+                }).Result);
             });
         }
     }

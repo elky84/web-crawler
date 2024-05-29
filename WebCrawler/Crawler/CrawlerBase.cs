@@ -1,14 +1,16 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Abot2.Core;
+﻿using Abot2.Core;
 using Abot2.Crawler;
 using Abot2.Poco;
+using AngleSharp.Html.Parser;
 using EzAspDotNet.Util;
 using EzMongoDb.Util;
 using MongoDB.Driver;
 using Serilog;
+using System;
+using System.Collections.Concurrent;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
@@ -25,7 +27,11 @@ namespace WebCrawler.Crawler
 
         private CrawlDataDelegate OnCrawlDataDelegate { get; set; }
 
+        private HtmlParser parser = new();
+
         private int _executing;
+
+        public ConcurrentBag<CrawlingData> ConcurrentBag { get; } = [];
 
         protected CrawlerBase(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, string urlBase, Source source)
         {
@@ -45,13 +51,12 @@ namespace WebCrawler.Crawler
             {
                 MaxConcurrentThreads = 10,
                 MaxPagesToCrawl = 1,
-                MaxPagesToCrawlPerDomain = 10,
+                MaxPagesToCrawlPerDomain = 5,
                 MinRetryDelayInMilliseconds = 1000,
-                MinCrawlDelayPerDomainMilliSeconds = 1000,
+                MinCrawlDelayPerDomainMilliSeconds = 5000,
                 IsSendingCookiesEnabled = true,
                 HttpProtocolVersion = HttpProtocolVersion.Version11,
-                IsUriRecrawlingEnabled = true,
-                UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
+                UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
             };
         }
 
@@ -90,11 +95,11 @@ namespace WebCrawler.Crawler
 
         protected abstract string UrlComposite(int page);
 
-        private static void ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
+        private void ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
         {
+            ConcurrentBag.Clear();
             var pageToCrawl = e.PageToCrawl;
-            Log.Logger.Debug("About to crawl link {UriAbsoluteUri} which was found on page {ParentUriAbsoluteUri}",
-                pageToCrawl.Uri.AbsoluteUri, pageToCrawl.ParentUri.AbsoluteUri);
+            Log.Logger.Debug($"About to crawl link {pageToCrawl.Uri.AbsoluteUri} which was found on page {pageToCrawl.ParentUri.AbsoluteUri}");
         }
 
         private void ProcessPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
@@ -105,17 +110,17 @@ namespace WebCrawler.Crawler
                 string.IsNullOrEmpty(crawledPage.Content?.Text))
             {
                 Log.Logger.Error(
-                    "Crawl of page failed. <Url:{UriAbsoluteUri}> <StatusCode:{StatusCode}> <Exception:{CrawledPageHttpRequestException}> <Content:{@Content}>",
-                    crawledPage.Uri?.AbsoluteUri, crawledPage.HttpResponseMessage?.StatusCode,
-                    crawledPage.HttpRequestException?.Message, crawledPage.HttpResponseMessage?.Content);
+                    $"Crawl of page failed. <Url:{crawledPage.Uri?.AbsoluteUri}> <StatusCode:{crawledPage.HttpResponseMessage?.StatusCode}> " +
+                    $"<Exception:{crawledPage.HttpRequestException?.Message}> <Content:{crawledPage.HttpResponseMessage?.Content}>");
                 return;
             }
             else
             {
-                Log.Logger.Debug("Crawl of page succeeded {UriAbsoluteUri}", crawledPage.Uri?.AbsoluteUri);
+                Log.Logger.Debug($"Crawl of page succeeded {crawledPage.Uri?.AbsoluteUri}");
             }
 
             OnPageCrawl(crawledPage.AngleSharpHtmlDocument);
+
         }
 
         protected abstract void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document);
@@ -128,24 +133,17 @@ namespace WebCrawler.Crawler
         private static void PageLinksCrawlDisallowed(object sender, PageLinksCrawlDisallowedArgs e)
         {
             var crawledPage = e.CrawledPage;
-            Log.Logger.Error("Did not crawl the links on page {UriAbsoluteUri} due to {EDisallowedReason}", 
-                crawledPage.Uri.AbsoluteUri, e.DisallowedReason);
+            Log.Logger.Error($"Did not crawl the links on page {crawledPage.Uri.AbsoluteUri} due to {e.DisallowedReason}");
         }
 
         private static void PageCrawlDisallowed(object sender, PageCrawlDisallowedArgs e)
         {
             var pageToCrawl = e.PageToCrawl;
-            Log.Logger.Error("Did not crawl page {UriAbsoluteUri} due to {EDisallowedReason}",
-                pageToCrawl.Uri.AbsoluteUri, e.DisallowedReason);
+            Log.Logger.Error($"Did not crawl page {pageToCrawl.Uri.AbsoluteUri} due to {e.DisallowedReason}");
         }
 
-        protected async Task OnCrawlData(CrawlingData crawlingData)
+        protected async Task<CrawlingData> OnCrawlData(CrawlingData crawlingData)
         {
-            if (_mongoDbCrawlingData == null)
-            {
-                return;
-            }
-
             // 글자 뒤의 공백 날리기
             crawlingData.Title = crawlingData.Title.TrimEnd();
 
@@ -160,14 +158,19 @@ namespace WebCrawler.Crawler
                 builder.Eq(x => x.BoardId, crawlingData.BoardId) &
                 builder.Eq(x => x.Href, crawlingData.Href);
 
-            await _mongoDbCrawlingData.UpsertAsync(filter, crawlingData,
-                async (crawlingData) =>
-                {
-                    if (OnCrawlDataDelegate != null)
+            if (_mongoDbCrawlingData != null)
+            {
+                await _mongoDbCrawlingData.UpsertAsync(filter, crawlingData,
+                    async (crawlingData) =>
                     {
-                        await OnCrawlDataDelegate.Invoke(crawlingData);
-                    }
-                });
+                        if (OnCrawlDataDelegate != null)
+                        {
+                            await OnCrawlDataDelegate.Invoke(crawlingData);
+                        }
+                    });
+            }
+
+            return crawlingData;
         }
     }
 }

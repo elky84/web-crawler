@@ -8,13 +8,9 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class ItcmCrawler : CrawlerBase
+    public class ItcmCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"http://itcm.co.kr/index.php?mid=", source)
     {
-        public ItcmCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://itcm.co.kr/index.php?mid=", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}{Source.BoardId}&page={page}";

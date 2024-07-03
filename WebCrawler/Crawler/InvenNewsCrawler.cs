@@ -8,13 +8,9 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class InvenNewsCrawler : CrawlerBase
+    public class InvenNewsCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"http://www.inven.co.kr/webzine/news/", source)
     {
-        public InvenNewsCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://www.inven.co.kr/webzine/news/", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?{Source.BoardId}&page={page}";

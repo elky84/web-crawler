@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
@@ -33,9 +34,9 @@ namespace WebCrawler.Crawler
             var calendar = cultureInfo.Calendar;
             calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
             cultureInfo.DateTimeFormat.Calendar = calendar;
-
+            
             var thContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "headNotice")
+                .Where(x => x.Id == "headNotice")
                 .Select(x => x.QuerySelectorAll("td").Where(x => x.ClassName == "list_tspace"))
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
@@ -69,7 +70,7 @@ namespace WebCrawler.Crawler
 
             if (thContent.Length == 0 || tdContent.Length == 0)
             {
-                Log.Error($"Parsing Failed DOM. Not has thContent or tdContent {UrlComposite(1)}");
+                Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                 return;
             }
 
@@ -85,16 +86,7 @@ namespace WebCrawler.Crawler
                 var author = tdContent[cursor + 1];
                 var title = tdContent[cursor + 2];
                 var dateTimeStr = tdContent[cursor + 3];
-                DateTime date;
-                if (dateTimeStr.Contains('/'))
-                {
-                    date = DateTime.ParseExact(dateTimeStr, "yy/MM/dd", cultureInfo);
-                }
-                else
-                {
-                    date = DateTime.Parse(dateTimeStr);
-                }
-
+                var date = dateTimeStr.Contains('/') ? DateTime.ParseExact(dateTimeStr, "yy/MM/dd", cultureInfo) : DateTime.Parse(dateTimeStr);
 
                 var str = tdContent[cursor + 4];
                 var recommend = string.IsNullOrEmpty(str) ? 0 : str.Split(" - ")[0].ToInt();

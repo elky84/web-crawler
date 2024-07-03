@@ -10,13 +10,9 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class TodayhumorCrawler : CrawlerBase
+    public class TodayhumorCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"http://www.todayhumor.co.kr/board/list.php", source)
     {
-        public TodayhumorCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://www.todayhumor.co.kr/board/list.php", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?table={Source.BoardId}&page={page}";

@@ -12,13 +12,9 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public partial class RuliwebCrawler : CrawlerBase
+    public partial class RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)
     {
-        public RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?page={page}";

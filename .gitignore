@@ -363,3 +363,5 @@ Properties/
 notification.http
 http/.vscode/settings.json
 
+# rider
+.idea/

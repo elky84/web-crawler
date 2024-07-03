@@ -9,14 +9,10 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class SlrclubCrawler : CrawlerBase
+    public class SlrclubCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
     {
-        protected static int? LatestPage { get; set; }
-
-        public SlrclubCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://www.slrclub.com/bbs/zboard.php", source)
-        {
-        }
+        private static int? LatestPage { get; set; }
 
         protected override string UrlComposite(int page)
         {

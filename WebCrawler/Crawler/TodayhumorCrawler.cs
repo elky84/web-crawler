@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
@@ -18,7 +19,7 @@ namespace WebCrawler.Crawler
             return $"{UrlBase}?table={Source.BoardId}&page={page}";
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var thContent = document.QuerySelectorAll("thead tr th")
                 .Select(x => x.TextContent.Trim())
@@ -58,7 +59,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(tdHref[n]);
 
-                ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                _ = OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -71,7 +72,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                }).Result);
+                });
             });
         }
     }

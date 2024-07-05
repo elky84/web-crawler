@@ -1,51 +1,24 @@
-﻿using Abot2.Crawler;
-using Abot2.Poco;
-using EzAspDotNet.Util;
+﻿using EzAspDotNet.Util;
 using MongoDB.Driver;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class FmkoreaCrawler : CrawlerBase
+    public class FmkoreaCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"https://www.fmkorea.com/index.php", source)
     {
-        private static readonly Queue<PoliteWebCrawler> CrawlerQueue = new();
-
-        public FmkoreaCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"https://www.fmkorea.com/index.php", source)
-        {
-            foreach (var _ in Enumerable.Range(0, 5))
-                CrawlerQueue.Enqueue(base.Create());
-        }
-
-        protected override CrawlConfiguration Config()
-        {
-            var config = base.Config();
-            config.MaxPagesToCrawlPerDomain = 1;
-            config.MaxRobotsDotTextCrawlDelayInSeconds = 60;
-            config.MaxConcurrentThreads = 1;
-            config.MinRetryDelayInMilliseconds = 60000;
-            config.MinCrawlDelayPerDomainMilliSeconds = 60000;
-            return config;
-        }
-
-        protected override PoliteWebCrawler Create()
-        {
-            var crawler = CrawlerQueue.Dequeue();
-            CrawlerQueue.Enqueue(crawler);
-            return crawler;
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?mid={Source.BoardId}&page={page}";
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var thContent = document.QuerySelectorAll("thead tr th").Select(x => x.TextContent.Trim()).ToArray();
             if (thContent.Any())
@@ -60,7 +33,7 @@ namespace WebCrawler.Crawler
 
         protected override bool CanTwice() => false;
 
-        private void OnPageCrawlTable(AngleSharp.Html.Dom.IHtmlDocument document, string[] thContent)
+        private void OnPageCrawlTable(IDocument document, string[] thContent)
         {
             var tdAll = document.QuerySelectorAll("tbody tr td")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && !x.ClassName.Contains("notice"));
@@ -88,7 +61,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(tdHref[n]);
 
-                ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                _ = OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -101,11 +74,11 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                }).Result);
+                });
             });
         }
 
-        private void OnPageCrawlList(AngleSharp.Html.Dom.IHtmlDocument document)
+        private void OnPageCrawlList(IDocument document)
         {
             var tdContent = document.QuerySelectorAll("ul li div")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("li"))
@@ -161,7 +134,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(hrefs[0]);
 
-                ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                _ = OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -173,7 +146,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                }).Result);
+                });
             });
         }
     }

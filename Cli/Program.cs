@@ -11,9 +11,6 @@ namespace Cli
     {
         private static async Task Main(string[] args)
         {
-            var provider = CodePagesEncodingProvider.Instance;
-            Encoding.RegisterProvider(provider);
-
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Warning()
                 .WriteTo.Console()

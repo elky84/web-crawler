@@ -20,7 +20,7 @@ namespace WebCrawler.Crawler
             return $"{UrlBase}?page={page}";
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             var calendar = cultureInfo.Calendar;
@@ -79,7 +79,7 @@ namespace WebCrawler.Crawler
 
                     var href = tdHref[n].GetAttribute("href");
 
-                    ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                    _ = OnCrawlData(new CrawlingData
                     {
                         Type = Source.Type,
                         BoardId = Source.BoardId,
@@ -92,7 +92,7 @@ namespace WebCrawler.Crawler
                         DateTime = date.GetValueOrDefault(DateTime.Now),
                         Href = href,
                         SourceId = Source.Id
-                    }).Result);
+                    });
                 });
             }
             else

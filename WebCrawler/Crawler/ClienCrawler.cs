@@ -4,24 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class ClienCrawler : CrawlerBase
+    public class ClienCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)
     {
-        public ClienCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"https://www.clien.net/service/board/{source.BoardId}", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             // 페이지가 0부터 시작함
             return $"{UrlBase}?od=T32&po={page - 1}";
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var tdContent = document.QuerySelectorAll("div")
                 .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_item") && x.ClassName.Contains("symph_row"))

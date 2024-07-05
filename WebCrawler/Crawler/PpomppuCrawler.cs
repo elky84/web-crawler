@@ -11,13 +11,9 @@ using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class PpomppuCrawler : CrawlerBase
+    public class PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"https://www.ppomppu.co.kr/zboard/zboard.php", source)
     {
-        public PpomppuCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"https://www.ppomppu.co.kr/zboard/zboard.php", source)
-        {
-        }
-
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?id={Source.BoardId}&page={page}";
@@ -28,7 +24,7 @@ namespace WebCrawler.Crawler
             return UrlBase.CutAndComposite("/", 0, 4, href);
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             var calendar = cultureInfo.Calendar;
@@ -36,14 +32,14 @@ namespace WebCrawler.Crawler
             cultureInfo.DateTimeFormat.Calendar = calendar;
             
             var thContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.Id == "headNotice")
-                .Select(x => x.QuerySelectorAll("td").Where(x => x.ClassName == "list_tspace"))
+                .Where(x => x.Id == "headNotice" || x.ClassName == "title_bg")
+                .Select(x => x.QuerySelectorAll("span, font"))
                 .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                 .ToArray();
-
+            
             var tdContent = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "baseList")
-                .Select(x => x.QuerySelectorAll("td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.Contains("list_vspace")))
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("baseList"))
+                .Select(x => x.QuerySelectorAll("td").Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("baseList-space")))
                 .SelectMany(x => x.Select(y =>
                 {
                     var text = y.TextContent.Trim();
@@ -61,10 +57,9 @@ namespace WebCrawler.Crawler
                 .ToArray();
 
             var tdHref = document.QuerySelectorAll("tbody tr")
-                .Where(x => x.ClassName == "baseList")
+                .Where(x => !string.IsNullOrEmpty(x.ClassName) && x.ClassName.StartsWith("baseList"))
                 .Select(x => x.QuerySelectorAll("td a"))
-                .SelectMany(x => x.Where(y => y.QuerySelector("font") != null)
-                    .Select(y => y.GetAttribute("href")))
+                .SelectMany(x => x.Select(y => y.GetAttribute("href")))
                 .Where(x => x != "#")
                 .ToArray();
 
@@ -95,7 +90,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref("/" + tdHref[n]);
 
-                ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                _ = OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -108,7 +103,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                }).Result);
+                });
             });
         }
     }

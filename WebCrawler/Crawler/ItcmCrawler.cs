@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
@@ -16,7 +17,7 @@ namespace WebCrawler.Crawler
             return $"{UrlBase}{Source.BoardId}&page={page}";
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var tdContents = document.QuerySelectorAll("tbody tr")
                 .Where(x => string.IsNullOrEmpty(x.ClassName) || x.ClassName != "notice")

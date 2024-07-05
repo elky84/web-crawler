@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
@@ -21,8 +22,6 @@ namespace WebCrawler.Crawler
 
         public override async Task RunAsync()
         {
-            var crawlerInstance = Create();
-
             var pageInfoCrawler = new SlrclubPageInfoCrawler(null, null, Source);
             await pageInfoCrawler.RunAsync();
 
@@ -39,12 +38,12 @@ namespace WebCrawler.Crawler
 
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {
-                await ExecuteAsync(crawlerInstance, page);
+                await ExecuteAsync(page);
                 Thread.Sleep(Source.Interval);
             }
         }
 
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             var thContent = document.QuerySelectorAll("thead tr th")
                 .Select(x => x.TextContent.Trim()).ToArray();
@@ -58,7 +57,7 @@ namespace WebCrawler.Crawler
                 .Select(x => x.QuerySelector("a").GetAttribute("href"))
                 .ToArray();
 
-            if (!thContent.Any() || !tdContent.Any())
+            if (thContent.Length == 0 || tdContent.Length == 0)
             {
                 Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                 return;
@@ -76,7 +75,7 @@ namespace WebCrawler.Crawler
 
                 var href = UrlCompositeHref(tdHref[n]);
 
-                ConcurrentBag.Add(OnCrawlData(new CrawlingData
+                _ = OnCrawlData(new CrawlingData
                 {
                     Type = Source.Type,
                     BoardId = Source.BoardId,
@@ -89,7 +88,7 @@ namespace WebCrawler.Crawler
                     DateTime = date,
                     Href = href,
                     SourceId = Source.Id
-                }).Result);
+                });
             });
         }
     }

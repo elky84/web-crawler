@@ -1,34 +1,21 @@
-﻿using Abot2.Crawler;
-using AngleSharp;
+﻿using AngleSharp;
 using EzAspDotNet.Util;
 using MongoDB.Driver;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler
 {
-    public class HumorUnivCrawler : CrawlerBase
+    public class HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
+        : CrawlerBase(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)
     {
-        private static readonly Queue<PoliteWebCrawler> CrawlerQueue = new();
-
-        public HumorUnivCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source) :
-            base(onCrawlDataDelegate, mongoDb, $"http://web.humoruniv.com/board/humor/list.html?table=", source)
-        {
-            foreach (var _ in Enumerable.Range(0, 5))
-                CrawlerQueue.Enqueue(base.Create());
-        }
-
         protected override string UrlComposite(int page)
         {
-            if (page <= 1)
-            {
-                return $"{UrlBase}{Source.BoardId}";
-            }
-            return $"{UrlBase}{Source.BoardId}&pg={page - 1}";
+            return page <= 1 ? $"{UrlBase}{Source.BoardId}" : $"{UrlBase}{Source.BoardId}&pg={page - 1}";
         }
 
         protected override string UrlCompositeHref(string href)
@@ -36,14 +23,7 @@ namespace WebCrawler.Crawler
             return UrlBase.CutAndComposite("/", 0, 5, "/" + href);
         }
 
-        protected override PoliteWebCrawler Create()
-        {
-            var crawler = CrawlerQueue.Dequeue();
-            CrawlerQueue.Enqueue(crawler);
-            return crawler;
-        }
-
-        protected override void OnPageCrawl(AngleSharp.Html.Dom.IHtmlDocument document)
+        protected override void OnPageCrawl(IDocument document)
         {
             if (document.Head.QuerySelector("meta")?.GetAttribute("http-equiv") == "refresh")
             {

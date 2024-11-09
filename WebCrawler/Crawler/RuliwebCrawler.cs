@@ -27,24 +27,25 @@ namespace WebCrawler.Crawler
             calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
             cultureInfo.DateTimeFormat.Calendar = calendar;
 
-            if (document.GetElementById("best_body") != null)
+            var bestBody = document.GetElementById("best_body");
+            if (bestBody != null)
             {
-                var rows = document.QuerySelectorAll("tr")
+                var rows = bestBody.QuerySelectorAll("tr")
                     .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
                     .Select(x => x.TextContent.Trim())
                     .ToList();
 
-                var tdContent = document.QuerySelectorAll("div")
+                var tdContent = bestBody.QuerySelectorAll("div")
                     .Where(x => x.ClassName != null && x.ClassName.Contains("article_info"))
                     .SelectMany(x => new[] { x.QuerySelectorAll("a"), x.QuerySelectorAll("span").Where(x => !string.IsNullOrEmpty(x.ClassName)) })
                     .SelectMany(x => x.Select(y => y.TextContent.Trim()))
                     .ToArray();
 
-                var tdHref = document.QuerySelectorAll("a")
-                    .Where(x => x.ClassName != null && x.ClassName.Contains("title_wrapper"))
+                var tdHref = bestBody.QuerySelectorAll("a")
+                    .Where(x => x.ClassName != null && x.ClassName.Contains("deco"))
                     .ToArray();
 
-                if (!rows.Any() || !tdContent.Any())
+                if (rows.Count == 0 || tdContent.Length == 0)
                 {
                     Log.Error("Parsing Failed DOM. Not has rows or tdContent {UrlComposite}", UrlComposite(1));
                     return;

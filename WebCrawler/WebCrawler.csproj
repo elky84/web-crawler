@@ -6,6 +6,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="AngleSharp" Version="0.14.0" />
-		<PackageReference Include="EzAspDotnet" Version="1.0.60" />
+		<PackageReference Include="EzAspDotnet" Version="1.0.61" />
 	</ItemGroup>
 </Project>

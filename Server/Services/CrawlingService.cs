@@ -116,13 +116,13 @@ namespace Server.Services
             }
             else
             {
-                Parallel.ForEach(crawlerGroup, group =>
+                foreach(var group in crawlerGroup)
                 {
-                    Parallel.ForEach(group, async (crawler) =>
+                    foreach(var crawler in group)
                     {
-                        await crawler.RunAsync().WaitAsync(TimeSpan.FromSeconds(30));
-                    });
-                });
+                        await crawler.RunAsync();
+                    }
+                }
             }
 
             return new Protocols.Response.Crawling

@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server.Services
 {
-    public class CrawlingLoopingService : LoopingService
+    public class CrawlingLoopingService(CrawlingService crawlingService) : LoopingService
     {
-        private readonly CrawlingService _crawlingService;
-
-        public CrawlingLoopingService(CrawlingService crawlingService)
-        {
-            _crawlingService = crawlingService;
-        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -21,7 +15,7 @@ namespace Server.Services
             {
                 try
                 {
-                    await _crawlingService.Execute(new Protocols.Request.Crawling { All = true });
+                    await crawlingService.Execute(new Protocols.Request.Crawling { All = true });
                 }
                 catch (Exception e)
                 {

@@ -15,10 +15,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v4
         with:
           source-url: https://nuget.pkg.github.com/elky84/index.json
-          dotnet-version: 7.x.x
+          dotnet-version: '9.x.x'
         env:
           NUGET_AUTH_TOKEN: ${{secrets.DOCKER_GITHUB_PASSWORD}} 
           

@@ -89,17 +89,49 @@ namespace WebCrawler.Crawler
                 return;
             }
             
-            var utf8String = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(utf8String))
+            var responseBytes = await response.Content.ReadAsByteArrayAsync();
+
+            string decodedString;
+            try
             {
-                Log.Logger.Error("response content is null. <Url:{UriAbsoluteUri}>", uri.AbsoluteUri);
+                decodedString = Encoding.UTF8.GetString(responseBytes);
+
+                // 유효성 검사: UTF-8로 변환한 결과가 깨진 문자열인지 확인
+                if (ContainsInvalidCharacters(decodedString))
+                {
+                    // 깨진 경우, EUC-KR로 재디코딩
+                    Log.Logger.Error("Detected invalid UTF-8, switching to EUC-KR. <DecodedString:{decodedString}>", decodedString);
+
+                    decodedString = Encoding.GetEncoding("EUC-KR").GetString(responseBytes);
+                }
+            }
+            catch
+            {
+                // UTF-8 디코딩 자체가 실패하면 바로 EUC-KR 사용
+                Log.Logger.Error("UTF-8 decoding failed, switching to EUC-KR.");
+
+                decodedString = Encoding.GetEncoding("EUC-KR").GetString(responseBytes);
+            }
+
+            if (string.IsNullOrEmpty(decodedString))
+            {
+                Log.Logger.Error("Response content is null.");
                 return;
             }
 
             var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
-            var document = await context.OpenAsync(req => req.Content(utf8String));
-
+            var document = await context.OpenAsync(req => req.Content(decodedString));
+            
             OnPageCrawl(document);
+        }
+
+        private static bool ContainsInvalidCharacters(string text)
+        {
+            // 예시: 비정상적인 특수 문자 또는 ASCII 제어 문자가 많으면 깨진 문자열로 판단
+            var invalidCharCount = text.Count(ch => char.IsControl(ch) && ch != '\n' && ch != '\r' && ch != '\t');
+
+            // 특정 비율 이상의 제어 문자가 있으면 깨졌다고 판단 (임계값 조정 가능)
+            return (float)invalidCharCount / text.Length > 0.1f;
         }
 
         protected abstract void OnPageCrawl(AngleSharp.Dom.IDocument document);

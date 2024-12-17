@@ -101,14 +101,20 @@ namespace WebCrawler.Crawler
                 var thContent = document.QuerySelectorAll("thead tr th")
                 .Select(x => x.TextContent.Trim())
                 .ToList();
-
-                var tdContent1 = document.QuerySelectorAll("tbody tr")
-                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget")).ToList();
-
+                
                 var tdContent = document.QuerySelectorAll("tbody tr")
                     .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
-                    .Select(x => x.QuerySelectorAll("td"))
-                    .SelectMany(x => x.Select(y => y.TextContent.Trim()))
+                    .SelectMany(x => x.QuerySelectorAll("td")
+                        .Select(cell =>
+                        {
+                            // InnerHtml에서 <span class="num_reply">...</span> 제거
+                            var cleanHtml = Regex.Replace(cell.InnerHtml, @"<span[^>]*?num_reply[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
+
+                            // 태그를 제외한 순수 텍스트 추출
+                            var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();
+
+                            return string.IsNullOrWhiteSpace(textContent) ? "" : textContent;
+                        }))
                     .ToArray();
 
                 var tdHref = document.QuerySelectorAll("tbody tr")

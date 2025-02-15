@@ -31,20 +31,29 @@ namespace WebCrawler.Crawler
             if (bestBody != null)
             {
                 var rows = bestBody.QuerySelectorAll("tr")
-                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
+                    .Where(x => x.ClassName.Contains("table_body"))
                     .Select(x => x.TextContent.Trim())
                     .ToList();
 
-                var tdContent = bestBody.QuerySelectorAll("div")
-                    .Where(x => x.ClassName != null && x.ClassName.Contains("article_info"))
-                    .SelectMany(x => new[] { x.QuerySelectorAll("a"), x.QuerySelectorAll("span").Where(x => !string.IsNullOrEmpty(x.ClassName)) })
-                    .SelectMany(x => x.Select(y => y.TextContent.Trim()))
+                var tdContent = bestBody.QuerySelectorAll("td")
+                    .Select(cell =>
+                    {
+                        // InnerHtml에서 <span class="num_reply">...</span> 제거
+                        var cleanHtml = Regex.Replace(cell.InnerHtml, @"<span[^>]*?num_reply[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
+
+                        // 태그를 제외한 순수 텍스트 추출
+                        var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();
+
+                        return string.IsNullOrWhiteSpace(textContent) ? "" : textContent;
+                    })
                     .ToArray();
 
-                var tdHref = bestBody.QuerySelectorAll("a")
-                    .Where(x => x.ClassName != null && x.ClassName.Contains("deco"))
+                var tdHref = document.QuerySelectorAll("tbody tr")
+                    .Select(x => x.QuerySelectorAll("td"))
+                    .SelectMany(x => x.Where(y => y.QuerySelector("a") != null)
+                        .Select(y => y.QuerySelector("a").GetAttribute("href")))
                     .ToArray();
-
+                
                 if (rows.Count == 0 || tdContent.Length == 0)
                 {
                     Log.Error("Parsing Failed DOM. Not has rows or tdContent {UrlComposite}", UrlComposite(1));
@@ -56,16 +65,15 @@ namespace WebCrawler.Crawler
                 Parallel.For(0, rows.Count, n =>
                 {
                     var cursor = n * colCount;
-                    var category = tdContent[cursor];
+                    var id = tdContent[cursor + 0];
 
-                    var title = tdHref[n].TextContent;
-                    title = MyRegex().Replace(title, string.Empty).Trim();
+                    var title = tdContent[cursor + 1];
 
-                    var author = tdContent[cursor + 1];
-                    var recommend = tdContent[cursor + 2].ToIntRegex();
-                    var count = tdContent[cursor + 3].ToIntRegex();
+                    var author = tdContent[cursor + 2];
+                    var recommend = tdContent[cursor + 3].ToIntRegex();
+                    var count = tdContent[cursor + 4].ToIntRegex();
 
-                    var dateTimeStr = tdContent[cursor + 4].Replace("날짜 ", string.Empty);
+                    var dateTimeStr = tdContent[cursor + 5].Replace("날짜 ", string.Empty);
                     DateTime? date;
                     if (dateTimeStr.Contains('.'))
                     {
@@ -78,14 +86,14 @@ namespace WebCrawler.Crawler
                         date = DateTime.Parse(dateTimeStr);
                     }
 
-                    var href = tdHref[n].GetAttribute("href");
+                    var href = tdHref[n];
 
                     _ = OnCrawlData(new CrawlingData
                     {
                         Type = Source.Type,
                         BoardId = Source.BoardId,
                         BoardName = Source.Name,
-                        Category = category,
+                        Id = id,
                         Title = title,
                         Author = author,
                         Recommend = recommend,
@@ -103,7 +111,7 @@ namespace WebCrawler.Crawler
                 .ToList();
                 
                 var tdContent = document.QuerySelectorAll("tbody tr")
-                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
+                    .Where(x => x.ClassName.Contains("table_body"))
                     .SelectMany(x => x.QuerySelectorAll("td")
                         .Select(cell =>
                         {
@@ -118,7 +126,7 @@ namespace WebCrawler.Crawler
                     .ToArray();
 
                 var tdHref = document.QuerySelectorAll("tbody tr")
-                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
+                    .Where(x => x.ClassName.Contains("table_body"))
                     .Select(x => x.QuerySelectorAll("td"))
                     .SelectMany(x => x.Where(y => y.ClassName == "subject" && y.QuerySelector("a") != null)
                                       .Select(y => y.QuerySelector("a").GetAttribute("href")))

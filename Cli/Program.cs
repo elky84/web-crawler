@@ -21,6 +21,20 @@ namespace Cli
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");
             
+            
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "best/selection",
+                Name = "베스트"
+            }).RunAsync();
+
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "best",
+                Name = "유머베스트"
+            }).RunAsync();
                         
             await new DcInsideCrawler(null, database, new WebCrawler.Models.Source
             {
@@ -83,20 +97,6 @@ namespace Cli
                 Type = CrawlingType.Ruliweb,
                 BoardId = "market/board/1003",
                 Name = "콘솔뉴스"
-            }).RunAsync();
-
-            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
-            {
-                Type = CrawlingType.Ruliweb,
-                BoardId = "best/selection",
-                Name = "베스트"
-            }).RunAsync();
-
-            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
-            {
-                Type = CrawlingType.Ruliweb,
-                BoardId = "best",
-                Name = "유머베스트"
             }).RunAsync();
             
             await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source

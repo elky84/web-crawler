@@ -68,7 +68,7 @@ namespace WebCrawler.Crawler
                 var dateTimeStr = tdContent.GetValue(thContent, "작성일", cursor);
                 var date = ParseDate(dateTimeStr);
 
-                var href = tdHref[n].Split("?")[0];
+                var href = tdHref[n];
 
                 _ = OnCrawlData(new CrawlingData
                 {

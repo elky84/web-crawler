@@ -65,7 +65,7 @@ namespace WebCrawler.Crawler
                 Parallel.For(0, rows.Count, n =>
                 {
                     var cursor = n * colCount;
-                    var id = tdContent[cursor + 0];
+                    var id = tdContent[cursor + 0].ToIntRegex();
 
                     var title = tdContent[cursor + 1];
 
@@ -93,7 +93,7 @@ namespace WebCrawler.Crawler
                         Type = Source.Type,
                         BoardId = Source.BoardId,
                         BoardName = Source.Name,
-                        Id = id,
+                        RowId = id,
                         Title = title,
                         Author = author,
                         Recommend = recommend,

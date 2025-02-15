@@ -111,7 +111,7 @@ namespace WebCrawler.Crawler
                 .ToList();
                 
                 var tdContent = document.QuerySelectorAll("tbody tr")
-                    .Where(x => x.ClassName.Contains("table_body"))
+                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget") && !string.IsNullOrEmpty(x.TextContent))
                     .SelectMany(x => x.QuerySelectorAll("td")
                         .Select(cell =>
                         {

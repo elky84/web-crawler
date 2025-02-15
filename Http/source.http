@@ -159,7 +159,7 @@ Content-Type: application/json
 		},
 		{
 			"Type": "DcInside",
-			"BoardId": "mgallery/board/lists/?id=poe2&exception_mode=recommend",
+			"BoardId": "mgallery/board/lists/?id=poe2&sort_type=N&exception_mode=recommend&search_head=10",
 			"Name": "POE2 갤러리",
 			"Switch": true,
 			"Interval": 1000

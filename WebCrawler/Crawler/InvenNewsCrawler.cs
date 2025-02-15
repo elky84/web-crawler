@@ -34,11 +34,8 @@ namespace WebCrawler.Crawler
                 })
                 .ToArray();
 
-            Parallel.ForEach(tdContents, row =>
+            foreach(var (stringTuples, hrefs) in tdContents)
             {
-                var stringTuples = row.Item1;
-                var hrefs = row.Item2;
-
                 var count = stringTuples.FindValue("cmtnum");
 
                 var originTitle = stringTuples.FindValue("title");
@@ -65,7 +62,7 @@ namespace WebCrawler.Crawler
                     Href = href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
     }
 }

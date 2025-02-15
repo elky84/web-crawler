@@ -49,7 +49,7 @@ namespace WebCrawler.Crawler
                 return;
             }
 
-            Parallel.For(0, tdContent.Length / thContent.Length, n =>
+            for(var n = 0; n < tdContent.Length / thContent.Length; ++n)
             {
                 var cursor = n * thContent.Length;
                 var category = tdContent[cursor + 0];
@@ -75,7 +75,7 @@ namespace WebCrawler.Crawler
                     Href = href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
 
         private void OnPageCrawlList(IDocument document)
@@ -114,10 +114,8 @@ namespace WebCrawler.Crawler
                     return new Tuple<List<Tuple<string, string>>, List<string>>(tuples, hrefs);
                 }).ToArray();
 
-            Parallel.ForEach(tdContent, row =>
+            foreach(var (stringTuples, hrefs) in tdContent)
             {
-                var stringTuples = row.Item1;
-                var hrefs = row.Item2;
 
                 var category = stringTuples.FindValue("category").Replace(" /", string.Empty);
                 var title = stringTuples.FindValue("title").TrimEnd();
@@ -147,7 +145,7 @@ namespace WebCrawler.Crawler
                     Href = href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
     }
 }

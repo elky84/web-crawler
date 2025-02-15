@@ -55,7 +55,7 @@ namespace WebCrawler.Crawler
                 return;
             }
 
-            Parallel.For(0, tdContent.Length / thContent.Count, n =>
+            for(var n = 0; n < tdContent.Length / thContent.Count; ++n)
             {
                 var cursor = n * thContent.Count;
                 var id = tdContent.GetValue(thContent, "번호", cursor).ToIntRegex();
@@ -85,7 +85,7 @@ namespace WebCrawler.Crawler
                     Href = UrlBase + href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
         
         static DateTime? ParseDate(string dateTimeStr)

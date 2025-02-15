@@ -62,7 +62,7 @@ namespace WebCrawler.Crawler
 
                 var colCount = tdContent.Length / rows.Count;
 
-                Parallel.For(0, rows.Count, n =>
+                for(var n = 0; n < rows.Count; ++n)
                 {
                     var cursor = n * colCount;
                     var id = tdContent[cursor + 0].ToIntRegex();
@@ -102,7 +102,7 @@ namespace WebCrawler.Crawler
                         Href = href,
                         SourceId = Source.Id
                     });
-                });
+                }
             }
             else
             {
@@ -133,13 +133,13 @@ namespace WebCrawler.Crawler
                     .Where(x => x.StartsWith("http"))
                     .ToArray();
 
-                if (!thContent.Any() || !tdContent.Any())
+                if (thContent.Count == 0 || tdContent.Length == 0)
                 {
                     Log.Error("Parsing Failed DOM. Not has thContent or tdContent {UrlComposite}", UrlComposite(1));
                     return;
                 }
 
-                Parallel.For(0, tdContent.Length / thContent.Count, n =>
+                for(var n = 0; n < tdContent.Length / thContent.Count; ++n)
                 {
                     var cursor = n * thContent.Count;
                     var id = tdContent.GetValue(thContent, "ID", cursor).ToIntRegex();
@@ -184,11 +184,8 @@ namespace WebCrawler.Crawler
                         Href = href,
                         SourceId = Source.Id
                     });
-                });
+                }
             }
         }
-
-        [GeneratedRegex("\\(([^)]*)\\)")]
-        private static partial Regex MyRegex();
     }
 }

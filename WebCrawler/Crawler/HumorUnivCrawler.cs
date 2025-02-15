@@ -45,7 +45,7 @@ namespace WebCrawler.Crawler
             var thContent = tdContent.Take(thLength);
             tdContent = tdContent.Skip(thLength).ToArray();
 
-            Parallel.For(0, tdContent.Length / thLength, n =>
+            for(var n = 0; n < tdContent.Length / thLength; ++n)
             {
                 var cursor = n * thLength;
 
@@ -73,7 +73,7 @@ namespace WebCrawler.Crawler
                     Href = href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
     }
 }

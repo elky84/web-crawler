@@ -101,28 +101,11 @@ namespace Server.Services
                 };
             }).GroupBy(x => x.GetType());
 
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("THREAD_LIMIT")))
+            foreach(var group in crawlerGroup)
             {
-                var threadLimit = Environment.GetEnvironmentVariable("THREAD_LIMIT").ToIntNullable().GetValueOrDefault(2);
-                Parallel.ForEach(crawlerGroup,
-                    new ParallelOptions { MaxDegreeOfParallelism = threadLimit },
-                    (group) =>
-                    {
-                        foreach (var crawler in group)
-                        {
-                            crawler.RunAsync().Wait();
-                        }
-                    }
-                );
-            }
-            else
-            {
-                foreach(var group in crawlerGroup)
+                foreach(var crawler in group)
                 {
-                    foreach(var crawler in group)
-                    {
-                        await crawler.RunAsync();
-                    }
+                    _ = crawler.RunAsync();
                 }
             }
 

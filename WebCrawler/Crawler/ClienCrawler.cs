@@ -49,11 +49,8 @@ namespace WebCrawler.Crawler
                 })
                 .ToArray();
 
-            Parallel.ForEach(tdContent, row =>
+                foreach(var (stringTuples, hrefs) in tdContent)
                 {
-                    var stringTuples = row.Item1;
-                    var hrefs = row.Item2;
-
                     var category = stringTuples.FindValue("category_fixed");
                     if (string.IsNullOrEmpty(category))
                     {
@@ -87,7 +84,7 @@ namespace WebCrawler.Crawler
                         Href = href,
                         SourceId = Source.Id
                     });
-                });
+                }
         }
     }
 }

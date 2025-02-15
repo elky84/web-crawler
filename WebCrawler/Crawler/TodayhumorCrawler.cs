@@ -47,7 +47,7 @@ namespace WebCrawler.Crawler
             calendar.TwoDigitYearMax = DateTime.Now.Year + 30;
             cultureInfo.DateTimeFormat.Calendar = calendar;
 
-            Parallel.For(0, tdContent.Length / thContent.Length, n =>
+            for(var n = 0; n < tdContent.Length / thContent.Length; ++n)
             {
                 var cursor = n * thContent.Length;
                 var id = tdContent[cursor + 0].ToIntRegex();
@@ -73,7 +73,7 @@ namespace WebCrawler.Crawler
                     Href = href,
                     SourceId = Source.Id
                 });
-            });
+            }
         }
     }
 }

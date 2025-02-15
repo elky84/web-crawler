@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
+using System.Text;
 using WebCrawler.Models;
 
 namespace WebCrawler.Crawler

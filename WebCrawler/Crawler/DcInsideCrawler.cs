@@ -66,17 +66,7 @@ namespace WebCrawler.Crawler
                 var count = tdContent.GetValue(thContent, "조회", cursor).ToInt();
 
                 var dateTimeStr = tdContent.GetValue(thContent, "작성일", cursor);
-                DateTime? date;
-                if (dateTimeStr.Contains('.'))
-                {
-                    date = dateTimeStr.IndexOf('.') >= 4 ?
-                        DateTime.ParseExact(dateTimeStr, "yyyy.MM.dd", cultureInfo) :
-                        DateTime.ParseExact(dateTimeStr, "yy.MM.dd", cultureInfo);
-                }
-                else
-                {
-                    date = DateTime.Parse(dateTimeStr);
-                }
+                var date = ParseDate(dateTimeStr);
 
                 var href = tdHref[n].Split("?")[0];
 
@@ -96,6 +86,29 @@ namespace WebCrawler.Crawler
                     SourceId = Source.Id
                 });
             });
+        }
+        
+        static DateTime? ParseDate(string dateTimeStr)
+        {
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+            int currentYear = DateTime.Now.Year;
+            DateTime today = DateTime.Today;
+
+            if (dateTimeStr.Contains('.'))
+            {
+                return dateTimeStr.Split('.').Length >= 3
+                    ? DateTime.ParseExact(dateTimeStr, "yy.MM.dd", cultureInfo)
+                    : new DateTime(currentYear, int.Parse(dateTimeStr.Split('.')[0]), int.Parse(dateTimeStr.Split('.')[1]));
+            }
+            else if (dateTimeStr.Contains(':'))
+            {
+                TimeSpan time = TimeSpan.Parse(dateTimeStr);
+                return today.Add(time);
+            }
+            else
+            {
+                return DateTime.Parse(dateTimeStr);
+            }
         }
     }
 }

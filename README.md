@@ -16,7 +16,7 @@
 
 # web-crawler
 
-* .NET 8, ASP NET CORE 를 기반으로 작성되었습니다.
+* .NET 9, ASP NET CORE 를 기반으로 작성되었습니다.
 * 크롤링 대상은 Source로 등록되어야 합니다. [예시](https://github.com/elky84/web-crawler/blob/master/Http/source.http)
   * Source로 등록된 게시판들은 테스트를 거쳐 크롤링 됨을 확인한 사이트와 게시판 들이지만, 규격이 달라져 추가적인 예외처리가 필요할 수 있습니다.
 * 알림은 Discord, Slack을 지원합니다. Notification 데이터를, Source와 매핑 시켜서 해당 Source에 새 데이터가 갱신되면 알림이 날라오게 되어있습니다.
@@ -43,6 +43,7 @@
 * Ruliweb
 * Slrclub
 * 오유 (TodayHumor)
+* DC Inside
 
 ## 각종 API 예시
 * VS Code의 RestClient Plugin의 .http 파일용으로 작성
@@ -182,7 +183,3 @@ Content-Type: application/json
 ## Discord Alert Sample
 
 ![sample1](sample1.png)
-
-## Frontend Board Sample
-
-![sample2](sample2.png)

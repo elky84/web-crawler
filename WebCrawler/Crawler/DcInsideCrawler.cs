@@ -82,7 +82,7 @@ namespace WebCrawler.Crawler
                     Count = count,
                     DateTime = date.GetValueOrDefault(DateTime.Now),
                     RowId = id,
-                    Href = href,
+                    Href = UrlBase + href,
                     SourceId = Source.Id
                 });
             });

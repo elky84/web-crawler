@@ -10,6 +10,7 @@
         TodayHumor,
         InvenNews,
         HumorUniv,
-        Itcm
+        Itcm,
+        DcInside,
     }
 }

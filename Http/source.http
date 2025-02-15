@@ -149,6 +149,20 @@ Content-Type: application/json
 			"Name": "펨코 롤",
 			"Switch": true,
 			"Interval": 60000
+		},
+		{
+			"Type": "DcInside",
+			"BoardId": "mgallery/board/lists/?id=pathofexile&exception_mode=recommend",
+			"Name": "POE1 갤러리",
+			"Switch": true,
+			"Interval": 1000
+		},
+		{
+			"Type": "DcInside",
+			"BoardId": "mgallery/board/lists/?id=poe2&exception_mode=recommend",
+			"Name": "POE2 갤러리",
+			"Switch": true,
+			"Interval": 1000
 		}
 	]
 }
@@ -160,9 +174,9 @@ Content-Type: application/json
 
 {
 	"Data": {
-		"Type": "Ruliweb",
-		"BoardId": "sports/board/300276",
-		"Name": "스포츠",
+		"Type": "DcInside",
+		"BoardId": "mgallery/board/lists/?id=pathofexile&exception_mode=recommend",
+		"Name": "POE1 갤러리",
 		"Switch": true,
 		"Interval": 1000
 	}

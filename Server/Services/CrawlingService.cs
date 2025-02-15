@@ -87,6 +87,7 @@ namespace Server.Services
                 var model = MapperUtil.Map<Source>(source);
                 return source.Type switch
                 {
+                    CrawlingType.DcInside => new DcInsideCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     CrawlingType.Ruliweb => new RuliwebCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     CrawlingType.Clien => new ClienCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),
                     CrawlingType.SlrClub => new SlrclubCrawler(onCrawlDataDelegate, _mongoDbService.Database, model),

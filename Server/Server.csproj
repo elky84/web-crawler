@@ -26,9 +26,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="..\Http\**">
-	    <Link>Http\**</Link>
-	  </Content>
+		<None Include="..\Http\**">
+			<Link>Http\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<Pack>false</Pack>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
+
 
 </Project>

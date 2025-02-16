@@ -36,7 +36,7 @@ namespace WebCrawler.Crawler
                 .SelectMany(x => x.QuerySelectorAll("td")
                     .Select(cell =>
                     {
-                        var cleanHtml = Regex.Replace(cell.InnerHtml, @"<span[^>]*?num_reply[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
+                        var cleanHtml = Regex.Replace(cell.InnerHtml, "<[^>]*?>.*?</p>", "", RegexOptions.IgnoreCase);
                         var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();
                         return string.IsNullOrWhiteSpace(textContent) ? "" : textContent;
                     }))

@@ -21,6 +21,13 @@ namespace Cli
             var client = new MongoClient("mongodb://localhost:27017/?maxPoolSize=200");
             var database = client.GetDatabase("cli-web-crawler");
             
+            await new DcInsideCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.DcInside,
+                BoardId = "mgallery/board/lists/?id=pathofexile&sort_type=N&search_head=10",
+                Name = "POE1 갤러리/빌드"
+            }).RunAsync();
+            
             await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,

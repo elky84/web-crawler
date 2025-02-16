@@ -163,6 +163,13 @@ Content-Type: application/json
 			"Name": "POE2 갤러리",
 			"Switch": true,
 			"Interval": 1000
+		},
+		{
+			"Type": "DcInside",
+			"BoardId": "mgallery/board/lists/?id=pathofexile&sort_type=N&search_head=10",
+			"Name": "POE1 갤러리/P1빌드",
+			"Switch": true,
+			"Interval": 1000
 		}
 	]
 }
@@ -175,8 +182,8 @@ Content-Type: application/json
 {
 	"Data": {
 		"Type": "DcInside",
-		"BoardId": "mgallery/board/lists/?id=pathofexile&exception_mode=recommend",
-		"Name": "POE1 갤러리",
+		"BoardId": "mgallery/board/lists/?id=pathofexile&sort_type=N&search_head=10",
+		"Name": "POE1 갤러리/P1빌드",
 		"Switch": true,
 		"Interval": 1000
 	}

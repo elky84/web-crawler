@@ -25,4 +25,10 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="..\Http\**">
+	    <Link>Http\**</Link>
+	  </Content>
+	</ItemGroup>
+
 </Project>

@@ -99,7 +99,7 @@ namespace WebCrawler.Crawler
                         Recommend = recommend,
                         Count = count,
                         DateTime = date.GetValueOrDefault(DateTime.Now),
-                        Href = href,
+                        Href = Host + href,
                         SourceId = Source.Id
                     });
                 }
@@ -126,7 +126,7 @@ namespace WebCrawler.Crawler
                     .ToArray();
 
                 var tdHref = document.QuerySelectorAll("tbody tr")
-                    .Where(x => x.ClassName.Contains("table_body"))
+                    .Where(x => x.ClassName.Contains("table_body") && x.ClassName.Contains("blocktarget"))
                     .Select(x => x.QuerySelectorAll("td"))
                     .SelectMany(x => x.Where(y => y.ClassName == "subject" && y.QuerySelector("a") != null)
                                       .Select(y => y.QuerySelector("a").GetAttribute("href")))

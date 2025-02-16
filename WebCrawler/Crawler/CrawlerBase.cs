@@ -26,6 +26,8 @@ namespace WebCrawler.Crawler
         protected string UrlBase { get; set; }
 
         protected Source Source { get; set; }
+        
+        protected string Host { get; set; }
 
         private readonly MongoDbUtil<CrawlingData> _mongoDbCrawlingData;
 
@@ -42,6 +44,10 @@ namespace WebCrawler.Crawler
 
             OnCrawlDataDelegate = onCrawlDataDelegate;
             UrlBase = urlBase;
+            
+            var uri = new Uri(urlBase);
+            Host = $"{uri.Scheme}://{uri.Host}";
+            
             Source = source;
         }
         

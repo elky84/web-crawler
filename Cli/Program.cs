@@ -24,8 +24,8 @@ namespace Cli
             await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
             {
                 Type = CrawlingType.Ruliweb,
-                BoardId = "market/board/1003",
-                Name = "콘솔뉴스"
+                BoardId = "market/board/1020",
+                Name = "핫딜게시판"
             }).RunAsync();
             
             await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
@@ -47,6 +47,13 @@ namespace Cli
                 Type = CrawlingType.DcInside,
                 BoardId = "mgallery/board/lists/?id=pathofexile&exception_mode=recommend",
                 Name = "POE1 갤러리"
+            }).RunAsync();
+            
+            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
+            {
+                Type = CrawlingType.Ruliweb,
+                BoardId = "market/board/1003",
+                Name = "콘솔뉴스"
             }).RunAsync();
             
             await new PpomppuCrawler(null, database, new WebCrawler.Models.Source
@@ -89,13 +96,6 @@ namespace Cli
                 Type = CrawlingType.Clien,
                 BoardId = "sold",
                 Name = "회원중고장터"
-            }).RunAsync();
-
-            await new RuliwebCrawler(null, database, new WebCrawler.Models.Source
-            {
-                Type = CrawlingType.Ruliweb,
-                BoardId = "market/board/1020",
-                Name = "핫딜게시판"
             }).RunAsync();
             
             await new FmkoreaCrawler(null, database, new WebCrawler.Models.Source

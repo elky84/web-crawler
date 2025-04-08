@@ -79,8 +79,8 @@ namespace WebCrawler.Crawler
                     return;
                 }
 
-                var author = tdContent[cursor + 1];
-                var title = tdContent[cursor + 2];
+                var title = tdContent[cursor + 1];
+                var author = tdContent[cursor + 2];
                 var dateTimeStr = tdContent[cursor + 3];
                 var date = dateTimeStr.Contains('/') ? DateTime.ParseExact(dateTimeStr, "yy/MM/dd", cultureInfo) : DateTime.Parse(dateTimeStr);
 

@@ -38,8 +38,10 @@ namespace WebCrawler.Crawler
                 var tdContent = bestBody.QuerySelectorAll("td")
                     .Select(cell =>
                     {
-                        // InnerHtml에서 <span class="num_reply">...</span> 제거
-                        var cleanHtml = Regex.Replace(cell.InnerHtml, @"<span[^>]*?num_reply[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
+                        var cleanHtml = Regex.Replace(cell.InnerHtml, 
+                            @"<span[^>]*(class\s*=\s*[""'][^""']*num_reply[^""']*[""']|style\s*=\s*[""'][^""']*(width\s*:\s*20px;).*?[""'])[^>]*?>.*?</span>", 
+                            "", 
+                            RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
                         // 태그를 제외한 순수 텍스트 추출
                         var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();

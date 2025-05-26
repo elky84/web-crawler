@@ -43,6 +43,10 @@ namespace WebCrawler.Crawler
                             "", 
                             RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
+                        cleanHtml = Regex.Replace(cleanHtml, @"[\n\t]", "");
+                        cleanHtml = Regex.Replace(cleanHtml, @" {2,}", " ");
+                        cleanHtml = cleanHtml.Trim();
+
                         // 태그를 제외한 순수 텍스트 추출
                         var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();
 
@@ -117,10 +121,8 @@ namespace WebCrawler.Crawler
                     .SelectMany(x => x.QuerySelectorAll("td")
                         .Select(cell =>
                         {
-                            var cleanHtml = Regex.Replace(cell.InnerHtml, 
-                                @"<span[^>]*(class\s*=\s*[""'][^""']*num_reply[^""']*[""']|style\s*=\s*[""'][^""']*(width\s*:\s*20px;).*?[""'])[^>]*?>.*?</span>", 
-                                "", 
-                                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            // InnerHtml에서 <span class="num_reply">...</span> 제거
+                            var cleanHtml = Regex.Replace(cell.InnerHtml, @"<span[^>]*?num_reply[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
 
                             // 태그를 제외한 순수 텍스트 추출
                             var textContent = Regex.Replace(cleanHtml, @"<[^>]+>", "").Trim();

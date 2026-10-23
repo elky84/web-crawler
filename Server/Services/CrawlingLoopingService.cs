@@ -15,7 +15,7 @@ namespace Server.Services
             {
                 try
                 {
-                    await crawlingService.Execute(new Protocols.Request.Crawling { All = true });
+                    await crawlingService.ExecuteAndWait(new Protocols.Request.Crawling { All = true });
                 }
                 catch (Exception e)
                 {

@@ -38,8 +38,15 @@ namespace WebCrawler.Crawler
 
             for (var page = Source.PageMin; page <= Source.PageMax; ++page)
             {
-                await ExecuteAsync(page);
-                Thread.Sleep(Source.Interval);
+                try
+                {
+                    await ExecuteAsync(page);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error while running page {page}", page);
+                }
+                await Task.Delay(Source.Interval);
             }
         }
 

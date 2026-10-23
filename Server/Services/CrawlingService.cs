@@ -75,7 +75,19 @@ namespace Server.Services
             };
         }
 
-        public async Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
+        public Task<Protocols.Response.Crawling> Execute(Protocols.Request.Crawling crawling)
+        {
+            _ = ExecuteAndWait(crawling).ContinueWith(t => t.Exception?.ExceptionLog(),
+                TaskContinuationOptions.OnlyOnFaulted);
+
+            return Task.FromResult(new Protocols.Response.Crawling
+            {
+                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success
+            });
+        }
+
+        // 같은 사이트(타입)의 소스는 순차, 서로 다른 사이트는 병렬로 실행하고 모두 끝날 때까지 대기
+        public async Task ExecuteAndWait(Protocols.Request.Crawling crawling)
         {
             var onCrawlDataDelegate = new CrawlDataDelegate(OnNewCrawlData);
             var sources = crawling.All ?
@@ -101,18 +113,20 @@ namespace Server.Services
                 };
             }).GroupBy(x => x.GetType());
 
-            foreach(var group in crawlerGroup)
+            await Task.WhenAll(crawlerGroup.Select(async group =>
             {
-                foreach(var crawler in group)
+                foreach (var crawler in group)
                 {
-                    _ = crawler.RunAsync();
+                    try
+                    {
+                        await crawler.RunAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        e.ExceptionLog();
+                    }
                 }
-            }
-
-            return new Protocols.Response.Crawling
-            {
-                ResultCode = EzAspDotNet.Protocols.Code.ResultCode.Success
-            };
+            }));
         }
 
         private async Task OnNewCrawlData(CrawlingData crawlingData)

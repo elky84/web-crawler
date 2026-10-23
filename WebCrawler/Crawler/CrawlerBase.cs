@@ -75,7 +75,7 @@ namespace WebCrawler.Crawler
                 {
                     Log.Error(ex, "Error while running page {page}", page);
                 }
-                Thread.Sleep(Source.Interval);
+                await Task.Delay(Source.Interval);
             }
         }
 

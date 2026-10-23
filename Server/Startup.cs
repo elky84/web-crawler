@@ -55,7 +55,7 @@ namespace Server
 
                     cfg.CreateMap<WebCrawler.Models.CrawlingData, Protocols.Common.CrawlingData>(MemberList.None);
                     cfg.CreateMap<Protocols.Common.CrawlingData, WebCrawler.Models.CrawlingData>(MemberList.None);
-                })
+                }, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance)
             );
 
             services.CommonConfigureServices();

@@ -83,6 +83,7 @@ namespace Server
             });
 
             services.AddSingleton<IHostedService, CrawlingLoopingService>();
+            services.AddSingleton<ContentPreviewService>();
             services.AddSingleton<CrawlingService>();
             services.AddSingleton<SourceService>();
             services.AddSingleton<NotificationService>();

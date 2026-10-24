@@ -24,12 +24,16 @@ namespace Server.Services
 
         private readonly WebHookService _webHookService;
 
+        private readonly ContentPreviewService _contentPreviewService;
+
         private readonly MongoDbUtil<CrawlingData> _mongoCrawlingData;
 
         public CrawlingService(MongoDbService mongoDbService,
             SourceService sourceService,
-            WebHookService webHookService)
+            WebHookService webHookService,
+            ContentPreviewService contentPreviewService)
         {
+            _contentPreviewService = contentPreviewService;
             _mongoDbService = mongoDbService;
             _sourceService = sourceService;
             _webHookService = webHookService;
@@ -132,10 +136,12 @@ namespace Server.Services
         private async Task OnNewCrawlData(CrawlingData crawlingData)
         {
             var category = string.IsNullOrEmpty(crawlingData.Category) ? string.Empty : $"[{crawlingData.Category}] ";
+            var preview = await _contentPreviewService.GetPreviewAsync(crawlingData.Href);
             await _webHookService.Execute(Builders<Notification>.Filter.Eq(x => x.SourceId, crawlingData.SourceId),
                 new EzAspDotNet.Notification.Data.WebHook
                 {
                     Title = $"{category}{crawlingData.Title}",
+                    Text = preview,
                     Footer = crawlingData.Author,
                     TitleLink = crawlingData.Href,
                     TimeStamp = crawlingData.DateTime.ToTimeStamp()

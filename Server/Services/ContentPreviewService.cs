@@ -63,7 +63,7 @@ namespace Server.Services
         }
 
         private static string Normalize(string text)
-            => Regex.Replace(text ?? string.Empty, @"\s+", " ").Trim();
+            => Regex.Replace(Regex.Replace(text ?? string.Empty, @"\s+", " "), @"[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]", string.Empty).Trim();
 
         public async Task<string> GetPreviewAsync(string href)
         {
@@ -110,7 +110,14 @@ namespace Server.Services
                     return null;
                 }
 
-                return text.Length > PreviewLength ? text[..PreviewLength] + "..." : text;
+                if (text.Length <= PreviewLength)
+                {
+                    return text;
+                }
+
+                // 서로게이트 페어(이모지, 수학 기호 등)가 중간에 잘리면 BSON UTF-8 직렬화가 실패하므로 앞쪽에서 끊는다.
+                int length = char.IsHighSurrogate(text[PreviewLength - 1]) ? PreviewLength - 1 : PreviewLength;
+                return text[..length] + "...";
             }
             catch (Exception e)
             {

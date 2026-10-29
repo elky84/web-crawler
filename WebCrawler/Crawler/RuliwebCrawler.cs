@@ -13,6 +13,8 @@ namespace WebCrawler.Crawler
     public partial class RuliwebCrawler(CrawlDataDelegate onCrawlDataDelegate, IMongoDatabase mongoDb, Source source)
         : CrawlerBase(onCrawlDataDelegate, mongoDb, $"https://bbs.ruliweb.com/{source.BoardId}", source)
     {
+        private const string LinkSelector = "td.subject a.subject_link";
+
         protected override string UrlComposite(int page)
         {
             return $"{UrlBase}?page={page}";
@@ -27,7 +29,7 @@ namespace WebCrawler.Crawler
             var rows = document.QuerySelectorAll("tr.table_body")
                 // 일반 게시판은 공지/광고 행(blocktarget 없음)을 제외, 베스트 목록은 전체 사용
                 .Where(x => isBest || x.ClassList.Contains("blocktarget"))
-                .Where(x => x.QuerySelector("td.subject a.subject_link") != null)
+                .Where(x => x.QuerySelector(LinkSelector) != null)
                 .ToList();
 
             if (rows.Count == 0)
@@ -38,7 +40,7 @@ namespace WebCrawler.Crawler
 
             foreach (var row in rows)
             {
-                var link = row.QuerySelector("td.subject a.subject_link");
+                var link = row.QuerySelector(LinkSelector);
                 var title = Clean(TitleText(link));
                 var href = ToAbsoluteHref(link.GetAttribute("href"));
                 if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(href))
@@ -67,8 +69,18 @@ namespace WebCrawler.Crawler
         }
 
         // 링크 안에 댓글 수(span.num_reply)가 포함되는 경우가 있어 복제본에서 제거한 뒤 텍스트를 읽는다.
+        // "subject_link deco flex center" 링크는 순번 배지 등이 함께 들어 있어 strong.text_over 만 제목으로 사용한다.
         private static string TitleText(IElement link)
         {
+            if (link.ClassList.Contains("deco"))
+            {
+                var strong = link.QuerySelector("strong.text_over");
+                if (strong != null)
+                {
+                    return strong.TextContent;
+                }
+            }
+
             var clone = (IElement)link.Clone(true);
             foreach (var reply in clone.QuerySelectorAll(".num_reply").ToList())
             {

@@ -1,0 +1,89 @@
+@page "/"
+@inject RssService RssService
+@inject NavigationManager Nav
+
+<h2>web-crawler RSS / WebHook</h2>
+
+<div class="box">
+    <div class="row">
+        <div><label>From</label><input type="datetime-local" @bind="_from" /></div>
+        <div><label>To</label><input type="datetime-local" @bind="_to" /></div>
+        <div>
+            <label>사이트 종류</label>
+            <select @bind="_type">
+                <option value="">(전체)</option>
+                @foreach (var t in Enum.GetValues<CrawlingType>())
+                {
+                    <option value="@t">@t</option>
+                }
+            </select>
+        </div>
+        <div><label>BoardId</label><input @bind="_boardId" /></div>
+        <div><label>Keyword</label><input @bind="_keyword" /></div>
+        <div><label>Limit</label><input type="number" min="1" max="@RssQuery.MaxLimit" @bind="_limit" style="width:80px" /></div>
+    </div>
+    <button @onclick="Search">조회</button>
+</div>
+
+<div class="box">
+    <p>RSS: <code>@Url("rss.xml", false)</code>
+        <a href="@Url("rss.xml", true)">[rss.xml 다운로드]</a></p>
+    <p>WebHook: <code>@Url("webhook.xml", false)</code>
+        <a href="@Url("webhook.xml", true)">[rss.xml 다운로드]</a></p>
+</div>
+
+@if (_datas != null)
+{
+    <p>@_datas.Count 건</p>
+    <table>
+        <thead><tr><th>시간</th><th>사이트</th><th>BoardId</th><th>제목</th><th>작성자</th></tr></thead>
+        <tbody>
+        @foreach (var d in _datas)
+        {
+            <tr>
+                <td>@d.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@d.Type</td>
+                <td>@d.BoardId</td>
+                <td><a href="@d.Href" target="_blank" rel="noopener noreferrer">@d.Title</a></td>
+                <td>@d.Author</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private DateTime? _from = DateTime.Now.AddDays(-1);
+    private DateTime? _to = DateTime.Now;
+    private string _type = string.Empty;
+    private string _boardId;
+    private string _keyword;
+    private int _limit = RssQuery.DefaultLimit;
+    private List<WebCrawler.Models.CrawlingData> _datas;
+
+    private RssQuery BuildQuery() => new()
+    {
+        From = _from,
+        To = _to,
+        Type = Enum.TryParse<CrawlingType>(_type, out var t) ? t : null,
+        BoardId = _boardId,
+        Keyword = _keyword,
+        Limit = _limit
+    };
+
+    private async Task Search() => _datas = await RssService.Find(BuildQuery());
+
+    private string Url(string path, bool download)
+    {
+        var q = BuildQuery();
+        var args = new List<string>();
+        if (q.From.HasValue) args.Add("from=" + Uri.EscapeDataString(q.From.Value.ToString("yyyy-MM-ddTHH:mm:ss")));
+        if (q.To.HasValue) args.Add("to=" + Uri.EscapeDataString(q.To.Value.ToString("yyyy-MM-ddTHH:mm:ss")));
+        if (q.Type.HasValue) args.Add("type=" + q.Type);
+        if (!string.IsNullOrEmpty(q.BoardId)) args.Add("boardId=" + Uri.EscapeDataString(q.BoardId));
+        if (!string.IsNullOrEmpty(q.Keyword)) args.Add("keyword=" + Uri.EscapeDataString(q.Keyword));
+        args.Add("limit=" + q.Limit);
+        if (download) args.Add("download=true");
+        return Nav.ToAbsoluteUri(path).ToString() + "?" + string.Join("&", args);
+    }
+}

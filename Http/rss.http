@@ -1,0 +1,23 @@
+### RSS - 기간 조회 (응답 본문으로 rss.xml)
+
+GET {{host}}/rss.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&limit=200
+
+### RSS - 기간 + 사이트 종류 + BoardId + 키워드
+
+GET {{host}}/rss.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park&keyword=test
+
+### RSS - 파일로 다운로드 (rss.xml)
+
+GET {{host}}/rss.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&download=true
+
+### WebHook - 기간 조회
+
+GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59
+
+### WebHook - 사이트 종류 + BoardId 조건
+
+GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park
+
+### WebHook - 파일로 다운로드 (rss.xml)
+
+GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park&download=true

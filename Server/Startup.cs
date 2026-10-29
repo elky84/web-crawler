@@ -62,6 +62,8 @@ namespace Server
 
             services.AddHttpClient();
 
+            services.AddRazorComponents().AddInteractiveServerComponents();
+
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddCors(options => options.AddPolicy("AllowSpecificOrigin",
@@ -85,6 +87,7 @@ namespace Server
             services.AddSingleton<IHostedService, CrawlingLoopingService>();
             services.AddSingleton<ContentPreviewService>();
             services.AddSingleton<CrawlingService>();
+            services.AddSingleton<RssService>();
             services.AddSingleton<SourceService>();
             services.AddSingleton<NotificationService>();
             services.AddSingleton<IHostedService, WebHookLoopingService>();
@@ -113,9 +116,12 @@ namespace Server
 
             app.UseAuthorization();
 
+            app.UseAntiforgery();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorComponents<Components.App>().AddInteractiveServerRenderMode();
             });
 
             app.UseSwagger(c =>

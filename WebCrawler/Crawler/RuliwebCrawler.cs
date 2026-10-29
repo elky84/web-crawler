@@ -39,7 +39,7 @@ namespace WebCrawler.Crawler
             foreach (var row in rows)
             {
                 var link = row.QuerySelector("td.subject a.subject_link");
-                var title = Clean(link.TextContent);
+                var title = Clean(TitleText(link));
                 var href = ToAbsoluteHref(link.GetAttribute("href"));
                 if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(href))
                 {
@@ -64,6 +64,18 @@ namespace WebCrawler.Crawler
                     SourceId = Source.Id
                 });
             }
+        }
+
+        // 링크 안에 댓글 수(span.num_reply)가 포함되는 경우가 있어 복제본에서 제거한 뒤 텍스트를 읽는다.
+        private static string TitleText(IElement link)
+        {
+            var clone = (IElement)link.Clone(true);
+            foreach (var reply in clone.QuerySelectorAll(".num_reply").ToList())
+            {
+                reply.Remove();
+            }
+
+            return clone.TextContent;
         }
 
         private static string Text(IElement row, string selector)

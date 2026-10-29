@@ -1,6 +1,7 @@
 @page "/"
 @inject RssService RssService
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <h2>web-crawler RSS / WebHook</h2>
 
@@ -22,14 +23,31 @@
         <div><label>Keyword</label><input @bind="_keyword" /></div>
         <div><label>Limit</label><input type="number" min="1" max="@RssQuery.MaxLimit" @bind="_limit" style="width:80px" /></div>
     </div>
+    <div class="row">
+        <div>
+            <label>기간 프리셋</label>
+            @foreach (var h in new[] { 1, 3, 6, 12 })
+            {
+                var hours = h;
+                <button type="button" @onclick="() => SetRange(TimeSpan.FromHours(hours))">@(hours)시간</button>
+            }
+            @foreach (var d in new[] { 1, 3, 7, 30 })
+            {
+                var days = d;
+                <button type="button" @onclick="() => SetRange(TimeSpan.FromDays(days))">@(days)일</button>
+            }
+        </div>
+    </div>
     <button @onclick="Search">조회</button>
 </div>
 
 <div class="box">
     <p>RSS: <code>@Url("rss.xml", false)</code>
-        <a href="@Url("rss.xml", true)">[rss.xml 다운로드]</a></p>
+        <a href="@Url("rss.xml", true)">[rss.xml 다운로드]</a>
+        <button type="button" @onclick='() => Copy("rss.xml")'>@(_copied == "rss.xml" ? "복사됨" : "복사")</button></p>
     <p>WebHook: <code>@Url("webhook.xml", false)</code>
-        <a href="@Url("webhook.xml", true)">[rss.xml 다운로드]</a></p>
+        <a href="@Url("webhook.xml", true)">[webhook.xml 다운로드]</a>
+        <button type="button" @onclick='() => Copy("webhook.xml")'>@(_copied == "webhook.xml" ? "복사됨" : "복사")</button></p>
 </div>
 
 @if (_datas != null)
@@ -70,6 +88,20 @@
         Keyword = _keyword,
         Limit = _limit
     };
+
+    private string _copied;
+
+    private void SetRange(TimeSpan span)
+    {
+        _to = DateTime.Now;
+        _from = _to.Value - span;
+    }
+
+    private async Task Copy(string path)
+    {
+        await JS.InvokeVoidAsync("navigator.clipboard.writeText", Url(path, false));
+        _copied = path;
+    }
 
     private async Task Search() => _datas = await RssService.Find(BuildQuery());
 

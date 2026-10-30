@@ -49,6 +49,11 @@ namespace Server.Services
             _collection = mongoDbService.Database.GetCollection<CrawlingData>(typeof(CrawlingData).Name);
         }
 
+        // Kind 가 Unspecified 인 입력은 서버 로컬 시간으로 간주해 저장값(UTC)과 같은 기준으로 맞춘다
+        private static DateTime ToUtc(DateTime value) =>
+            value.Kind == DateTimeKind.Utc ? value : TimeZoneInfo.ConvertTimeToUtc(
+                value.Kind == DateTimeKind.Local ? value : DateTime.SpecifyKind(value, DateTimeKind.Local));
+
         public async Task<List<CrawlingData>> Find(RssQuery query)
         {
             var builder = Builders<CrawlingData>.Filter;
@@ -56,12 +61,12 @@ namespace Server.Services
 
             if (query.From.HasValue)
             {
-                filter &= builder.Gte(x => x.DateTime, query.From.Value);
+                filter &= builder.Gte(x => x.DateTime, ToUtc(query.From.Value));
             }
 
             if (query.To.HasValue)
             {
-                filter &= builder.Lte(x => x.DateTime, query.To.Value);
+                filter &= builder.Lte(x => x.DateTime, ToUtc(query.To.Value));
             }
 
             if (query.Type.HasValue)

@@ -53,7 +53,7 @@
         @foreach (var d in _datas)
         {
             <tr>
-                <td>@d.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@d.DateTime.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
                 <td>@d.Type</td>
                 <td>@d.BoardId</td>
                 <td><a href="@d.Href" target="_blank" rel="noopener noreferrer">@d.Title</a></td>
@@ -89,10 +89,11 @@
 
     private string _copied;
 
-    private void SetRange(TimeSpan span)
+    private async Task SetRange(TimeSpan span)
     {
         _to = DateTime.Now;
         _from = _to.Value - span;
+        await Search();
     }
 
     private async Task Copy(string path)

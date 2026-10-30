@@ -17,8 +17,8 @@ namespace Server.Services
     {
         // 크롤링 데이터 그대로
         Rss,
-        // 웹훅으로 발송되는 형태 ([카테고리] 제목 / 작성자)
-        WebHook
+        // 짧은 형태 ([카테고리] 제목 / 작성자)
+        Short
     }
 
     public class RssQuery
@@ -86,9 +86,37 @@ namespace Server.Services
                 .ToListAsync();
         }
 
+        private const int MaxTitleLength = 100;
+
+        private const int MaxDescriptionLength = 200;
+
+        private static string Truncate(string text, int max)
+        {
+            text = Regex.Replace(text ?? string.Empty, @"\s+", " ").Trim();
+            return text.Length <= max ? text : text[..(max - 1)].TrimEnd() + "…";
+        }
+
+        // 제목이 비어 있으면 카테고리 → 게시판/작성자 → 링크 순으로 대체
+        private static string ResolveTitle(CrawlingData data, string board)
+        {
+            var title = Regex.Replace(data.Title ?? string.Empty, @"\s+", " ").Trim();
+            if (!string.IsNullOrEmpty(title) && !title.Equals("No Title", StringComparison.OrdinalIgnoreCase))
+            {
+                return title;
+            }
+
+            if (!string.IsNullOrEmpty(data.Category))
+            {
+                return data.Category;
+            }
+
+            var source = $"{data.Type}/{board}";
+            return string.IsNullOrEmpty(data.Author) ? $"{source} {data.Href}" : $"{source} - {data.Author}";
+        }
+
         public static XDocument Build(IEnumerable<CrawlingData> datas, RssFlavor flavor, RssQuery query, string selfLink)
         {
-            var title = flavor == RssFlavor.WebHook ? "web-crawler webhook" : "web-crawler rss";
+            var channelTitle = flavor == RssFlavor.Short ? "web-crawler rss short" : "web-crawler rss";
             var description = string.Join(" ", new[]
             {
                 query.From.HasValue ? $"from={query.From:yyyy-MM-dd HH:mm}" : null,
@@ -98,9 +126,9 @@ namespace Server.Services
             }.Where(x => x != null));
 
             var channel = new XElement("channel",
-                new XElement("title", title),
+                new XElement("title", channelTitle),
                 new XElement("link", selfLink),
-                new XElement("description", string.IsNullOrEmpty(description) ? title : description),
+                new XElement("description", string.IsNullOrEmpty(description) ? channelTitle : description),
                 new XElement("lastBuildDate", DateTimeOffset.Now.ToString("r", CultureInfo.InvariantCulture)));
 
             foreach (var data in datas)
@@ -108,8 +136,9 @@ namespace Server.Services
                 var category = string.IsNullOrEmpty(data.Category) ? string.Empty : $"[{data.Category}] ";
                 var board = string.IsNullOrEmpty(data.BoardName) ? data.BoardId : data.BoardName;
 
+                var title = ResolveTitle(data, board);
                 var item = new XElement("item",
-                    new XElement("title", flavor == RssFlavor.WebHook ? $"{category}{data.Title}" : data.Title),
+                    new XElement("title", Truncate(flavor == RssFlavor.Short ? $"{category}{title}" : title, MaxTitleLength)),
                     new XElement("link", data.Href),
                     new XElement("guid", new XAttribute("isPermaLink", "true"), data.Href),
                     new XElement("pubDate", new DateTimeOffset(data.DateTime).ToString("r", CultureInfo.InvariantCulture)));
@@ -121,13 +150,13 @@ namespace Server.Services
 
                 item.Add(new XElement("category", $"{data.Type}/{board}"));
 
-                if (flavor == RssFlavor.WebHook)
+                if (flavor == RssFlavor.Short)
                 {
-                    item.Add(new XElement("description", $"{data.Author} | {data.Type}/{board}"));
+                    item.Add(new XElement("description", Truncate($"{data.Author} | {data.Type}/{board}", MaxDescriptionLength)));
                 }
                 else if (!string.IsNullOrEmpty(data.Category))
                 {
-                    item.Add(new XElement("description", data.Category));
+                    item.Add(new XElement("description", Truncate(data.Category, MaxDescriptionLength)));
                 }
 
                 channel.Add(item);

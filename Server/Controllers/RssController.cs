@@ -13,10 +13,10 @@ namespace Server.Controllers
         public Task<IActionResult> Rss([FromQuery] RssQuery query, [FromQuery] bool download = false)
             => Render(query, RssFlavor.Rss, download);
 
-        // 웹훅 형태로 rss.xml 응답. type(사이트 종류), boardId 조건 지원
-        [HttpGet("webhook.xml")]
-        public Task<IActionResult> WebHook([FromQuery] RssQuery query, [FromQuery] bool download = false)
-            => Render(query, RssFlavor.WebHook, download);
+        // 짧은 형태([카테고리] 제목 / 작성자)로 rss.xml 응답. type(사이트 종류), boardId 조건 지원
+        [HttpGet("short.xml")]
+        public Task<IActionResult> Short([FromQuery] RssQuery query, [FromQuery] bool download = false)
+            => Render(query, RssFlavor.Short, download);
 
         private async Task<IActionResult> Render(RssQuery query, RssFlavor flavor, bool download)
         {

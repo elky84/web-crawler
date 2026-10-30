@@ -10,14 +10,14 @@ GET {{host}}/rss.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&
 
 GET {{host}}/rss.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&download=true
 
-### WebHook - 기간 조회
+### RSS Short - 기간 조회
 
-GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59
+GET {{host}}/short.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59
 
-### WebHook - 사이트 종류 + BoardId 조건
+### RSS Short - 사이트 종류 + BoardId 조건
 
-GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park
+GET {{host}}/short.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park
 
-### WebHook - 파일로 다운로드 (rss.xml)
+### RSS Short - 파일로 다운로드 (rss.xml)
 
-GET {{host}}/webhook.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park&download=true
+GET {{host}}/short.xml?from=2026-10-01T00:00:00&to=2026-10-29T23:59:59&type=Clien&boardId=park&download=true
